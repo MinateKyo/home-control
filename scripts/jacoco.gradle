@@ -1,0 +1,35 @@
+apply plugin: 'jacoco'
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+jacoco {
+    toolVersion = "0.8.2"
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+
+    reports {
+        xml.enabled = false
+        html.enabled = true
+    }
+
+    def fileFilter = [
+            '**/R.class',
+            '**/R$*.class',
+            '**/BuildConfig.*',
+            '**/Manifest*.*',
+            '**/*Test*.*',
+            'android/**/*.*',
+            'com/andrewgiang/homecontrol/dependencyinjection/**']
+    def debugTree = fileTree(dir: "$project.buildDir/tmp/kotlin-classes/debug", excludes: fileFilter)
+
+    def mainSrc = "$project.projectDir/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: project.buildDir,
+            includes: [
+                    'jacoco/testDebugUnitTest.exec'
+            ])
+}

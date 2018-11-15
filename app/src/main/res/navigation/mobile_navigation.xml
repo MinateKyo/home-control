@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mobile_navigation"
+            app:startDestination="@id/mainFragment">
+    <fragment
+            android:id="@+id/mainFragment"
+            android:name="com.andrewgiang.homecontrol.ui.screens.MainFragment"
+            android:label="Home"
+            tools:layout="@layout/fragment_main">
+        <action
+                android:id="@+id/toSetupFragment"
+                app:destination="@id/setUpFragment"/>
+    </fragment>
+    <fragment
+            android:id="@+id/setUpFragment"
+            android:name="com.andrewgiang.homecontrol.ui.screens.setup.UrlSetupFragment"
+            android:label="Sign In"
+            tools:layout="@layout/fragment_sign_in">
+        <deepLink
+                android:id="@+id/deepLink"
+                app:uri="https://andrewgiang.com/authorize?code={code}"/>
+        <action
+                android:id="@+id/backToMain"
+                app:destination="@id/mainFragment"/>
+    </fragment>
+
+</navigation>
