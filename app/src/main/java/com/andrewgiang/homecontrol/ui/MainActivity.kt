@@ -5,8 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import com.andrewgiang.homecontrol.App
 import com.andrewgiang.homecontrol.R
-import com.andrewgiang.homecontrol.dependencyinjection.component.ControllerComponent
-import com.andrewgiang.homecontrol.dependencyinjection.component.ControllerModule
+import com.andrewgiang.homecontrol.dagger.component.ControllerComponent
+import com.andrewgiang.homecontrol.dagger.component.ControllerModule
 
 class MainActivity : AppCompatActivity() {
 

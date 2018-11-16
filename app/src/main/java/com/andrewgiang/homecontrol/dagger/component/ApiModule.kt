@@ -1,4 +1,4 @@
-package com.andrewgiang.homecontrol.dependencyinjection.component
+package com.andrewgiang.homecontrol.dagger.component
 
 import android.app.Application
 import com.andrewgiang.assistantsdk.ApiFactory

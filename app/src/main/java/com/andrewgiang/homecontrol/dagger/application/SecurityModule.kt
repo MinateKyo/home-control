@@ -1,4 +1,4 @@
-package com.andrewgiang.homecontrol.dependencyinjection.application
+package com.andrewgiang.homecontrol.dagger.application
 
 import android.app.Application
 import android.content.SharedPreferences

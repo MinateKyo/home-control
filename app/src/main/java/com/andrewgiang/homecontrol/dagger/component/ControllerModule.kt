@@ -1,4 +1,4 @@
-package com.andrewgiang.homecontrol.dependencyinjection.component
+package com.andrewgiang.homecontrol.dagger.component
 
 import android.app.Activity
 import android.content.Context

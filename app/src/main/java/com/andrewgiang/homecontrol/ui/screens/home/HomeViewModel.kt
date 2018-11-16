@@ -78,15 +78,6 @@ val hardCodedActions = listOf(
         ), "On"
     ),
     Action(
-        "climate.hallway",
-        AppAction.Climate(),
-        Icon(
-            IconValue.THERMOSTAT,
-            R.color.red_600, R.color.red_100
-        ),
-        "Thermostat"
-    ),
-    Action(
         "app.fullscreen",
         AppAction.FullScreen(),
         Icon(IconValue.FULLSCREEN),

@@ -1,7 +1,7 @@
-package com.andrewgiang.homecontrol
+package com.andrewgiang.homecontrol.ui.screens
 
 
-import com.andrewgiang.homecontrol.ui.screens.BaseFragment
+import com.andrewgiang.homecontrol.R
 
 
 class AddActionFragment : BaseFragment() {

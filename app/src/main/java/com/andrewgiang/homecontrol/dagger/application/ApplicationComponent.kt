@@ -1,8 +1,8 @@
-package com.andrewgiang.homecontrol.dependencyinjection.application
+package com.andrewgiang.homecontrol.dagger.application
 
 import com.andrewgiang.homecontrol.App
-import com.andrewgiang.homecontrol.dependencyinjection.component.ControllerComponent
-import com.andrewgiang.homecontrol.dependencyinjection.component.ControllerModule
+import com.andrewgiang.homecontrol.dagger.component.ControllerComponent
+import com.andrewgiang.homecontrol.dagger.component.ControllerModule
 import dagger.Component
 
 @ApplicationScope

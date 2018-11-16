@@ -7,7 +7,6 @@ sealed class AppAction constructor(domain: String = "app", action: String) : Ser
 
     class FullScreen : AppAction(action = "fullscreen")
     class AddAction : AppAction(action = "add")
-    class Climate : AppAction("climate", "set_temperature")
 
 }
 

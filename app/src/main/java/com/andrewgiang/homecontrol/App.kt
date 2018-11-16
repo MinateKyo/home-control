@@ -1,9 +1,9 @@
 package com.andrewgiang.homecontrol
 
 import android.app.Application
-import com.andrewgiang.homecontrol.dependencyinjection.application.ApplicationComponent
-import com.andrewgiang.homecontrol.dependencyinjection.application.ApplicationModule
-import com.andrewgiang.homecontrol.dependencyinjection.application.DaggerApplicationComponent
+import com.andrewgiang.homecontrol.dagger.application.ApplicationComponent
+import com.andrewgiang.homecontrol.dagger.application.ApplicationModule
+import com.andrewgiang.homecontrol.dagger.application.DaggerApplicationComponent
 import com.facebook.soloader.SoLoader
 import timber.log.Timber
 

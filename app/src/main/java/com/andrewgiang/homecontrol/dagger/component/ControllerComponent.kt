@@ -1,4 +1,4 @@
-package com.andrewgiang.homecontrol.dependencyinjection.component
+package com.andrewgiang.homecontrol.dagger.component
 
 import com.andrewgiang.homecontrol.ui.screens.MainFragment
 import com.andrewgiang.homecontrol.ui.screens.home.HomeFragment

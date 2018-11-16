@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
-import com.andrewgiang.homecontrol.dependencyinjection.component.ControllerComponent
+import com.andrewgiang.homecontrol.dagger.component.ControllerComponent
 import com.andrewgiang.homecontrol.ui.MainActivity
 
 abstract class BaseFragment : Fragment() {
