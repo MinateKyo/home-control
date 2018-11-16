@@ -15,7 +15,10 @@ interface ActionClickListener {
     fun onClick(action: Action)
 }
 
-class HomeActionAdapter constructor(val items: List<Action>, private val onActionClickListener: ActionClickListener) :
+class HomeActionAdapter constructor(
+    private val items: List<Action>,
+    private val onActionClickListener: ActionClickListener
+) :
     RecyclerView.Adapter<ViewHolder>() {
 
 

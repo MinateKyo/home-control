@@ -42,7 +42,6 @@ class MainFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
 
-
         if (!authManager.isAuthenticated()) {
             findNavController().navigate(MainFragmentDirections.toSetupFragment())
         }
@@ -54,14 +53,12 @@ class MainFragment : BaseFragment() {
                 }
                 R.id.navigation_dashboard -> {
                     viewpager.currentItem = 1
-
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.navigation_settings -> {
                     viewpager.currentItem = 2
                     return@setOnNavigationItemSelectedListener true
                 }
-
                 else -> {
                     return@setOnNavigationItemSelectedListener false
                 }

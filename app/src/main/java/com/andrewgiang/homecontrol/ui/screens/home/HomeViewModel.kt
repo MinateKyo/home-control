@@ -16,9 +16,8 @@ import timber.log.Timber
 import javax.inject.Inject
 
 
-class HomeViewModel @Inject constructor(val holder: ApiHolder, dispatchProvider: DispatchProvider) :
+class HomeViewModel @Inject constructor(private val holder: ApiHolder, dispatchProvider: DispatchProvider) :
     ScopeViewModel(dispatchProvider) {
-
 
     private val data = MutableLiveData<HomeState>()
 

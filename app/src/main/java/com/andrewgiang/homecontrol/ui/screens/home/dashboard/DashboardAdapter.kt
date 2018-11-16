@@ -26,7 +26,6 @@ class DashboardAdapter(val data: List<Entity>) : RecyclerView.Adapter<ViewHolder
         val entity = data[position]
         holder.bind(entity)
     }
-
 }
 
 class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

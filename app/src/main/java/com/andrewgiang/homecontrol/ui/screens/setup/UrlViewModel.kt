@@ -12,9 +12,9 @@ import okhttp3.HttpUrl
 import javax.inject.Inject
 
 class UrlViewModel @Inject constructor(
-    val intentCreator: IntentCreator,
-    val holder: ApiHolder,
-    val authManager: AuthManager,
+    private val intentCreator: IntentCreator,
+    private val holder: ApiHolder,
+    private val authManager: AuthManager,
     dispatchProvider: DispatchProvider
 ) : ScopeViewModel(dispatchProvider) {
 
