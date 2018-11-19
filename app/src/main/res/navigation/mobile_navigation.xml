@@ -3,12 +3,12 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/mobile_navigation"
-            app:startDestination="@id/mainFragment">
+            app:startDestination="@id/homeFragment">
     <fragment
-            android:id="@+id/mainFragment"
-            android:name="com.andrewgiang.homecontrol.ui.screens.MainFragment"
+            android:id="@+id/homeFragment"
+            android:name="com.andrewgiang.homecontrol.ui.screens.home.HomeFragment"
             android:label="Home"
-            tools:layout="@layout/fragment_main">
+            tools:layout="@layout/fragment_home">
         <action
                 android:id="@+id/toSetupFragment"
                 app:destination="@id/setUpFragment"/>
@@ -23,7 +23,7 @@
                 app:uri="https://andrewgiang.com/authorize?code={code}"/>
         <action
                 android:id="@+id/backToMain"
-                app:destination="@id/mainFragment"/>
+                app:destination="@id/homeFragment"/>
     </fragment>
 
 </navigation>
