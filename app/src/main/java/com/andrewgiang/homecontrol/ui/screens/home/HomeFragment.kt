@@ -47,11 +47,12 @@ class HomeFragment : BaseFragment(), ActionClickListener {
     }
 
     private fun setupToolbar() {
-        bar.inflateMenu(R.menu.navigation)
-        bar.setOnMenuItemClickListener {
-            it
-            return@setOnMenuItemClickListener true
-        }
+        //TODO setup menu items
+//        bar.inflateMenu(R.menu.navigation)
+//        bar.setOnMenuItemClickListener {
+//            it
+//            return@setOnMenuItemClickListener true
+//        }
     }
 
     private fun setupFab() {
@@ -90,6 +91,9 @@ class HomeFragment : BaseFragment(), ActionClickListener {
             when (action) {
                 is AppAction.FullScreen -> {
                     setFullScreen()
+                }
+                is AppAction.AddAction -> {
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddActionFragment())
                 }
 
 

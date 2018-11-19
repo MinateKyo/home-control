@@ -3,6 +3,7 @@ package com.andrewgiang.homecontrol.ui.screens.home
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.andrewgiang.homecontrol.DispatchProvider
+import com.andrewgiang.homecontrol.SingleLiveEvent
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.data.model.Action
@@ -22,7 +23,7 @@ class HomeViewModel @Inject constructor(
 
     private val data = MutableLiveData<HomeState>()
 
-    private val appAction = MutableLiveData<AppAction>()
+    private val appAction = SingleLiveEvent<AppAction>()
 
     init {
         data.postValue(HomeState(isAuthenticated = authManager.isAuthenticated()))
