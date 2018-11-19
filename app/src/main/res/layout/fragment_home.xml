@@ -8,32 +8,31 @@
         android:layout_height="match_parent"
         tools:context=".ui.screens.home.HomeFragment">
 
-    <FrameLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
 
         <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/actions"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                tools:listitem="@layout/home_actions_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="8dp"/>
 
-    </FrameLayout>
-
-    <com.google.android.material.bottomappbar.BottomAppBar
-            android:id="@+id/bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            app:backgroundTint="?attr/colorPrimary"
-            app:navigationIcon="@drawable/ic_menu_24"
-            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_anchor="@id/bar"
-            app:backgroundTint="@android:color/black"/>
+            android:layout_gravity="bottom|center"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

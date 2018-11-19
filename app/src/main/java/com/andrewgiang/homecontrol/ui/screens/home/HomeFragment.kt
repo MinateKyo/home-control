@@ -38,7 +38,6 @@ class HomeFragment : BaseFragment(), ActionClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupFab()
-        setupToolbar()
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
         actions.layoutManager = GridLayoutManager(context, 3)
 
@@ -46,14 +45,6 @@ class HomeFragment : BaseFragment(), ActionClickListener {
         viewModel.getData().observe(this, onActionChanged())
     }
 
-    private fun setupToolbar() {
-        //TODO setup menu items
-//        bar.inflateMenu(R.menu.navigation)
-//        bar.setOnMenuItemClickListener {
-//            it
-//            return@setOnMenuItemClickListener true
-//        }
-    }
 
     private fun setupFab() {
 
