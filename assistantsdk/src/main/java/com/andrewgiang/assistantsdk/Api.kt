@@ -1,7 +1,6 @@
 package com.andrewgiang.assistantsdk
 
 import com.andrewgiang.assistantsdk.request.EntityBody
-import com.andrewgiang.assistantsdk.request.Service
 import com.andrewgiang.assistantsdk.response.AuthToken
 import com.andrewgiang.assistantsdk.response.Entity
 import kotlinx.coroutines.Deferred
@@ -19,9 +18,9 @@ class Api(retrofit: Retrofit, val clientId: String) {
         )
     }
 
-    fun service(entityId: String, service: Service): Deferred<List<Entity>> {
+    fun service(entityId: String, domain: String, service: String): Deferred<List<Entity>> {
         return this.service.invokeService(
-            service.domain, service.service,
+            domain, service,
             EntityBody(entityId)
         )
     }

@@ -1,6 +1,9 @@
 package com.andrewgiang.homecontrol.dagger.application
 
+import android.annotation.SuppressLint
 import android.app.Application
+import android.content.Context
+import android.content.pm.ShortcutManager
 import androidx.room.Room
 import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.api.AuthManager
@@ -57,5 +60,12 @@ class ApplicationModule(val app: Application) {
         return appDatabase.entityDao()
     }
 
+
+    @SuppressLint("NewApi")
+    @ApplicationScope
+    @Provides
+    fun shortcutManager(app: Application): ShortcutManager {
+        return app.getSystemService(Context.SHORTCUT_SERVICE) as ShortcutManager
+    }
 
 }

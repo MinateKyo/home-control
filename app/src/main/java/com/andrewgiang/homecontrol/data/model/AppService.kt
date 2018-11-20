@@ -1,13 +1,21 @@
 package com.andrewgiang.homecontrol.data.model
 
-import com.andrewgiang.assistantsdk.request.Service
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
 
-sealed class AppAction constructor(domain: String = "app", action: String) : Service(domain, action) {
+sealed class AppAction constructor(
+    appData: Data.AppData = Data.AppData(),
+    icon: Icon,
+    name: String
+) : Action(appData, icon, name) {
 
-    class FullScreen : AppAction(action = "fullscreen")
-    class AddAction : AppAction(action = "add")
+    class FullScreen : AppAction(
+        icon = Icon(MaterialDrawableBuilder.IconValue.FULLSCREEN),
+        name = "Full Screen"
+    )
 
+    class AddAction : AppAction(
+        icon = Icon(MaterialDrawableBuilder.IconValue.PLUS),
+        name = "Add"
+    )
 }
-
-

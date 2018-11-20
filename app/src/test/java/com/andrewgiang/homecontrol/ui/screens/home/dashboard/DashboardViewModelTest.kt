@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.data.EntityRepository
 import com.andrewgiang.homecontrol.data.database.entity.Entity
-import com.andrewgiang.homecontrol.ui.dispatchProvider
+import com.andrewgiang.homecontrol.ui.testDispatchProvider
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
@@ -14,7 +14,7 @@ import org.junit.Test
 class DashboardViewModelTest {
 
 
-    val dispatchProvider: DispatchProvider = dispatchProvider()
+    val dispatchProvider: DispatchProvider = testDispatchProvider()
 
     val entityRepository: EntityRepository = mockk(relaxed = true)
 

@@ -7,10 +7,10 @@ import com.andrewgiang.assistantsdk.response.AuthToken
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.ui.IntentCreator
-import com.andrewgiang.homecontrol.ui.dispatchProvider
 import com.andrewgiang.homecontrol.ui.screens.setup.AuthState
 import com.andrewgiang.homecontrol.ui.screens.setup.UrlState
 import com.andrewgiang.homecontrol.ui.screens.setup.UrlViewModel
+import com.andrewgiang.homecontrol.ui.testDispatchProvider
 import io.mockk.*
 import kotlinx.coroutines.Deferred
 import okhttp3.HttpUrl
@@ -29,7 +29,7 @@ class UrlViewModelTest {
     var authManager: AuthManager = mockk()
 
     val subject: UrlViewModel =
-        UrlViewModel(intentCreator, mockHolder, authManager, dispatchProvider())
+        UrlViewModel(intentCreator, mockHolder, authManager, testDispatchProvider())
 
 
     @Before

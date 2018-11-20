@@ -14,11 +14,10 @@
                 app:destination="@id/setUpFragment"/>
         <action
                 android:id="@+id/action_homeFragment_to_addActionFragment"
-                app:destination="@id/addActionFragment"
-                app:enterAnim="@anim/nav_default_enter_anim"
-                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-                app:exitAnim="@anim/nav_default_exit_anim"
-                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+                app:destination="@id/addActionFragment"/>
+        <deepLink
+                android:id="@+id/shortcut"
+                app:uri="home-shortcut://action"/>
     </fragment>
     <fragment
             android:id="@+id/setUpFragment"
