@@ -5,11 +5,12 @@ import android.app.Application
 import android.content.Context
 import android.content.pm.ShortcutManager
 import androidx.room.Room
+import androidx.work.WorkManager
 import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.data.AuthPrefs
 import com.andrewgiang.homecontrol.data.database.AppDatabase
-import com.andrewgiang.homecontrol.data.database.entity.EntityDao
+import com.andrewgiang.homecontrol.data.database.dao.EntityDao
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -29,6 +30,12 @@ class ApplicationModule(val app: Application) {
     @Provides
     fun authManager(authPrefs: AuthPrefs): AuthManager {
         return AuthManager(authPrefs)
+    }
+
+    @ApplicationScope
+    @Provides
+    fun workManager(): WorkManager {
+        return WorkManager.getInstance()
     }
 
     @ApplicationScope

@@ -6,9 +6,9 @@ import com.andrewgiang.assistantsdk.response.Entity
 import com.andrewgiang.homecontrol.ActionShortcutManager
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.api.AuthManager
-import com.andrewgiang.homecontrol.data.model.Action
+import com.andrewgiang.homecontrol.data.database.model.Action
+import com.andrewgiang.homecontrol.data.database.model.Data
 import com.andrewgiang.homecontrol.data.model.AppAction
-import com.andrewgiang.homecontrol.data.model.Data
 import com.andrewgiang.homecontrol.data.model.Icon
 import com.andrewgiang.homecontrol.ui.testDispatchProvider
 import io.mockk.*
@@ -58,9 +58,9 @@ class HomeViewModelTest {
 
         val expectedData = Data.ServiceData("entity", "domain", "service")
         val action = Action(
-            expectedData,
-            Icon(MaterialDrawableBuilder.IconValue.IMPORT_ICON),
-            "Name"
+            data = expectedData,
+            icon = Icon(MaterialDrawableBuilder.IconValue.IMPORT_ICON),
+            name = "Name"
         )
 
         val deferred = mockk<Deferred<List<Entity>>>()
@@ -98,11 +98,11 @@ class HomeViewModelTest {
 
     @Test
     fun `onShortcutClick with invalid data will do nothing`() {
-        every { mockActionShortcutManager.fromJson(eq("valid_data")) } returns null
+        every { mockActionShortcutManager.parseShortcutData(eq("valid_data")) } returns null
 
         subject.onShortcutClick("valid_data")
 
-        verify { mockActionShortcutManager.fromJson(eq("valid_data")) }
+        verify { mockActionShortcutManager.parseShortcutData(eq("valid_data")) }
         verify { mockApi wasNot Called }
     }
 
@@ -110,11 +110,11 @@ class HomeViewModelTest {
     fun `onShortcutClick with valid data will invoke service data`() {
 
         val expectedData = Data.ServiceData("entity", "domain", "service")
-        every { mockActionShortcutManager.fromJson(eq("valid_data")) } returns expectedData
+        every { mockActionShortcutManager.parseShortcutData(eq("valid_data")) } returns expectedData
 
         subject.onShortcutClick("valid_data")
 
-        verify { mockActionShortcutManager.fromJson(eq("valid_data")) }
+        verify { mockActionShortcutManager.parseShortcutData(eq("valid_data")) }
         verify { mockApi.service(eq(expectedData.entityId), eq(expectedData.domain), eq(expectedData.service)) }
 
     }

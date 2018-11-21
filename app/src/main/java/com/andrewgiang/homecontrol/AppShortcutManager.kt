@@ -9,8 +9,8 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
-import com.andrewgiang.homecontrol.data.model.Action
-import com.andrewgiang.homecontrol.data.model.Data
+import com.andrewgiang.homecontrol.data.database.model.Action
+import com.andrewgiang.homecontrol.data.database.model.Data
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
@@ -20,15 +20,18 @@ const val SHORTCUT_URI = "home-shortcut://action/"
 const val ACTION_BUNDLE_KEY = "action_bundle_key"
 
 class ActionShortcutManager @Inject constructor(
-    private val shotcutManager: ShortcutManager,
+    private val shortcutManager: ShortcutManager,
     private val context: Context,
     moshi: Moshi
 ) {
+    private val adapter: JsonAdapter<Data.ServiceData> = moshi.adapter(
+        Data.ServiceData::class.java
+    )
 
     fun update(actionIds: List<Action>) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            shotcutManager.removeAllDynamicShortcuts()
-            shotcutManager.dynamicShortcuts = actionIds.take(2)
+            shortcutManager.removeAllDynamicShortcuts()
+            shortcutManager.dynamicShortcuts = actionIds.take(2)
                 .map {
                     val intent = createIntent(it)
                     return@map toShortcutInfo(it, intent)
@@ -71,7 +74,6 @@ class ActionShortcutManager @Inject constructor(
         return intent
     }
 
-    private val adapter: JsonAdapter<Data.ServiceData> = moshi.adapter(Data.ServiceData::class.java)
 
     private fun toJson(action: Action): String? {
         if (action.data is Data.ServiceData) {
@@ -80,7 +82,7 @@ class ActionShortcutManager @Inject constructor(
         return null
     }
 
-    fun fromJson(json: String?): Data.ServiceData? {
+    fun parseShortcutData(json: String?): Data.ServiceData? {
         return if (json != null) adapter.fromJson(json) else null
     }
 

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.andrewgiang.homecontrol.R
-import com.andrewgiang.homecontrol.data.database.entity.Entity
+import com.andrewgiang.homecontrol.data.database.model.Entity
 import kotlinx.android.synthetic.main.dashboard_light_view.view.*
 import timber.log.Timber
 

@@ -1,4 +1,4 @@
-package com.andrewgiang.homecontrol.data.database.entity
+package com.andrewgiang.homecontrol.data.database.model
 
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
@@ -17,6 +17,5 @@ data class Entity(
 
     @ColumnInfo(name = "attributes")
     val attributes: Map<String, Any>
-
 
 )

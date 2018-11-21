@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.andrewgiang.homecontrol.R
-import com.andrewgiang.homecontrol.data.model.Action
+import com.andrewgiang.homecontrol.data.database.model.Action
 import com.andrewgiang.homecontrol.ui.ShapeBuilder
 import kotlinx.android.synthetic.main.home_actions_layout.view.*
 

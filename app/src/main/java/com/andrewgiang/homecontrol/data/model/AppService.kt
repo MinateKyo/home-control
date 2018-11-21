@@ -1,5 +1,7 @@
 package com.andrewgiang.homecontrol.data.model
 
+import com.andrewgiang.homecontrol.data.database.model.Action
+import com.andrewgiang.homecontrol.data.database.model.Data
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
 
@@ -7,7 +9,7 @@ sealed class AppAction constructor(
     appData: Data.AppData = Data.AppData(),
     icon: Icon,
     name: String
-) : Action(appData, icon, name) {
+) : Action(0, appData, icon, name) {
 
     class FullScreen : AppAction(
         icon = Icon(MaterialDrawableBuilder.IconValue.FULLSCREEN),

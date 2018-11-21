@@ -7,9 +7,9 @@ import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.SingleLiveEvent
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.api.AuthManager
-import com.andrewgiang.homecontrol.data.model.Action
+import com.andrewgiang.homecontrol.data.database.model.Action
+import com.andrewgiang.homecontrol.data.database.model.Data
 import com.andrewgiang.homecontrol.data.model.AppAction
-import com.andrewgiang.homecontrol.data.model.Data
 import com.andrewgiang.homecontrol.ui.ScopeViewModel
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -67,7 +67,7 @@ class HomeViewModel @Inject constructor(
 
     fun onShortcutClick(shortcutJsonData: String?) {
         if (shortcutJsonData != null) {
-            val serviceAction = actionShortcutManager.fromJson(shortcutJsonData)
+            val serviceAction = actionShortcutManager.parseShortcutData(shortcutJsonData)
             serviceAction?.let {
                 invokeApiAction(it)
             }

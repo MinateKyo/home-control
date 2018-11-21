@@ -1,10 +1,11 @@
-package com.andrewgiang.homecontrol.data.database.entity
+package com.andrewgiang.homecontrol.data.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.andrewgiang.homecontrol.data.database.model.Entity
 
 @Dao
 interface EntityDao {
@@ -14,6 +15,6 @@ interface EntityDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(entities: List<Entity>)
+    fun insert(entities: List<Entity>): List<Long>
 
 }

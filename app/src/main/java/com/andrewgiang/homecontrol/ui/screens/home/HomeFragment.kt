@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.andrewgiang.homecontrol.ActionShortcutManager
 import com.andrewgiang.homecontrol.R
-import com.andrewgiang.homecontrol.data.model.Action
+import com.andrewgiang.homecontrol.data.database.model.Action
 import com.andrewgiang.homecontrol.data.model.AppAction
 import com.andrewgiang.homecontrol.ui.screens.BaseFragment
 import kotlinx.android.synthetic.main.fragment_home.*
