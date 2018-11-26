@@ -2,8 +2,8 @@ package com.andrewgiang.homecontrol.ui.screens.home.dashboard
 
 import androidx.lifecycle.LiveData
 import com.andrewgiang.homecontrol.DispatchProvider
-import com.andrewgiang.homecontrol.data.EntityRepository
 import com.andrewgiang.homecontrol.data.database.model.Entity
+import com.andrewgiang.homecontrol.data.repo.EntityRepo
 import com.andrewgiang.homecontrol.ui.testDispatchProvider
 import io.mockk.coVerify
 import io.mockk.every
@@ -16,16 +16,16 @@ class DashboardViewModelTest {
 
     val dispatchProvider: DispatchProvider = testDispatchProvider()
 
-    val entityRepository: EntityRepository = mockk(relaxed = true)
+    val entityRepo: EntityRepo = mockk(relaxed = true)
 
-    val subject: DashboardViewModel = DashboardViewModel(dispatchProvider, entityRepository)
+    val subject: DashboardViewModel = DashboardViewModel(dispatchProvider, entityRepo)
 
 
     @Test
     fun test_refresh_data_will_invoke_repository_refresh() {
         subject.refreshData()
         coVerify {
-            entityRepository.refreshStates()
+            entityRepo.refreshStates()
         }
     }
 
@@ -33,7 +33,7 @@ class DashboardViewModelTest {
     @Test
     fun test_repository_return_observed_live_data() {
         val liveData = mockk<LiveData<List<Entity>>>()
-        every { entityRepository.observeEntities() } returns liveData
+        every { entityRepo.observeEntities() } returns liveData
         assertEquals(subject.getEntities(), liveData)
 
     }

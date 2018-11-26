@@ -18,7 +18,9 @@ open class Action(
     @ColumnInfo
     val icon: Icon,
     @ColumnInfo
-    val name: String
+    val name: String,
+    @ColumnInfo
+    val isShortcut: Boolean
 )
 
 sealed class Data {

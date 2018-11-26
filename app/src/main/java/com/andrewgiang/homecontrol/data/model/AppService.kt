@@ -9,7 +9,7 @@ sealed class AppAction constructor(
     appData: Data.AppData = Data.AppData(),
     icon: Icon,
     name: String
-) : Action(0, appData, icon, name) {
+) : Action(0, appData, icon, name, false) {
 
     class FullScreen : AppAction(
         icon = Icon(MaterialDrawableBuilder.IconValue.FULLSCREEN),

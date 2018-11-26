@@ -1,4 +1,4 @@
-package com.andrewgiang.homecontrol.data
+package com.andrewgiang.homecontrol.data.repo
 
 import androidx.lifecycle.LiveData
 import com.andrewgiang.homecontrol.DispatchProvider
@@ -8,7 +8,7 @@ import com.andrewgiang.homecontrol.data.database.model.Entity
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-class EntityRepository @Inject constructor(
+class EntityRepo @Inject constructor(
     private val entityDao: EntityDao,
     private val apiHolder: ApiHolder,
     private val dispatchProvider: DispatchProvider

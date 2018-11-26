@@ -5,7 +5,7 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.andrewgiang.homecontrol.App
 import com.andrewgiang.homecontrol.api.AuthManager
-import com.andrewgiang.homecontrol.data.EntityRepository
+import com.andrewgiang.homecontrol.data.repo.EntityRepo
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
@@ -14,14 +14,14 @@ class EntitySyncWorker(context: Context, params: WorkerParameters) : Worker(cont
     @Inject
     lateinit var authManager: AuthManager
     @Inject
-    lateinit var entityRepository: EntityRepository
+    lateinit var entityRepo: EntityRepo
 
     override fun doWork(): Result {
         (applicationContext as App).applicationComponent.inject(this)
         if (authManager.isAuthenticated()) {
             return runBlocking {
                 try {
-                    val refreshStates = entityRepository.refreshStates()
+                    val refreshStates = entityRepo.refreshStates()
                     if (!refreshStates.isNullOrEmpty()) {
                         return@runBlocking Result.SUCCESS
                     }

@@ -10,7 +10,7 @@ import com.andrewgiang.homecontrol.data.database.model.Entity
 @Dao
 interface EntityDao {
 
-    @Query("SELECT * From Entity ORDER BY entity_id")
+    @Query("SELECT * FROM Entity ORDER BY entity_id")
     fun getEntities(): LiveData<List<Entity>>
 
 

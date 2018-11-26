@@ -9,7 +9,14 @@ import com.andrewgiang.homecontrol.workmanager.EntitySyncWorker
 import dagger.Component
 
 @ApplicationScope
-@Component(modules = [ApplicationModule::class, SecurityModule::class, ApiModule::class])
+@Component(
+    modules = [
+        ApplicationModule::class,
+        SecurityModule::class,
+        ApiModule::class,
+        DatabaseModule::class
+    ]
+)
 interface ApplicationComponent {
 
     fun inject(app: App)

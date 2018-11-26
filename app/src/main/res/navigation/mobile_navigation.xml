@@ -33,7 +33,7 @@
     </fragment>
     <fragment
             android:id="@+id/addActionFragment"
-            android:name="com.andrewgiang.homecontrol.ui.screens.AddActionFragment"
+            android:name="com.andrewgiang.homecontrol.ui.screens.add.action.AddActionFragment"
             android:label="fragment_add_action"
             tools:layout="@layout/fragment_add_action"/>
 
