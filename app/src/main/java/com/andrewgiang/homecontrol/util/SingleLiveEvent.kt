@@ -1,4 +1,4 @@
-package com.andrewgiang.homecontrol
+package com.andrewgiang.homecontrol.util
 
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner

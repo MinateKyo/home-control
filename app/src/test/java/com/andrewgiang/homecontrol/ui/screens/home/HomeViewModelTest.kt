@@ -1,6 +1,7 @@
 package com.andrewgiang.homecontrol.ui.screens.home
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.MutableLiveData
 import com.andrewgiang.assistantsdk.Api
 import com.andrewgiang.assistantsdk.response.Entity
 import com.andrewgiang.homecontrol.ActionShortcutManager
@@ -10,11 +11,12 @@ import com.andrewgiang.homecontrol.data.database.model.Action
 import com.andrewgiang.homecontrol.data.database.model.Data
 import com.andrewgiang.homecontrol.data.model.AppAction
 import com.andrewgiang.homecontrol.data.model.Icon
+import com.andrewgiang.homecontrol.data.repo.ActionRepo
 import com.andrewgiang.homecontrol.ui.testDispatchProvider
 import io.mockk.*
-import junit.framework.Assert.*
 import kotlinx.coroutines.Deferred
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,6 +28,7 @@ class HomeViewModelTest {
     val mockApi: Api = mockk()
     val mockActionShortcutManager: ActionShortcutManager = mockk()
     val mockAuth: AuthManager = mockk(relaxed = true)
+    val mockActionRepo: ActionRepo = mockk()
 
     lateinit var subject: HomeViewModel
 
@@ -39,6 +42,7 @@ class HomeViewModelTest {
         subject = HomeViewModel(
             mockHolder,
             mockActionShortcutManager,
+            mockActionRepo,
             mockAuth,
             testDispatchProvider()
         )
@@ -55,12 +59,14 @@ class HomeViewModelTest {
     @Test
     fun `onClick with service data will invoke api request and update in progress state`() {
 
-
+        val mutableLiveData = MutableLiveData<List<Action>>()
+        every { mockActionRepo.actionData() } returns mutableLiveData
         val expectedData = Data.ServiceData("entity", "domain", "service")
         val action = Action(
             data = expectedData,
             icon = Icon(MaterialDrawableBuilder.IconValue.IMPORT_ICON),
-            name = "Name"
+            name = "Name",
+            isShortcut = false
         )
 
         val deferred = mockk<Deferred<List<Entity>>>()
@@ -74,7 +80,6 @@ class HomeViewModelTest {
         } returns deferred
         val downLatch = CountDownLatch(3)
         subject.getViewState().observeForever {
-            println(downLatch.count)
             when (downLatch.count) {
                 1L -> assertFalse(it.isLoading) // finish loading
                 2L -> assertTrue(it.isLoading)  // loading from api
