@@ -6,14 +6,9 @@ plugins {
     id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs")
-    jacoco
 }
-
 apply(from = "../scripts/jacoco.gradle.kts")
 
-jacoco {
-    toolVersion = "0.8.2"
-}
 
 val defaultUrl: String? by rootProject.extra
 

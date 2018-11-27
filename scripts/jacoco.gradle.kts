@@ -1,3 +1,10 @@
+apply<JacocoPlugin>()
+
+
+configure<JacocoPluginExtension> {
+    toolVersion = "0.8.2"
+}
+
 task<JacocoReport>("jacocoTestReport") {
     dependsOn("testDebugUnitTest")
     reports {
