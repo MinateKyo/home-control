@@ -13,10 +13,16 @@ import com.andrewgiang.homecontrol.data.model.AppAction
 import com.andrewgiang.homecontrol.data.model.Icon
 import com.andrewgiang.homecontrol.data.repo.ActionRepo
 import com.andrewgiang.homecontrol.ui.testDispatchProvider
-import io.mockk.*
+import io.mockk.Called
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.Deferred
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,7 +38,6 @@ class HomeViewModelTest {
 
     lateinit var subject: HomeViewModel
 
-
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
@@ -47,7 +52,6 @@ class HomeViewModelTest {
             testDispatchProvider()
         )
     }
-
 
     @Test
     fun `onClick app action will post app action`() {
@@ -93,7 +97,6 @@ class HomeViewModelTest {
         verify { mockApi.service(eq(expectedData.entityId), eq(expectedData.domain), eq(expectedData.service)) }
     }
 
-
     @Test
     fun `onShortcutClick with null data will do nothing`() {
         subject.onShortcutClick(null)
@@ -121,6 +124,5 @@ class HomeViewModelTest {
 
         verify { mockActionShortcutManager.parseShortcutData(eq("valid_data")) }
         verify { mockApi.service(eq(expectedData.entityId), eq(expectedData.domain), eq(expectedData.service)) }
-
     }
 }

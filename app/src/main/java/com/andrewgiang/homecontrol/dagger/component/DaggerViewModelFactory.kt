@@ -7,7 +7,7 @@ import javax.inject.Provider
 
 class DaggerViewModelFactory @Inject constructor(
     private val viewModelsMap: Map<Class<out ViewModel>,
-            @JvmSuppressWildcards Provider<ViewModel>>
+        @JvmSuppressWildcards Provider<ViewModel>>
 ) :
     ViewModelProvider.Factory {
 

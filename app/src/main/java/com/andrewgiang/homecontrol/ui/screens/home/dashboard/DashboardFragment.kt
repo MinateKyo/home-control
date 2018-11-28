@@ -16,6 +16,11 @@ class DashboardFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    companion object {
+        private const val LANDSCAPE_COLUMNS = 3
+        private const val PORTRAIT_COLUMNS = 2
+    }
+
     override fun getLayoutId(): Int {
         return R.layout.fragment_dashboard
     }
@@ -25,15 +30,14 @@ class DashboardFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val viewModel = ViewModelProviders.of(this, viewModelFactory).get(DashboardViewModel::class.java)
         dashboardGrid.layoutManager =
-                GridLayoutManager(
-                    context,
-                    getColumns()
-                )
+            GridLayoutManager(
+                context,
+                getColumns()
+            )
         viewModel.refreshData()
 
         viewModel.getEntities()
@@ -43,9 +47,7 @@ class DashboardFragment : BaseFragment() {
     }
 
     private fun getColumns(): Int {
-        val landscapeColumns = 3
-        val portraitColumns = 2
         return if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            landscapeColumns else portraitColumns
+            LANDSCAPE_COLUMNS else PORTRAIT_COLUMNS
     }
 }

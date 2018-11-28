@@ -2,7 +2,11 @@ package com.andrewgiang.homecontrol.api
 
 import com.andrewgiang.assistantsdk.response.AuthToken
 import com.andrewgiang.homecontrol.addAuthHeader
-import io.mockk.*
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
+import io.mockk.verifyOrder
 import okhttp3.Interceptor
 import okhttp3.Request
 import org.junit.Test
@@ -31,7 +35,6 @@ class TokenNetworkInterceptorTest {
         every { chain.proceed(any()) } returns mockk()
         every { authToken.access_token } returns expectedToken
 
-
         subject.intercept(chain)
 
         verifyOrder {
@@ -58,5 +61,4 @@ class TokenNetworkInterceptorTest {
             chain.proceed(originalRequest)
         }
     }
-
 }

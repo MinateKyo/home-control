@@ -1,4 +1,5 @@
 @file:Suppress("DeferredResultUnused")
+
 package com.andrewgiang.homecontrol.ui.screens
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -11,7 +12,11 @@ import com.andrewgiang.homecontrol.ui.screens.setup.AuthState
 import com.andrewgiang.homecontrol.ui.screens.setup.UrlState
 import com.andrewgiang.homecontrol.ui.screens.setup.UrlViewModel
 import com.andrewgiang.homecontrol.ui.testDispatchProvider
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.coVerify
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.verify
 import kotlinx.coroutines.Deferred
 import okhttp3.HttpUrl
 import org.junit.Assert.assertEquals
@@ -30,7 +35,6 @@ class UrlViewModelTest {
 
     val subject: UrlViewModel =
         UrlViewModel(intentCreator, mockHolder, authManager, testDispatchProvider())
-
 
     @Before
     fun setUp() {
@@ -75,7 +79,6 @@ class UrlViewModelTest {
         )
     }
 
-
     @Test
     fun onAppLinkRedirect_null_authorization_code() {
         subject.onAppLinkRedirect(null)
@@ -109,7 +112,6 @@ class UrlViewModelTest {
         coEvery { mockCall.await() } returns token
 
         subject.onAppLinkRedirect(code)
-
 
         coVerify { api.initialAuth(code) }
         verify { authManager.updateAuthToken(token) }

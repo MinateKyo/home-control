@@ -26,7 +26,7 @@ class AuthPrefsSecure @Inject constructor(
         const val KEY_TOKEN = "token"
     }
 
-    //TODO refactor to use suspend function
+    // TODO refactor to use suspend function
     override fun setAuthToken(authToken: AuthToken) {
         sharedPreferences.edit {
             putString(KEY_TOKEN, encryption.encrypt(authTokenAdapter.toJson(authToken)))

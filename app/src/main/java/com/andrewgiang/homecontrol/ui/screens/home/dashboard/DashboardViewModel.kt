@@ -14,15 +14,11 @@ class DashboardViewModel @Inject constructor(
 ) :
     ScopeViewModel(dispatchProvider) {
 
-
     fun getEntities(): LiveData<List<Entity>> {
         return entityRepo.observeEntities()
     }
 
-
     fun refreshData() = launch {
         entityRepo.refreshStates()
     }
-
-
 }

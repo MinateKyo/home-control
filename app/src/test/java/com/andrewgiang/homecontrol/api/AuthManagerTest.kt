@@ -5,16 +5,16 @@ import com.andrewgiang.homecontrol.data.AuthPrefs
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class AuthManagerTest {
 
-
     val authToken: AuthToken = mockk()
 
     val mockPrefs: AuthPrefs = mockk()
-
 
     @Test
     fun isAuthenticated_if_host_and_token_available() {
@@ -31,14 +31,12 @@ class AuthManagerTest {
         assertFalse(subject().isAuthenticated())
     }
 
-
     @Test
     fun isAuthenticated_false_if_host_url_is_notAvailable() {
         every { mockPrefs.getHostUrl() } returns null
         every { mockPrefs.getAuthToken() } returns authToken
         assertFalse(subject().isAuthenticated())
     }
-
 
     @Test
     fun update_when_authenticated_will_use_new_token_but_retain_current_refresh_token_which_does_not_change() {
@@ -61,9 +59,7 @@ class AuthManagerTest {
         verify {
             mockPrefs.setAuthToken(eq(expectedToken))
         }
-
     }
-
 
     @Test
     fun update_when_not_authenticated_will_update_manager_token_and_save_to_prefs() {
@@ -75,7 +71,6 @@ class AuthManagerTest {
 
         verify { mockPrefs.setAuthToken(eq(token)) }
         assertEquals(token, subject.authToken)
-
     }
 
     private fun mockUnauth() {
@@ -83,13 +78,11 @@ class AuthManagerTest {
         every { mockPrefs.getAuthToken() } returns null
     }
 
-
     @Test
     fun setHost_will_update_shared_prefs() {
         mockUnauth()
         subject().setHost("any")
         verify { mockPrefs.setHostUrl(eq("any")) }
-
     }
 
     private fun mockAuthenticated() {
@@ -100,6 +93,4 @@ class AuthManagerTest {
     fun subject(): AuthManager {
         return AuthManager(mockPrefs)
     }
-
-
 }

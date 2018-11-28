@@ -21,16 +21,13 @@ class ApiHolderTest {
     fun expect_illegal_argument_exception_if_mock_prefs_does_not_have_host_url_set() {
         every { mockPrefs.getHostUrl() } returns null
         subject.api
-
     }
-
 
     @Test
     fun expect_api_creation_with_host_and_builder() {
         val mockApi = mockValidApi()
 
         assertEquals(mockApi, subject.api)
-
     }
 
     /**
@@ -43,7 +40,6 @@ class ApiHolderTest {
         assertEquals(mockApi, subject.api)
 
         assertEquals(mockApi, AuthTokenAuthenticator.api)
-
     }
 
     private fun mockValidApi(): Api {
@@ -60,6 +56,4 @@ class ApiHolderTest {
         } returns mockApi
         return mockApi
     }
-
-
 }

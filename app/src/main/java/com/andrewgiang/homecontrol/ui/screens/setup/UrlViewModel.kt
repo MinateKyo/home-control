@@ -45,7 +45,6 @@ class UrlViewModel @Inject constructor(
         } catch (e: Exception) {
             data.postValue(UrlState(isLoading = false, errorMessage = "Unable to authenticate"))
         }
-
     }
 
     fun onAppLinkRedirect(code: String?) {

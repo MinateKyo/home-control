@@ -1,7 +1,13 @@
 package com.andrewgiang.homecontrol.workmanager
 
 import android.app.Application
-import androidx.work.*
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.ListenableWorker
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -28,6 +34,7 @@ class PeriodicWorkManager @Inject constructor(
                 )
         }
     }
+
     private inline fun <reified W : ListenableWorker> createWorkRequest(
         repeatInterval: Long,
         timeUnit: TimeUnit
@@ -42,6 +49,4 @@ class PeriodicWorkManager @Inject constructor(
         return Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
     }
-
-
 }

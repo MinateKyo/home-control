@@ -35,5 +35,4 @@ class EntitySyncWorker(context: Context, params: WorkerParameters) : Worker(cont
             }
         }
     }
-
 }

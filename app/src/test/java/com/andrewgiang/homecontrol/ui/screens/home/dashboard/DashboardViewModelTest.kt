@@ -13,13 +13,11 @@ import org.junit.Test
 
 class DashboardViewModelTest {
 
-
     val dispatchProvider: DispatchProvider = testDispatchProvider()
 
     val entityRepo: EntityRepo = mockk(relaxed = true)
 
     val subject: DashboardViewModel = DashboardViewModel(dispatchProvider, entityRepo)
-
 
     @Test
     fun test_refresh_data_will_invoke_repository_refresh() {
@@ -29,14 +27,10 @@ class DashboardViewModelTest {
         }
     }
 
-
     @Test
     fun test_repository_return_observed_live_data() {
         val liveData = mockk<LiveData<List<Entity>>>()
         every { entityRepo.observeEntities() } returns liveData
         assertEquals(subject.getEntities(), liveData)
-
     }
-
-
 }

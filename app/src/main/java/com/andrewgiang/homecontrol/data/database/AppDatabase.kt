@@ -14,5 +14,4 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun entityDao(): EntityDao
     abstract fun actionDao(): ActionDao
-
 }

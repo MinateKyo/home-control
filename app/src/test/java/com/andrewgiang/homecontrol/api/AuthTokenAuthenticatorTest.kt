@@ -3,7 +3,12 @@ package com.andrewgiang.homecontrol.api
 import com.andrewgiang.assistantsdk.Api
 import com.andrewgiang.assistantsdk.response.AuthToken
 import com.andrewgiang.homecontrol.addAuthHeader
-import io.mockk.*
+import io.mockk.coEvery
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
+import io.mockk.verifyOrder
 import kotlinx.coroutines.Deferred
 import okhttp3.Request
 import okhttp3.Response
@@ -60,7 +65,6 @@ class AuthTokenAuthenticatorTest {
         }
     }
 
-
     @Test
     fun `will not attempt reauth when current token is null and returns null`() {
         every { mockAuthManager.authToken } returns null
@@ -72,6 +76,4 @@ class AuthTokenAuthenticatorTest {
             mockAuthManager.updateAuthToken(any())
         }
     }
-
-
 }

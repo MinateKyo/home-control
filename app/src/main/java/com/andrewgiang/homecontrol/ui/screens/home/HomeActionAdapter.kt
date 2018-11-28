@@ -38,7 +38,6 @@ class ViewHolder(
     private val view: View,
     private val onActionClickListener: ActionClickListener
 ) : RecyclerView.ViewHolder(view) {
-    private val defaultIconSize = 24
 
     fun bind(item: Action) {
         val icon = item.icon
@@ -50,11 +49,15 @@ class ViewHolder(
 
         itemView.icon.setIcon(icon.iconValue)
         itemView.icon.setColorResource(icon.iconColor)
-        itemView.icon.setSizeDp(defaultIconSize)
+        itemView.icon.setSizeDp(DEFAULT_ICON_SIZE_DP)
         itemView.icon.background = backgroundDrawable
         itemView.name.text = item.name
         view.icon.setOnClickListener {
             onActionClickListener.onClick(item)
         }
+    }
+
+    companion object {
+        private const val DEFAULT_ICON_SIZE_DP = 42
     }
 }

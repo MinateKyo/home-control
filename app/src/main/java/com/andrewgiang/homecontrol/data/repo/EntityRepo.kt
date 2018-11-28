@@ -22,10 +22,9 @@ class EntityRepo @Inject constructor(
         val entityResponse = apiHolder.api.getStates().await()
         return withContext(dispatchProvider.io) {
             entityDao.insert(entityResponse
-                    .map { it ->
-                        Entity(it.entity_id, it.state, it.attributes)
-                    })
+                .map { it ->
+                    Entity(it.entity_id, it.state, it.attributes)
+                })
         }
-
     }
 }

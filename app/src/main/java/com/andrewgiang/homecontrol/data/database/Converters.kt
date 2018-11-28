@@ -69,4 +69,3 @@ class Converters {
         return iconAdapter.fromJson(json)
     }
 }
-

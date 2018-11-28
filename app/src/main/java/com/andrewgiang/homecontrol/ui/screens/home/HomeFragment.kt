@@ -18,6 +18,10 @@ import javax.inject.Inject
 
 class HomeFragment : BaseFragment(), ActionClickListener {
 
+    companion object {
+        private const val GRID_SPAN_SIZE = 3
+    }
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -35,16 +39,13 @@ class HomeFragment : BaseFragment(), ActionClickListener {
         super.onCreate(savedInstanceState)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupFab()
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeViewModel::class.java)
 
         viewModel.onShortcutClick(activity?.intent?.extras?.getString("action_bundle_key"))
-
-        val spanCount = 3
-        actions.layoutManager = GridLayoutManager(context, spanCount)
+        actions.layoutManager = GridLayoutManager(context, GRID_SPAN_SIZE)
         viewModel.getAppActions().observe(this, handleAppAction())
         viewModel.getViewState().observe(this, onActionChanged())
     }
@@ -92,11 +93,10 @@ class HomeFragment : BaseFragment(), ActionClickListener {
 
     private fun setFullScreen() {
         activity?.window?.decorView?.systemUiVisibility = (
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        or View.SYSTEM_UI_FLAG_FULLSCREEN)
+            View.SYSTEM_UI_FLAG_IMMERSIVE
+                or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                or View.SYSTEM_UI_FLAG_FULLSCREEN)
     }
-
 
     override fun onClick(action: Action) {
         viewModel.onClick(action)

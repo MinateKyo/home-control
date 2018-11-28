@@ -11,7 +11,6 @@ interface Encryption {
     fun decrypt(value: String): String
 
     fun encrypt(value: String): String
-
 }
 
 class ConcealEncrption constructor(

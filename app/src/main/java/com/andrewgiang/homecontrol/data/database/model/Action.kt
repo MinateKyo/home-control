@@ -6,7 +6,6 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.andrewgiang.homecontrol.data.model.Icon
 
-
 @Entity
 open class Action(
     @PrimaryKey(autoGenerate = true)
@@ -33,4 +32,3 @@ sealed class Data {
         val service: String
     ) : Data()
 }
-

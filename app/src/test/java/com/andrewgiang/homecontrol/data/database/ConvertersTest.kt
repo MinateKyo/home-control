@@ -18,5 +18,4 @@ class ConvertersTest {
         val dataJson = converters.dataToString(data)
         assertEquals(data, converters.dataFromMetaJsonString(dataJson))
     }
-
 }

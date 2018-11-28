@@ -1,6 +1,5 @@
 package com.andrewgiang.homecontrol.ui.screens.setup
 
-
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -14,7 +13,6 @@ import com.andrewgiang.homecontrol.ui.screens.BaseFragment
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 import javax.inject.Inject
 
-
 class UrlSetupFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -22,7 +20,6 @@ class UrlSetupFragment : BaseFragment() {
     override fun getLayoutId(): Int {
         return R.layout.fragment_sign_in
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         getControllerComponent().inject(this)
@@ -58,8 +55,5 @@ class UrlSetupFragment : BaseFragment() {
         nextButton.setOnClickListener {
             viewModel.onNextClick(urlText.text.toString())
         }
-
     }
-
-
 }
