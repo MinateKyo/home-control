@@ -3,6 +3,7 @@ package com.andrewgiang.assistantsdk
 import com.andrewgiang.assistantsdk.request.EntityBody
 import com.andrewgiang.assistantsdk.response.AuthToken
 import com.andrewgiang.assistantsdk.response.Entity
+import com.andrewgiang.assistantsdk.response.Service
 import kotlinx.coroutines.Deferred
 import retrofit2.http.*
 
@@ -36,5 +37,7 @@ interface ApiService {
     @GET("/api/states")
     fun getStates(): Deferred<List<Entity>>
 
+    @GET("/api/services")
+    fun getServices(): Deferred<List<Service>>
 }
 

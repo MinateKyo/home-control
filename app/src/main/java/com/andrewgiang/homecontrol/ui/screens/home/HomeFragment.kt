@@ -46,8 +46,13 @@ class HomeFragment : BaseFragment(), ActionClickListener {
 
         viewModel.onShortcutClick(activity?.intent?.extras?.getString("action_bundle_key"))
         actions.layoutManager = GridLayoutManager(context, GRID_SPAN_SIZE)
-        viewModel.getAppActions().observe(this, handleAppAction())
-        viewModel.getViewState().observe(this, onActionChanged())
+        viewModel.getAppActions().observe(viewLifecycleOwner, handleAppAction())
+        viewModel.getViewState().observe(viewLifecycleOwner, onActionChanged())
+        viewModel.isAuthenticated.observe(viewLifecycleOwner, Observer { authenticated ->
+            if (!authenticated) {
+                findNavController().navigate(HomeFragmentDirections.toSetupFragment())
+            }
+        })
     }
 
     private fun setupFab() {
@@ -66,10 +71,6 @@ class HomeFragment : BaseFragment(), ActionClickListener {
 
     private fun onActionChanged(): Observer<HomeState> {
         return Observer { state ->
-            if (!state.isAuthenticated) {
-                findNavController().navigate(HomeFragmentDirections.toSetupFragment())
-            }
-
             actionShortcutManager.update(state.actionIds)
 
             val adapter = HomeActionAdapter(state.actionIds, this)

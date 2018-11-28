@@ -28,6 +28,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 import java.util.concurrent.CountDownLatch
+import java.util.concurrent.TimeUnit
 
 class HomeViewModelTest {
     val mockHolder: ApiHolder = mockk()
@@ -82,17 +83,16 @@ class HomeViewModelTest {
                 eq(expectedData.service)
             )
         } returns deferred
-        val downLatch = CountDownLatch(3)
+        val downLatch = CountDownLatch(2)
         subject.getViewState().observeForever {
             when (downLatch.count) {
                 1L -> assertFalse(it.isLoading) // finish loading
-                2L -> assertTrue(it.isLoading)  // loading from api
-                3L -> assertFalse(it.isLoading) // initial state
+                2L -> assertTrue(it.isLoading) // loading from api
             }
             downLatch.countDown()
         }
         subject.onClick(action)
-        downLatch.await()
+        downLatch.await(3, TimeUnit.SECONDS)
 
         verify { mockApi.service(eq(expectedData.entityId), eq(expectedData.domain), eq(expectedData.service)) }
     }

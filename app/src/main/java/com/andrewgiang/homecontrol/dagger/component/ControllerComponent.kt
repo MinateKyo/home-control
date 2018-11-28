@@ -1,5 +1,6 @@
 package com.andrewgiang.homecontrol.dagger.component
 
+import com.andrewgiang.homecontrol.ui.screens.add.action.AddActionFragment
 import com.andrewgiang.homecontrol.ui.screens.home.HomeFragment
 import com.andrewgiang.homecontrol.ui.screens.home.dashboard.DashboardFragment
 import com.andrewgiang.homecontrol.ui.screens.setup.UrlSetupFragment
@@ -10,4 +11,5 @@ interface ControllerComponent {
     fun inject(fragment: UrlSetupFragment)
     fun inject(fragment: HomeFragment)
     fun inject(fragment: DashboardFragment)
+    fun inject(addActionFragment: AddActionFragment)
 }

@@ -18,6 +18,15 @@ class EntityRepo @Inject constructor(
         return entityDao.getEntities()
     }
 
+    suspend fun getEntity(filterDomain: String): List<Entity> {
+        return withContext(dispatchProvider.io) {
+            entityDao.getEntitiesSync().filter {
+                val domain = it.entity_id.split(".").first()
+                domain == filterDomain
+            }
+        }
+    }
+
     suspend fun refreshStates(): List<Long> {
         val entityResponse = apiHolder.api.getStates().await()
         return withContext(dispatchProvider.io) {

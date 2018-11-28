@@ -9,6 +9,7 @@ import com.andrewgiang.homecontrol.ui.IntentCreator
 import com.andrewgiang.homecontrol.ui.ScopeViewModel
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
+import timber.log.Timber
 import javax.inject.Inject
 
 class UrlViewModel @Inject constructor(
@@ -35,7 +36,7 @@ class UrlViewModel @Inject constructor(
         }
     }
 
-    private fun getAuthToken(code: String) = launch {
+    private fun initialLaunch(code: String) = launch {
         try {
             val authToken = holder.api.initialAuth(code).await()
             authManager.updateAuthToken(authToken)
@@ -43,13 +44,14 @@ class UrlViewModel @Inject constructor(
                 UrlState(authState = AuthState.AUTHENTICATED)
             )
         } catch (e: Exception) {
+            Timber.e(e)
             data.postValue(UrlState(isLoading = false, errorMessage = "Unable to authenticate"))
         }
     }
 
     fun onAppLinkRedirect(code: String?) {
         if (code != null) {
-            getAuthToken(code)
+            initialLaunch(code)
         }
     }
 }

@@ -21,6 +21,9 @@ class ActionShortcutManager @Inject constructor(
     private val context: Context,
     moshi: Moshi
 ) {
+    companion object {
+        const val SHORTCUT_LIMIT = 4
+    }
     private val shortcutUri = "home-shortcut://action/"
     private val actionBundleKey = "action_bundle_key"
     private val adapter: JsonAdapter<Data.ServiceData> = moshi.adapter(
@@ -30,7 +33,9 @@ class ActionShortcutManager @Inject constructor(
     fun update(actionIds: List<Action>) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
             shortcutManager.removeAllDynamicShortcuts()
-            shortcutManager.dynamicShortcuts = actionIds.take(2)
+            shortcutManager.dynamicShortcuts = actionIds
+                .take(SHORTCUT_LIMIT)
+                .filter { it.isShortcut }
                 .map {
                     val intent = createIntent(it)
                     return@map toShortcutInfo(it, intent)

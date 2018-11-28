@@ -5,6 +5,11 @@
     <string name="title_settings">Settings</string>
     <string name="hint_url">Home Assistant URL</string>
     <string name="display_name">Display Name</string>
+    <string name="icon_preview">Icon Preview</string>
+    <string name="service_label">Services</string>
+    <string name="choose_entity_label">Choose Entity</string>
+    <string name="set_as_shortcut_label">Set as shortcut</string>
+    <string name="add_action_button_label">Add Action</string>
 
 
 </resources>

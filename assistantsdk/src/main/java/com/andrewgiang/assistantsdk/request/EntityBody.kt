@@ -1,3 +1,3 @@
 package com.andrewgiang.assistantsdk.request
 
-data class EntityBody(val entity_id: String)
+data class EntityBody(val entity_id: List<String>)

@@ -14,4 +14,7 @@ interface ActionDao {
 
     @Query("SELECT * FROM `Action` ")
     fun getActions(): LiveData<List<Action>>
+
+    @Query("SELECT * FROM `Action` ")
+    fun getActionsBlocking(): List<Action>
 }

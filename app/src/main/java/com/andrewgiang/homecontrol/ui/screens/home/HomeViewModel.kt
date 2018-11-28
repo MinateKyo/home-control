@@ -30,20 +30,16 @@ class HomeViewModel @Inject constructor(
 
     private val appAction = SingleLiveEvent<AppAction>()
 
-    init {
-        viewState.postValue(HomeState(isAuthenticated = authManager.isAuthenticated()))
-    }
+    val isAuthenticated = SingleLiveEvent<Boolean>().apply { postValue(authManager.isAuthenticated()) }
 
     fun getViewState(): LiveData<HomeState> {
-
         return CombinedLiveData(
             actionRepo.actionData(),
             viewState
         ) { actionList, viewState ->
             return@CombinedLiveData HomeState(
                 actionList ?: emptyList(),
-                viewState?.isLoading ?: false,
-                viewState?.isAuthenticated ?: authManager.isAuthenticated()
+                viewState?.isLoading ?: false
             )
         }
     }
@@ -67,10 +63,10 @@ class HomeViewModel @Inject constructor(
 
     private fun invokeApiAction(data: Data.ServiceData) = launch {
         try {
-            viewState.postValue(HomeState(isLoading = true, isAuthenticated = authManager.isAuthenticated()))
+            viewState.postValue(HomeState(isLoading = true))
             val list = holder.api.service(data.entityId, data.domain, data.service).await()
             Timber.d(list.toString())
-            viewState.postValue(HomeState(isLoading = false, isAuthenticated = authManager.isAuthenticated()))
+            viewState.postValue(HomeState(isLoading = false))
         } catch (e: Exception) {
             Timber.d(e)
         }

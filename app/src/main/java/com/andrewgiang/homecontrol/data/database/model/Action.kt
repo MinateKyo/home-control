@@ -27,8 +27,14 @@ sealed class Data {
     class AppData : Data()
 
     data class ServiceData(
-        val entityId: String,
+        val entityId: List<String>,
         val domain: String,
         val service: String
-    ) : Data()
+    ) : Data() {
+        constructor(
+            entityId: String,
+            domain: String,
+            service: String
+        ) : this(listOf(entityId), domain, service)
+    }
 }

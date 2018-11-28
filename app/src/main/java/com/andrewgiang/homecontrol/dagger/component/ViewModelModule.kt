@@ -34,5 +34,5 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(AddActionViewModel::class)
-    abstract fun modelAddAction(viewModel: DashboardViewModel): ViewModel
+    abstract fun modelAddAction(viewModel: AddActionViewModel): ViewModel
 }

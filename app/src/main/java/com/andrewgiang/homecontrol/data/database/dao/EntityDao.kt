@@ -13,6 +13,9 @@ interface EntityDao {
     @Query("SELECT * FROM Entity ORDER BY entity_id")
     fun getEntities(): LiveData<List<Entity>>
 
+    @Query("SELECT * FROM Entity ORDER BY entity_id")
+    fun getEntitiesSync(): List<Entity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entities: List<Entity>): List<Long>
 }
