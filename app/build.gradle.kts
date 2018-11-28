@@ -100,12 +100,16 @@ dependencies {
 
 
 gnag {
+
     isEnabled = true
     setFailOnError(true)
+
+    github {
+        repoName("andrewgiang/home-control")
+    }
 
     detekt {
         setEnabled(true)
         reporterConfig(project.file("detekt.config.yml"))
-
     }
 }
