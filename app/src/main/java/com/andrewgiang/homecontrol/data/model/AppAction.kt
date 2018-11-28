@@ -4,7 +4,6 @@ import com.andrewgiang.homecontrol.data.database.model.Action
 import com.andrewgiang.homecontrol.data.database.model.Data
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
-
 sealed class AppAction constructor(
     appData: Data.AppData = Data.AppData(),
     icon: Icon,

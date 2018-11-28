@@ -41,7 +41,6 @@ class SecurityModule {
         return SharedPrefsBackedKeyChain(app, CryptoConfig.KEY_256)
     }
 
-
     @ApplicationScope
     @Provides
     fun crypto(keyChain: KeyChain): Crypto {
@@ -59,5 +58,4 @@ class SecurityModule {
     fun concealEncrption(entity: Entity, crypto: Crypto): Encryption {
         return ConcealEncrption(entity, crypto)
     }
-
 }

@@ -24,6 +24,4 @@ class ControllerModule(val activity: FragmentActivity) {
     fun fragmentManager(): FragmentManager {
         return activity.supportFragmentManager
     }
-
 }
-

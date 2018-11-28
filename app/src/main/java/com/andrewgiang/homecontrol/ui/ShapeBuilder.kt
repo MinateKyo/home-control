@@ -5,7 +5,7 @@ import androidx.annotation.ColorInt
 
 data class ShapeBuilder(
     val orientation: GradientDrawable.Orientation = GradientDrawable.Orientation.TOP_BOTTOM,
-    val shape: Int, //TODO create int def annotation
+    val shape: Int, // TODO create int def annotation
     @ColorInt val color: Int
 ) {
 
@@ -16,6 +16,3 @@ data class ShapeBuilder(
         return drawable
     }
 }
-
-
-

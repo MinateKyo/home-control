@@ -31,7 +31,4 @@ class AuthTokenAuthenticator @Inject constructor(val authManager: AuthManager) :
     companion object {
         var api: Api? = null
     }
-
 }
-
-

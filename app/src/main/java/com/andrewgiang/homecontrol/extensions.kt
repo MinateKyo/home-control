@@ -11,7 +11,6 @@ fun Request.Builder.addAuthHeader(token: String): Request.Builder {
     return this
 }
 
-
 fun HttpUrl.androidUri(): Uri {
     return Uri.parse(this.toString())
 }

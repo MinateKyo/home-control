@@ -7,14 +7,12 @@ import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import javax.inject.Inject
 
-
 interface AuthPrefs {
     fun getHostUrl(): String?
     fun setHostUrl(hostUrl: String)
     fun setAuthToken(authToken: AuthToken)
     fun getAuthToken(): AuthToken?
 }
-
 
 class AuthPrefsSecure @Inject constructor(
     val sharedPreferences: SharedPreferences,
@@ -44,7 +42,6 @@ class AuthPrefsSecure @Inject constructor(
         return null
     }
 
-
     override fun getHostUrl(): String? {
         return sharedPreferences.getString(KEY_HOST_URL, "")
     }
@@ -55,6 +52,4 @@ class AuthPrefsSecure @Inject constructor(
             commit()
         }
     }
-
-
 }

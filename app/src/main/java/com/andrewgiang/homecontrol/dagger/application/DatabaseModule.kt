@@ -37,6 +37,4 @@ class DatabaseModule {
     fun actionDao(appDatabase: AppDatabase): ActionDao {
         return appDatabase.actionDao()
     }
-
-
 }

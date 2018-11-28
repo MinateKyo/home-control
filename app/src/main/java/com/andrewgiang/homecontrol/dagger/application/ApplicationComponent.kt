@@ -23,5 +23,4 @@ interface ApplicationComponent {
     fun inject(tokenWorker: AuthTokenWorker)
     fun inject(entitySyncWorker: EntitySyncWorker)
     fun create(controllerModule: ControllerModule): ControllerComponent
-
 }

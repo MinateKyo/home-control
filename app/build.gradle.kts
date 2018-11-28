@@ -6,9 +6,9 @@ plugins {
     id("kotlin-android-extensions")
     id("kotlin-kapt")
     id("androidx.navigation.safeargs")
+    id("gnag")
 }
 apply(from = "../scripts/jacoco.gradle.kts")
-
 
 val defaultUrl: String? by rootProject.extra
 
@@ -96,4 +96,16 @@ dependencies {
     testImplementation(TestLibs.kotlin_coroutines_core)
     androidTestImplementation(TestLibs.android_test_runner)
     androidTestImplementation(TestLibs.espresso_core)
+}
+
+
+gnag {
+    isEnabled = true
+    setFailOnError(true)
+
+    detekt {
+        setEnabled(true)
+        reporterConfig(project.file("detekt.config.yml"))
+
+    }
 }

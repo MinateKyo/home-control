@@ -8,7 +8,6 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
-
 class Converters {
     private var mapType = Types.newParameterizedType(Map::class.java, String::class.java, Any::class.java)
     private val moshi: Moshi = Moshi.Builder().build()
@@ -16,7 +15,6 @@ class Converters {
     private val appDataAdapter: JsonAdapter<Data.AppData> = moshi.adapter(Data.AppData::class.java)
     private val serviceDataAdapter: JsonAdapter<Data.ServiceData> = moshi.adapter(Data.ServiceData::class.java)
     private val iconAdapter: JsonAdapter<Icon> = moshi.adapter(Icon::class.java)
-
 
     @TypeConverter
     fun mapFromJson(json: String): Map<String, Any>? {
@@ -28,7 +26,6 @@ class Converters {
         return mapAdapter.toJson(map)
     }
 
-
     @TypeConverter
     fun iconToString(iconValue: MaterialDrawableBuilder.IconValue): String {
         return iconValue.name
@@ -38,7 +35,6 @@ class Converters {
     fun icomFromString(name: String): MaterialDrawableBuilder.IconValue {
         return MaterialDrawableBuilder.IconValue.valueOf(name)
     }
-
 
     @TypeConverter
     fun dataToString(data: Data): String {
@@ -72,7 +68,5 @@ class Converters {
     fun iconFromJson(json: String): Icon? {
         return iconAdapter.fromJson(json)
     }
-
-
 }
 

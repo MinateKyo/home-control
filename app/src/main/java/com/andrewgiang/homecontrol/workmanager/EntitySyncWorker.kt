@@ -18,22 +18,22 @@ class EntitySyncWorker(context: Context, params: WorkerParameters) : Worker(cont
 
     override fun doWork(): Result {
         (applicationContext as App).applicationComponent.inject(this)
-        if (authManager.isAuthenticated()) {
-            return runBlocking {
-                try {
-                    val refreshStates = entityRepo.refreshStates()
-                    if (!refreshStates.isNullOrEmpty()) {
-                        return@runBlocking Result.SUCCESS
-                    }
-
-                } catch (e: Exception) {
-                    return@runBlocking Result.RETRY
-                }
-                return@runBlocking Result.SUCCESS
-            }
-
+        return if (!authManager.isAuthenticated()) {
+            Result.SUCCESS
+        } else {
+            refreshState()
         }
-        return Result.SUCCESS
+    }
+
+    private fun refreshState(): Result {
+        return runBlocking {
+            return@runBlocking try {
+                entityRepo.refreshStates()
+                Result.SUCCESS
+            } catch (e: Exception) {
+                Result.RETRY
+            }
+        }
     }
 
 }

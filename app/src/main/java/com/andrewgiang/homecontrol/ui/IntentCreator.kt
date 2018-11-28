@@ -8,9 +8,7 @@ import com.andrewgiang.homecontrol.androidUri
 import okhttp3.HttpUrl
 import javax.inject.Inject
 
-
 class IntentCreator @Inject constructor(val context: Context) {
-
 
     fun sendAuthorizeIntent(baseUrl: HttpUrl) {
 
@@ -31,5 +29,4 @@ class IntentCreator @Inject constructor(val context: Context) {
             .addQueryParameter("redirect_uri", REDIRECT_URL)
             .build()
     }
-
 }

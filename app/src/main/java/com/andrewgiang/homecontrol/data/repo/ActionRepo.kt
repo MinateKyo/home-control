@@ -13,9 +13,7 @@ class ActionRepo @Inject constructor(
     private val dispatchProvider: DispatchProvider
 ) {
 
-
     fun actionData(): LiveData<List<Action>> {
         return actionDao.getActions()
     }
-
 }

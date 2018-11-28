@@ -13,7 +13,6 @@ class TokenNetworkInterceptorTest {
 
     val subject: TokenNetworkInterceptor = TokenNetworkInterceptor(authManager)
 
-
     @Test
     fun test_will_add_auth_token_to_request_if_user_is_authorized() {
 
@@ -41,7 +40,6 @@ class TokenNetworkInterceptorTest {
             builderSpy.addAuthHeader(expectedToken)
             builderSpy.build()
         }
-
     }
 
     @Test
@@ -54,14 +52,11 @@ class TokenNetworkInterceptorTest {
         every { chain.request() } returns originalRequest
         every { chain.proceed(eq(originalRequest)) } returns mockk()
 
-
         subject.intercept(chain)
 
         verify {
             chain.proceed(originalRequest)
         }
-
     }
-
 
 }

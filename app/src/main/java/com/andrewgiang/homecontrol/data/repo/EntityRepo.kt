@@ -14,7 +14,6 @@ class EntityRepo @Inject constructor(
     private val dispatchProvider: DispatchProvider
 ) {
 
-
     fun observeEntities(): LiveData<List<Entity>> {
         return entityDao.getEntities()
     }
@@ -22,13 +21,11 @@ class EntityRepo @Inject constructor(
     suspend fun refreshStates(): List<Long> {
         val entityResponse = apiHolder.api.getStates().await()
         return withContext(dispatchProvider.io) {
-            entityDao
-                .insert(entityResponse
+            entityDao.insert(entityResponse
                     .map { it ->
                         Entity(it.entity_id, it.state, it.attributes)
                     })
         }
 
     }
-
 }

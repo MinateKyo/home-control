@@ -1,6 +1,5 @@
 package com.andrewgiang.homecontrol.ui.screens.home.dashboard
 
-
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
@@ -16,7 +15,6 @@ import javax.inject.Inject
 class DashboardFragment : BaseFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
 
     override fun getLayoutId(): Int {
         return R.layout.fragment_dashboard
@@ -42,13 +40,12 @@ class DashboardFragment : BaseFragment() {
             .observe(this, Observer { list ->
                 dashboardGrid.adapter = DashboardAdapter(list)
             })
-
-
     }
 
     private fun getColumns(): Int {
+        val landscapeColumns = 3
+        val portraitColumns = 2
         return if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            3 else 2
+            landscapeColumns else portraitColumns
     }
-
 }

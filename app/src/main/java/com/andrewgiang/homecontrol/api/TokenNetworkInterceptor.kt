@@ -20,6 +20,4 @@ class TokenNetworkInterceptor @Inject constructor(val authManager: AuthManager) 
         }
         return chain.proceed(originalRequest)
     }
-
 }
-

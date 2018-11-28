@@ -4,7 +4,6 @@ import com.andrewgiang.assistantsdk.response.AuthToken
 import com.andrewgiang.homecontrol.data.AuthPrefs
 import javax.inject.Inject
 
-
 class AuthManager @Inject constructor(val authPrefs: AuthPrefs) {
 
     var authToken: AuthToken? = authPrefs.getAuthToken()
@@ -38,6 +37,4 @@ class AuthManager @Inject constructor(val authPrefs: AuthPrefs) {
     fun setHost(hostUrl: String) {
         authPrefs.setHostUrl(hostUrl)
     }
-
 }
-

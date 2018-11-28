@@ -23,6 +23,4 @@ class ApiHolder @Inject constructor(
             throw IllegalStateException("Accessing API before url is set")
         }
     }
-
-
 }

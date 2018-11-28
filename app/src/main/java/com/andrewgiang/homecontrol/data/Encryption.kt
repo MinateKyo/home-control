@@ -7,7 +7,6 @@ import timber.log.Timber
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 
-
 interface Encryption {
     fun decrypt(value: String): String
 
@@ -47,5 +46,4 @@ class ConcealEncrption constructor(
         bout.close()
         return result
     }
-
 }

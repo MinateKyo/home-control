@@ -11,5 +11,3 @@ interface ControllerComponent {
     fun inject(fragment: HomeFragment)
     fun inject(fragment: DashboardFragment)
 }
-
-

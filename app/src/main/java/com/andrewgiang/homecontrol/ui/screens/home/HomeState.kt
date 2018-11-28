@@ -7,7 +7,3 @@ data class HomeState(
     val isLoading: Boolean = false,
     val isAuthenticated: Boolean
 )
-
-
-
-

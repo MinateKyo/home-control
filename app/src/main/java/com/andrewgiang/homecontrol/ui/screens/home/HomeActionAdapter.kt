@@ -10,7 +10,6 @@ import com.andrewgiang.homecontrol.data.database.model.Action
 import com.andrewgiang.homecontrol.ui.ShapeBuilder
 import kotlinx.android.synthetic.main.home_actions_layout.view.*
 
-
 interface ActionClickListener {
     fun onClick(action: Action)
 }
@@ -21,7 +20,6 @@ class HomeActionAdapter constructor(
 ) :
     RecyclerView.Adapter<ViewHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.home_actions_layout, parent, false)
         return ViewHolder(view, onActionClickListener)
@@ -29,7 +27,6 @@ class HomeActionAdapter constructor(
 
     override fun getItemCount(): Int {
         return items.size
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -37,11 +34,12 @@ class HomeActionAdapter constructor(
     }
 }
 
-
 class ViewHolder(
     private val view: View,
     private val onActionClickListener: ActionClickListener
 ) : RecyclerView.ViewHolder(view) {
+    private val defaultIconSize = 24
+
     fun bind(item: Action) {
         val icon = item.icon
 
@@ -52,7 +50,7 @@ class ViewHolder(
 
         itemView.icon.setIcon(icon.iconValue)
         itemView.icon.setColorResource(icon.iconColor)
-        itemView.icon.setSizeDp(24)
+        itemView.icon.setSizeDp(defaultIconSize)
         itemView.icon.background = backgroundDrawable
         itemView.name.text = item.name
         view.icon.setOnClickListener {

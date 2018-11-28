@@ -12,8 +12,6 @@ interface ActionDao {
     @Insert
     fun insertAction(action: Action)
 
-
     @Query("SELECT * FROM `Action` ")
     fun getActions(): LiveData<List<Action>>
-
 }

@@ -16,14 +16,13 @@ import com.squareup.moshi.Moshi
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import javax.inject.Inject
 
-const val SHORTCUT_URI = "home-shortcut://action/"
-const val ACTION_BUNDLE_KEY = "action_bundle_key"
-
 class ActionShortcutManager @Inject constructor(
     private val shortcutManager: ShortcutManager,
     private val context: Context,
     moshi: Moshi
 ) {
+    private val shortcutUri = "home-shortcut://action/"
+    private val actionBundleKey = "action_bundle_key"
     private val adapter: JsonAdapter<Data.ServiceData> = moshi.adapter(
         Data.ServiceData::class.java
     )
@@ -37,7 +36,6 @@ class ActionShortcutManager @Inject constructor(
                     return@map toShortcutInfo(it, intent)
                 }
         }
-
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
@@ -67,13 +65,12 @@ class ActionShortcutManager @Inject constructor(
     private fun createIntent(it: Action): Intent {
         val intent = Intent(
             Intent.ACTION_VIEW,
-            Uri.parse(SHORTCUT_URI)
+            Uri.parse(shortcutUri)
         )
         val dataJson = toJson(it)
-        intent.putExtra(ACTION_BUNDLE_KEY, dataJson)
+        intent.putExtra(actionBundleKey, dataJson)
         return intent
     }
-
 
     private fun toJson(action: Action): String? {
         if (action.data is Data.ServiceData) {
@@ -85,6 +82,4 @@ class ActionShortcutManager @Inject constructor(
     fun parseShortcutData(json: String?): Data.ServiceData? {
         return if (json != null) adapter.fromJson(json) else null
     }
-
-
 }

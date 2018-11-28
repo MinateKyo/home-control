@@ -1,6 +1,5 @@
 package com.andrewgiang.homecontrol.ui.screens.home
 
-
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -16,7 +15,6 @@ import com.andrewgiang.homecontrol.ui.screens.BaseFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import javax.inject.Inject
-
 
 class HomeFragment : BaseFragment(), ActionClickListener {
 
@@ -45,11 +43,11 @@ class HomeFragment : BaseFragment(), ActionClickListener {
 
         viewModel.onShortcutClick(activity?.intent?.extras?.getString("action_bundle_key"))
 
-        actions.layoutManager = GridLayoutManager(context, 3)
+        val spanCount = 3
+        actions.layoutManager = GridLayoutManager(context, spanCount)
         viewModel.getAppActions().observe(this, handleAppAction())
         viewModel.getViewState().observe(this, onActionChanged())
     }
-
 
     private fun setupFab() {
         val iconDrawable = MaterialDrawableBuilder

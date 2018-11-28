@@ -11,7 +11,6 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.concurrent.TimeUnit
 
 @Module
 class ApiModule {
@@ -30,9 +29,7 @@ class ApiModule {
         tokenNetworkInterceptor: TokenNetworkInterceptor,
         application: Application
     ): OkHttpClient {
-
         return OkHttpClient.Builder()
-            .readTimeout(15, TimeUnit.SECONDS)
             .authenticator(authenticator)
             .addNetworkInterceptor(ChuckInterceptor(application))
             .addNetworkInterceptor(tokenNetworkInterceptor)
@@ -43,6 +40,4 @@ class ApiModule {
     fun apiFactory(): ApiFactory {
         return ApiFactory()
     }
-
-
 }

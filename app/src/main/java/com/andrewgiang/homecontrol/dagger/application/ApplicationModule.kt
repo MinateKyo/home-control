@@ -13,7 +13,6 @@ import dagger.Module
 import dagger.Provides
 import kotlinx.coroutines.Dispatchers
 
-
 @Module
 class ApplicationModule(val app: Application) {
 
@@ -53,6 +52,4 @@ class ApplicationModule(val app: Application) {
     fun dispatchers(): DispatchProvider {
         return DispatchProvider(Dispatchers.IO, Dispatchers.Main)
     }
-
-
 }

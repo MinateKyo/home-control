@@ -17,7 +17,6 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
-
 class HomeViewModel @Inject constructor(
     private val holder: ApiHolder,
     private val actionShortcutManager: ActionShortcutManager,
@@ -26,7 +25,6 @@ class HomeViewModel @Inject constructor(
     dispatchProvider: DispatchProvider
 ) :
     ScopeViewModel(dispatchProvider) {
-
 
     private val viewState = MutableLiveData<HomeState>()
 
@@ -86,5 +84,4 @@ class HomeViewModel @Inject constructor(
             }
         }
     }
-
 }

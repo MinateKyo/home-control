@@ -20,7 +20,6 @@ class App : Application() {
             ).build()
     }
 
-
     override fun onCreate() {
         super.onCreate()
         SoLoader.init(this, false)

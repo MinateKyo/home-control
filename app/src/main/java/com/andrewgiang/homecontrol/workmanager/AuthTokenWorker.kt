@@ -3,6 +3,7 @@ package com.andrewgiang.homecontrol.workmanager
 import android.content.Context
 import androidx.work.Worker
 import androidx.work.WorkerParameters
+import com.andrewgiang.assistantsdk.response.AuthToken
 import com.andrewgiang.homecontrol.App
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.api.AuthManager
@@ -18,23 +19,24 @@ class AuthTokenWorker(context: Context, params: WorkerParameters) : Worker(conte
 
     override fun doWork(): Result {
         (applicationContext as App).applicationComponent.inject(this)
+
         if (authManager.isAuthenticated()) {
-            val result = authManager.authToken?.let { token ->
-                runBlocking {
-                    try {
-                        val newToken = apiHolder.api.reauth(token).await()
-                        authManager.updateAuthToken(newToken)
-                        return@runBlocking Result.SUCCESS
-                    } catch (e: Exception) {
-                        return@runBlocking Result.RETRY
-                    }
-                }
-            }
-            if (result != null) {
-                return result
-            }
+            return authManager.authToken?.let {
+                result(it)
+            } ?: Result.FAILURE
         }
         return Result.SUCCESS
     }
 
+    private fun result(authToken: AuthToken): Result {
+        return runBlocking {
+            try {
+                val newToken = apiHolder.api.reauth(authToken).await()
+                authManager.updateAuthToken(newToken)
+                Result.SUCCESS
+            } catch (e: Exception) {
+                Result.RETRY
+            }
+        }
+    }
 }

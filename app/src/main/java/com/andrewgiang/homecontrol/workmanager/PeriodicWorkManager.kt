@@ -13,8 +13,8 @@ class PeriodicWorkManager @Inject constructor(
     private val entityId = app.applicationContext.packageName.plus("entity_state_refresh_id")
 
     private val workRequests = listOf(
-        authWorkerId to authWorkRequest(),
-        entityId to entityRefreshRequest()
+        authWorkerId to createWorkRequest<AuthTokenWorker>(repeatInterval = 30, timeUnit = TimeUnit.MINUTES),
+        entityId to createWorkRequest<EntitySyncWorker>(repeatInterval = 6, timeUnit = TimeUnit.HOURS)
     )
 
     fun enqueueWork() {
@@ -28,17 +28,12 @@ class PeriodicWorkManager @Inject constructor(
                 )
         }
     }
-
-    private fun entityRefreshRequest(): PeriodicWorkRequest {
+    private inline fun <reified W : ListenableWorker> createWorkRequest(
+        repeatInterval: Long,
+        timeUnit: TimeUnit
+    ): PeriodicWorkRequest {
         val constraints = defaultConstraints()
-        return PeriodicWorkRequestBuilder<EntitySyncWorker>(6, TimeUnit.HOURS)
-            .setConstraints(constraints.build())
-            .build()
-    }
-
-    private fun authWorkRequest(): PeriodicWorkRequest {
-        val constraints = defaultConstraints()
-        return PeriodicWorkRequestBuilder<AuthTokenWorker>(25, TimeUnit.MINUTES)
+        return PeriodicWorkRequestBuilder<W>(repeatInterval, timeUnit)
             .setConstraints(constraints.build())
             .build()
     }

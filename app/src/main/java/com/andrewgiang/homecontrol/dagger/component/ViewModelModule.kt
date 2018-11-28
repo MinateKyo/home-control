@@ -26,7 +26,6 @@ abstract class ViewModelModule {
     @ViewModelKey(HomeViewModel::class)
     abstract fun modelHome(viewModel: HomeViewModel): ViewModel
 
-
     @Binds
     @IntoMap
     @ViewModelKey(DashboardViewModel::class)
@@ -36,6 +35,4 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AddActionViewModel::class)
     abstract fun modelAddAction(viewModel: DashboardViewModel): ViewModel
-
-
 }
