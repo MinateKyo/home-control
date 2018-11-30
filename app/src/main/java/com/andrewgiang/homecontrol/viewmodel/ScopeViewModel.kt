@@ -14,27 +14,27 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui.screens.home.dashboard
+package com.andrewgiang.homecontrol.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import com.andrewgiang.homecontrol.DispatchProvider
-import com.andrewgiang.homecontrol.data.database.model.Entity
-import com.andrewgiang.homecontrol.data.repo.EntityRepo
-import com.andrewgiang.homecontrol.ui.ScopeViewModel
-import kotlinx.coroutines.launch
-import javax.inject.Inject
+import com.andrewgiang.homecontrol.ui.Nav
+import com.andrewgiang.homecontrol.util.SingleLiveEvent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
 
-class DashboardViewModel @Inject constructor(
-    dispatchProvider: DispatchProvider,
-    val entityRepo: EntityRepo
-) :
-    ScopeViewModel(dispatchProvider) {
+open class ScopeViewModel constructor(dispatcherProvider: DispatchProvider) : ViewModel(), CoroutineScope {
+    override val coroutineContext = Job() + dispatcherProvider.main
 
-    fun getEntities(): LiveData<List<Entity>> {
-        return entityRepo.observeEntities()
+    override fun onCleared() {
+        coroutineContext.cancel()
     }
 
-    fun refreshData() = launch {
-        entityRepo.refreshStates()
+    protected val navigationState = SingleLiveEvent<Nav>()
+
+    fun getNavState(): LiveData<Nav> {
+        return navigationState
     }
 }

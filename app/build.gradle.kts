@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.config.KotlinCompilerVersion
+import org.jetbrains.kotlin.gradle.internal.AndroidExtensionsExtension
 
 plugins {
     id("com.android.application")
@@ -97,7 +98,12 @@ dependencies {
     androidTestImplementation(TestLibs.android_test_runner)
     androidTestImplementation(TestLibs.espresso_core)
 }
-
+androidExtensions {
+    // Workaround for this issue https://youtrack.jetbrains.com/issue/KT-22213
+    configure(delegateClosureOf<AndroidExtensionsExtension> {
+        isExperimental = true
+    })
+}
 
 gnag {
 

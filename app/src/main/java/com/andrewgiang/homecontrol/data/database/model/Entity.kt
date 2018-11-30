@@ -34,4 +34,12 @@ data class Entity(
     @ColumnInfo(name = "attributes")
     val attributes: Map<String, Any>
 
-)
+) {
+    fun getFriendlyName(): String {
+        val name = attributes["friendly_name"]
+        return when (name) {
+            is String -> name
+            else -> entity_id
+        }
+    }
+}

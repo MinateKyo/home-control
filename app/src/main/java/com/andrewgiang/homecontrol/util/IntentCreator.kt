@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui
+package com.andrewgiang.homecontrol.util
 
 import android.content.Context
 import android.content.Intent

@@ -17,6 +17,7 @@
 package com.andrewgiang.homecontrol.data.repo
 
 import androidx.lifecycle.LiveData
+import com.andrewgiang.assistantsdk.response.Entity
 import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.data.database.dao.ActionDao
@@ -50,5 +51,9 @@ class ActionRepo @Inject constructor(
         withContext(dispatchProvider.io) {
             actionDao.insertAction(action)
         }
+    }
+
+    suspend fun invokeService(entityId: List<String>, domain: String, service: String): List<Entity> {
+        return apiHolder.api.service(entityId, domain, service).await()
     }
 }

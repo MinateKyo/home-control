@@ -16,16 +16,19 @@
 
 package com.andrewgiang.homecontrol.dagger.component
 
-import com.andrewgiang.homecontrol.ui.screens.add.action.AddActionFragment
-import com.andrewgiang.homecontrol.ui.screens.home.HomeFragment
-import com.andrewgiang.homecontrol.ui.screens.home.dashboard.DashboardFragment
-import com.andrewgiang.homecontrol.ui.screens.setup.UrlSetupFragment
+import androidx.lifecycle.ViewModelProvider
+import com.andrewgiang.homecontrol.ui.controller.AddActionController
+import com.andrewgiang.homecontrol.ui.controller.HomeController
+import com.andrewgiang.homecontrol.ui.controller.SetupController
 import dagger.Subcomponent
 
-@Subcomponent(modules = [ControllerModule::class, ViewModelModule::class])
+@Subcomponent(
+    modules = [ControllerModule::class,
+        ViewModelModule::class]
+)
 interface ControllerComponent {
-    fun inject(fragment: UrlSetupFragment)
-    fun inject(fragment: HomeFragment)
-    fun inject(fragment: DashboardFragment)
-    fun inject(addActionFragment: AddActionFragment)
+    fun inject(fragment: SetupController)
+    fun inject(controller: HomeController)
+    fun inject(addActionController: AddActionController)
+    fun getViewModelFactory(): ViewModelProvider.Factory
 }

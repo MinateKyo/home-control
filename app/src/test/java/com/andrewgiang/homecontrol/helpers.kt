@@ -14,11 +14,13 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui.screens.home
+package com.andrewgiang.homecontrol
 
-import com.andrewgiang.homecontrol.data.database.model.Action
+import androidx.lifecycle.LiveData
+import kotlinx.coroutines.Dispatchers
 
-data class HomeState(
-    val actionIds: List<Action> = emptyList(),
-    val isLoading: Boolean = false
-)
+fun testDispatchProvider() = DispatchProvider(Dispatchers.Unconfined, Dispatchers.Unconfined)
+
+fun <T> LiveData<T>.testObserver() = TestObserver<T>().also {
+    observeForever(it)
+}

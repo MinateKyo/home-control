@@ -14,31 +14,21 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui.screens
+package com.andrewgiang.homecontrol.ui.controller
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProviders
 import com.andrewgiang.homecontrol.dagger.component.ControllerComponent
 import com.andrewgiang.homecontrol.ui.MainActivity
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseController : Fragment() {
 
     fun getControllerComponent(): ControllerComponent {
         return (activity as MainActivity).controllerComponent
     }
 
-    @LayoutRes
-    abstract fun getLayoutId(): Int
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(getLayoutId(), container, false)
+    inline fun <reified T : ViewModel> getViewModel(): T {
+        return ViewModelProviders.of(this, getControllerComponent().getViewModelFactory()).get(T::class.java)
     }
 }

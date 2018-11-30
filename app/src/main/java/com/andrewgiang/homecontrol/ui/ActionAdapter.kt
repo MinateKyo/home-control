@@ -14,7 +14,7 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui.screens.home
+package com.andrewgiang.homecontrol.ui
 
 import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
@@ -23,14 +23,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.andrewgiang.homecontrol.R
 import com.andrewgiang.homecontrol.data.database.model.Action
-import com.andrewgiang.homecontrol.ui.ShapeBuilder
 import kotlinx.android.synthetic.main.home_actions_layout.view.*
 
 interface ActionClickListener {
     fun onClick(action: Action)
 }
 
-class HomeActionAdapter constructor(
+class ActionAdapter constructor(
     private val items: List<Action>,
     private val onActionClickListener: ActionClickListener
 ) :

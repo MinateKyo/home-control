@@ -14,18 +14,15 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui
+package com.andrewgiang.homecontrol
 
-import androidx.lifecycle.ViewModel
-import com.andrewgiang.homecontrol.DispatchProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
+import androidx.lifecycle.Observer
 
-open class ScopeViewModel constructor(dispatcherProvider: DispatchProvider) : ViewModel(), CoroutineScope {
-    override val coroutineContext = Job() + dispatcherProvider.main
+class TestObserver<T> : Observer<T> {
 
-    override fun onCleared() {
-        coroutineContext.cancel()
+    val observedValues = mutableListOf<T?>()
+
+    override fun onChanged(value: T?) {
+        observedValues.add(value)
     }
 }

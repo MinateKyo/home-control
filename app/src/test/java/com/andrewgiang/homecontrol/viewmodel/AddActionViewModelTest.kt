@@ -14,19 +14,21 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui.screens.add.action
+package com.andrewgiang.homecontrol.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.andrewgiang.homecontrol.data.database.model.Entity
 import com.andrewgiang.homecontrol.data.repo.ActionRepo
 import com.andrewgiang.homecontrol.data.repo.EntityRepo
-import com.andrewgiang.homecontrol.ui.testDispatchProvider
+import com.andrewgiang.homecontrol.testDispatchProvider
+import com.andrewgiang.homecontrol.testObserver
+import com.andrewgiang.homecontrol.ui.Nav
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.just
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -37,40 +39,52 @@ class AddActionViewModelTest {
     private val mockActionRepo: ActionRepo = mockk()
     private val mockEntityRepo: EntityRepo = mockk()
 
-    lateinit var subject: AddActionViewModel
+    private lateinit var subject: AddActionViewModel
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {
-        subject = AddActionViewModel(mockActionRepo, mockEntityRepo, testDispatchProvider())
+        subject = AddActionViewModel(
+            mockActionRepo,
+            mockEntityRepo,
+            testDispatchProvider()
+        )
     }
 
     @Test
-    fun `load services post values domain service list`() {
+    fun `on bind post values loading then service list`() {
         val domainServiceList = listOf("one.o", "two.d")
         coEvery { mockActionRepo.getDomainServiceList() } returns domainServiceList
-        subject.loadServices()
-        assertEquals(domainServiceList, subject.getViewState().value!!.listDomainService)
+        coEvery { mockEntityRepo.refreshStates() } returns emptyList()
+
+        val testObserver = subject.getUiState().testObserver()
+
+        subject.onBind()
+
+        val observedValues = testObserver.observedValues
+        assertEquals(AddActionUiModel.Loading, observedValues[0])
+        assertEquals(AddActionUiModel.ServiceLoaded(domainServiceList), observedValues[1])
+        coVerify { mockEntityRepo.refreshStates() }
     }
 
     @Test
     fun `selecting domain service will update entity view state`() {
         val element = Entity("id", "on", mapOf())
         coEvery { mockEntityRepo.getEntity(eq("domain")) } returns listOf(element)
+
         subject.onItemSelected("domain.test")
 
-        assertEquals(subject.getEntities().value!!, listOf(element))
+        assertEquals(subject.getUiState().value!!, AddActionUiModel.EntitiesLoaded(listOf(element), true))
     }
 
     @Test
     fun `add action will insert action into repo and update view state to shouldFinish true `() {
-
         coEvery { mockActionRepo.insertAction(any()) } just Runs
 
-        subject.addAction("domain.service", listOf("entity_id"), "displayName", true)
+        subject.onAddButtonClicked("domain.service", "displayName", true)
 
-        assertTrue(subject.getViewState().value!!.shouldFinish)
+        assertEquals(Nav.PopStack, subject.getNavState().value!!)
     }
 }

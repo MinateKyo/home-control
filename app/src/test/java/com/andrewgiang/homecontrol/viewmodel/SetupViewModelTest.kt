@@ -16,18 +16,15 @@
 
 @file:Suppress("DeferredResultUnused")
 
-package com.andrewgiang.homecontrol.ui.screens
+package com.andrewgiang.homecontrol.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.andrewgiang.assistantsdk.Api
 import com.andrewgiang.assistantsdk.response.AuthToken
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.api.AuthManager
-import com.andrewgiang.homecontrol.ui.IntentCreator
-import com.andrewgiang.homecontrol.ui.screens.setup.AuthState
-import com.andrewgiang.homecontrol.ui.screens.setup.UrlState
-import com.andrewgiang.homecontrol.ui.screens.setup.UrlViewModel
-import com.andrewgiang.homecontrol.ui.testDispatchProvider
+import com.andrewgiang.homecontrol.testDispatchProvider
+import com.andrewgiang.homecontrol.util.IntentCreator
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -42,15 +39,20 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
 
-class UrlViewModelTest {
+class SetupViewModelTest {
 
     val intentCreator: IntentCreator = mockk()
     val mockHolder: ApiHolder = mockk()
     val api: Api = mockk()
     var authManager: AuthManager = mockk()
 
-    val subject: UrlViewModel =
-        UrlViewModel(intentCreator, mockHolder, authManager, testDispatchProvider())
+    val subject: SetupViewModel =
+        SetupViewModel(
+            intentCreator,
+            mockHolder,
+            authManager,
+            testDispatchProvider()
+        )
 
     @Before
     fun setUp() {
@@ -76,7 +78,7 @@ class UrlViewModelTest {
             intentCreator.sendAuthorizeIntent(eq(hostUrl!!))
         }
         assertNotNull(urlState)
-        assertEquals(UrlState(isLoading = true), urlState)
+        assertEquals(SetupUiModel(isLoading = true), urlState)
     }
 
     @Test
@@ -88,7 +90,7 @@ class UrlViewModelTest {
 
         assertNotNull(urlState)
         assertEquals(
-            UrlState(
+            SetupUiModel(
                 isLoading = false,
                 errorMessage = "Invalid Url : $urlText"
             ), urlState
@@ -115,7 +117,12 @@ class UrlViewModelTest {
         subject.onAppLinkRedirect(code)
 
         coVerify { api.initialAuth(code) }
-        assertEquals(UrlState(isLoading = false, errorMessage = "Unable to authenticate"), subject.getData().value)
+        assertEquals(
+            SetupUiModel(
+                isLoading = false,
+                errorMessage = "Unable to authenticate"
+            ), subject.getData().value
+        )
     }
 
     @Test
@@ -132,7 +139,7 @@ class UrlViewModelTest {
         coVerify { api.initialAuth(code) }
         verify { authManager.updateAuthToken(token) }
         assertEquals(
-            UrlState(
+            SetupUiModel(
                 isLoading = false,
                 authState = AuthState.AUTHENTICATED
             ), subject.getData().value

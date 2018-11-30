@@ -14,9 +14,10 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui
+package com.andrewgiang.homecontrol
 
 import android.content.Context
+import com.andrewgiang.homecontrol.util.IntentCreator
 import io.mockk.mockk
 import okhttp3.HttpUrl
 import org.junit.Assert.assertEquals

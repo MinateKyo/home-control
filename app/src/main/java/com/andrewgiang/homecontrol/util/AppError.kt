@@ -14,9 +14,8 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui
+package com.andrewgiang.homecontrol.util
 
-import com.andrewgiang.homecontrol.DispatchProvider
-import kotlinx.coroutines.Dispatchers
-
-fun testDispatchProvider() = DispatchProvider(Dispatchers.Unconfined, Dispatchers.Unconfined)
+sealed class AppError(val msg: String) {
+    object NetworkError : AppError("Network Error")
+}

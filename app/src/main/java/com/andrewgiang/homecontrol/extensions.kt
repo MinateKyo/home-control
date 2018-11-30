@@ -16,7 +16,12 @@
 
 package com.andrewgiang.homecontrol
 
+import android.content.Context
 import android.net.Uri
+import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.navigation.NavController
+import com.andrewgiang.homecontrol.ui.Nav
 import okhttp3.HttpUrl
 import okhttp3.Request
 
@@ -29,4 +34,26 @@ fun Request.Builder.addAuthHeader(token: String): Request.Builder {
 
 fun HttpUrl.androidUri(): Uri {
     return Uri.parse(this.toString())
+}
+
+fun NavController.observer(): Observer<in Nav> {
+    return Observer { navInfo ->
+        when (navInfo) {
+            is Nav.PopStack -> {
+                popBackStack()
+            }
+            is Nav.Direction -> {
+                navigate(navInfo.navDirections)
+            }
+        }
+    }
+}
+
+fun List<String>.firstOrEmpty(): String {
+    val firstOrNull = this.firstOrNull()
+    return firstOrNull ?: ""
+}
+
+fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
+    Toast.makeText(this, message, duration).show()
 }

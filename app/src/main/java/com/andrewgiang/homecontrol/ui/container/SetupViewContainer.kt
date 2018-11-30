@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License.
- *
+ *  
  * You may obtain a copy of the License at
  * http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -14,41 +14,36 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui.screens.setup
+package com.andrewgiang.homecontrol.ui.container
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
-import android.widget.Toast
+import android.view.ViewGroup
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import com.andrewgiang.homecontrol.R
-import com.andrewgiang.homecontrol.ui.screens.BaseFragment
+import com.andrewgiang.homecontrol.toast
+import com.andrewgiang.homecontrol.ui.controller.SetupControllerDirections
+import com.andrewgiang.homecontrol.viewmodel.AuthState
+import com.andrewgiang.homecontrol.viewmodel.SetupViewModel
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_sign_in.*
-import javax.inject.Inject
 
-class UrlSetupFragment : BaseFragment() {
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
+class SetupViewContainer(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    private val viewLifecycleOwner: LifecycleOwner,
+    private val navController: NavController,
+    private val viewModel: SetupViewModel
 
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_sign_in
-    }
+) : LayoutContainer {
+    override val containerView: View = inflater.inflate(R.layout.fragment_sign_in, container, false)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        getControllerComponent().inject(this)
-        super.onCreate(savedInstanceState)
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val viewModel = ViewModelProviders.of(this, viewModelFactory).get(UrlViewModel::class.java)
-
-        viewModel.getData().observe(this,
+    fun bindView(arguments: Bundle? = null) {
+        viewModel.getData().observe(
+            viewLifecycleOwner,
             Observer { data ->
                 if (data.isLoading) {
                     progressBar.show()
@@ -58,11 +53,11 @@ class UrlSetupFragment : BaseFragment() {
                     nextButton.isEnabled = true
                 }
                 if (data.authState == AuthState.AUTHENTICATED) {
-                    findNavController().navigate(UrlSetupFragmentDirections.backToMain())
+                    navController.navigate(SetupControllerDirections.backToMain())
                 }
 
                 if (data.errorMessage != null) {
-                    Toast.makeText(context, data.errorMessage, Toast.LENGTH_SHORT).show()
+                    containerView.context.toast(data.errorMessage)
                 }
             })
 

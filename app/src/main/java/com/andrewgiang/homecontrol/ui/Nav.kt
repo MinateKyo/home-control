@@ -14,13 +14,12 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui.screens.home
+package com.andrewgiang.homecontrol.ui
 
-import com.andrewgiang.homecontrol.R
-import com.andrewgiang.homecontrol.ui.screens.BaseFragment
+import androidx.navigation.NavDirections
 
-class SettingsFragment : BaseFragment() {
-    override fun getLayoutId(): Int {
-        return R.layout.fragment_settings
-    }
+sealed class Nav {
+    object PopStack : Nav()
+
+    data class Direction(val navDirections: NavDirections) : Nav()
 }

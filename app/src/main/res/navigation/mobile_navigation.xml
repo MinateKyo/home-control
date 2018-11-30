@@ -19,25 +19,25 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/mobile_navigation"
-            app:startDestination="@id/homeFragment">
+            app:startDestination="@id/homeController">
     <fragment
-            android:id="@+id/homeFragment"
-            android:name="com.andrewgiang.homecontrol.ui.screens.home.HomeFragment"
+            android:id="@+id/homeController"
+            android:name="com.andrewgiang.homecontrol.ui.controller.HomeController"
             android:label="Home"
             tools:layout="@layout/fragment_home">
         <action
                 android:id="@+id/toSetupFragment"
-                app:destination="@id/setUpFragment"/>
+                app:destination="@id/setUpController"/>
         <action
-                android:id="@+id/action_homeFragment_to_addActionFragment"
-                app:destination="@id/addActionFragment"/>
+                android:id="@+id/toAddActionController"
+                app:destination="@id/addActionController"/>
         <deepLink
                 android:id="@+id/shortcut"
                 app:uri="home-shortcut://action"/>
     </fragment>
     <fragment
-            android:id="@+id/setUpFragment"
-            android:name="com.andrewgiang.homecontrol.ui.screens.setup.UrlSetupFragment"
+            android:id="@+id/setUpController"
+            android:name="com.andrewgiang.homecontrol.ui.controller.SetupController"
             android:label="Sign In"
             tools:layout="@layout/fragment_sign_in">
         <deepLink
@@ -45,11 +45,11 @@
                 app:uri="https://andrewgiang.com/authorize?code={code}"/>
         <action
                 android:id="@+id/backToMain"
-                app:destination="@id/homeFragment"/>
+                app:destination="@id/homeController"/>
     </fragment>
     <fragment
-            android:id="@+id/addActionFragment"
-            android:name="com.andrewgiang.homecontrol.ui.screens.add.action.AddActionFragment"
+            android:id="@+id/addActionController"
+            android:name="com.andrewgiang.homecontrol.ui.controller.AddActionController"
             android:label="fragment_add_action"
             tools:layout="@layout/fragment_add_action"/>
 
