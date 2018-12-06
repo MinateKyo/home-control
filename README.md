@@ -1,5 +1,4 @@
-[![Build Status](https://travis-ci.com/andrewgiang/home-control.svg?branch=master)](https://travis-ci.com/andrewgiang/home-control)
-# home-control
+# home-control [![Build Status](https://travis-ci.com/andrewgiang/home-control.svg?branch=master)](https://travis-ci.com/andrewgiang/home-control) <a href="http://www.detroitlabs.com/"><img src="https://img.shields.io/badge/Sponsor-Detroit%20Labs-000000.svg" /></a>
 
 Android app to create shortcut actions for [home assistant](https://www.home-assistant.io/)
 
