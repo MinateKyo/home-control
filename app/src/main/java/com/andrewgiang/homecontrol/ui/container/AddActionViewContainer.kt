@@ -81,12 +81,11 @@ class AddActionViewContainer(
                 }
             }
         }
-        addButton.setOnClickListener {
-            viewModel.onAddButtonClicked(
-                domainServiceSpinner.selectedItem as String,
-                displayNameField.text.toString(),
-                isShortcutCheckBox.isChecked
-            )
+
+        nextButton.setOnClickListener {
+            if (domainServiceSpinner.selectedItem is String) {
+                viewModel.onNextButtonClicked(domainServiceSpinner.selectedItem as String)
+            }
         }
     }
 
@@ -107,8 +106,11 @@ class AddActionViewContainer(
         viewModel.clearChips()
     }
 
+    fun getResources() = containerView.resources
+
     private fun addChip(entity: Entity) {
         val chip = Chip(containerView.context)
+        chip.setTextColor(getResources().getColor(R.color.md_white_1000))
         chip.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onChipChecked(entity, isChecked)
         }

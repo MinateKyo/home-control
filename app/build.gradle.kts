@@ -86,6 +86,8 @@ dependencies {
 
     //Conceal
     implementation(Libs.facebook_conceal)
+    implementation(Libs.material_dialog)
+    implementation(Libs.material_dialog_color_chooser)
     //Material Icons
     implementation(Libs.material_icons)
 

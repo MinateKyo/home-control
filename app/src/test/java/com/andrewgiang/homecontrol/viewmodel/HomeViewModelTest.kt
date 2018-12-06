@@ -23,7 +23,7 @@ import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.data.database.model.Action
 import com.andrewgiang.homecontrol.data.database.model.Data
 import com.andrewgiang.homecontrol.data.model.AppAction
-import com.andrewgiang.homecontrol.data.model.Icon
+import com.andrewgiang.homecontrol.data.model.HomeIcon
 import com.andrewgiang.homecontrol.data.repo.ActionRepo
 import com.andrewgiang.homecontrol.testDispatchProvider
 import com.andrewgiang.homecontrol.testObserver
@@ -83,7 +83,7 @@ class HomeViewModelTest {
         val expectedData = Data.ServiceData("entity", "domain", "service")
         val action = Action(
             data = expectedData,
-            icon = Icon(MaterialDrawableBuilder.IconValue.IMPORT_ICON),
+            icon = HomeIcon(MaterialDrawableBuilder.IconValue.IMPORT_ICON),
             name = "Name",
             isShortcut = false
         )

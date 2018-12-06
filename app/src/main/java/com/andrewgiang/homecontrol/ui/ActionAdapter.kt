@@ -16,13 +16,13 @@
 
 package com.andrewgiang.homecontrol.ui
 
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.andrewgiang.homecontrol.R
 import com.andrewgiang.homecontrol.data.database.model.Action
+import com.andrewgiang.homecontrol.data.model.applyFrom
 import kotlinx.android.synthetic.main.home_actions_layout.view.*
 
 interface ActionClickListener {
@@ -56,23 +56,10 @@ class ViewHolder(
 
     fun bind(item: Action) {
         val icon = item.icon
-
-        val backgroundDrawable = ShapeBuilder(
-            shape = GradientDrawable.OVAL,
-            color = view.resources.getColor(icon.backgroundColor)
-        ).build()
-
-        itemView.icon.setIcon(icon.iconValue)
-        itemView.icon.setColorResource(icon.iconColor)
-        itemView.icon.setSizeDp(DEFAULT_ICON_SIZE_DP)
-        itemView.icon.background = backgroundDrawable
+        itemView.icon.applyFrom(icon)
         itemView.name.text = item.name
         view.icon.setOnClickListener {
             onActionClickListener.onClick(item)
         }
-    }
-
-    companion object {
-        private const val DEFAULT_ICON_SIZE_DP = 42
     }
 }

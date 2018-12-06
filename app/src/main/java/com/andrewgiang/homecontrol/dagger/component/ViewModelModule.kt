@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.andrewgiang.homecontrol.viewmodel.AddActionViewModel
 import com.andrewgiang.homecontrol.viewmodel.HomeViewModel
+import com.andrewgiang.homecontrol.viewmodel.IconEditViewModel
 import com.andrewgiang.homecontrol.viewmodel.SetupViewModel
 import dagger.Binds
 import dagger.Module
@@ -45,4 +46,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AddActionViewModel::class)
     abstract fun modelAddAction(viewModel: AddActionViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(IconEditViewModel::class)
+    abstract fun modeliconEdit(viewModel: IconEditViewModel): ViewModel
 }

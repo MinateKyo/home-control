@@ -16,7 +16,16 @@
   -->
 
 <resources>
-    <color name="colorPrimary">#42a5f5</color>
+    <color name="primaryColor">#0d47a1</color>
+    <color name="primaryLightColor">#5472d3</color>
+    <color name="primaryDarkColor">#002171</color>
+    <color name="secondaryColor">#b0bec5</color>
+    <color name="secondaryLightColor">#e2f1f8</color>
+    <color name="secondaryDarkColor">#808e95</color>
+    <color name="primaryTextColor">#ffffff</color>
+    <color name="secondaryTextColor">#000000</color>
+
+    <color name="colorPrimary">#42a5f5</color><!--TODO phase out these three-->
     <color name="colorPrimaryDark">#0077c2</color>
     <color name="colorAccent">#546e7a</color>
 
@@ -36,4 +45,35 @@
     <color name="default_icon_color">#000000</color>
     <color name="default_icon_background">#F1F1F1</color>
 
+    <integer-array name="material_icon_colors">
+        <item>@color/md_red_500</item>
+        <item>@color/md_pink_500</item>
+        <item>@color/md_purple_500</item>
+        <item>@color/md_blue_500</item>
+        <item>@color/md_light_blue_500</item>
+        <item>@color/md_green_500</item>
+        <item>@color/md_yellow_500</item>
+        <item>@color/md_amber_500</item>
+        <item>@color/md_orange_500</item>
+        <item>@color/md_grey_500</item>
+        <item>@color/md_blue_grey_500</item>
+        <item>@color/md_white_1000</item>
+        <item>@color/md_black_1000</item>
+    </integer-array>
+
+    <integer-array name="material_bg">
+        <item>@color/md_red_100</item>
+        <item>@color/md_pink_100</item>
+        <item>@color/md_purple_100</item>
+        <item>@color/md_blue_100</item>
+        <item>@color/md_green_100</item>
+        <item>@color/md_yellow_100</item>
+        <item>@color/md_amber_100</item>
+        <item>@color/md_orange_100</item>
+        <item>@color/md_brown_100</item>
+        <item>@color/md_grey_100</item>
+        <item>@color/md_blue_grey_100</item>
+        <item>@color/md_white_1000</item>
+        <item>@color/md_black_1000</item>
+    </integer-array>
 </resources>

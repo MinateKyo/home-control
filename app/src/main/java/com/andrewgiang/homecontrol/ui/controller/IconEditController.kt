@@ -21,25 +21,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.andrewgiang.homecontrol.ui.container.AddActionViewContainer
+import com.andrewgiang.homecontrol.ui.container.IconEditContainer
 
-class AddActionController : BaseController() {
+class IconEditController : BaseController() {
 
-    private lateinit var actionViewContainer: AddActionViewContainer
+    private lateinit var iconEditContainer: IconEditContainer
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        actionViewContainer = AddActionViewContainer(
+        iconEditContainer = IconEditContainer(
             inflater,
             container!!,
             viewLifecycleOwner,
             findNavController(),
             getViewModel()
         )
-        return actionViewContainer.containerView
+        return iconEditContainer.containerView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        actionViewContainer.bindView()
+        iconEditContainer.bindView(
+            IconEditControllerArgs.fromBundle(arguments).selectedEntities
+        )
     }
 }

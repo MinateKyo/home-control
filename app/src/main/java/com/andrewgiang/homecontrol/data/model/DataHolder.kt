@@ -16,12 +16,13 @@
 
 package com.andrewgiang.homecontrol.data.model
 
-import androidx.annotation.ColorRes
-import com.andrewgiang.homecontrol.R
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
+import android.os.Parcelable
+import com.andrewgiang.homecontrol.data.database.model.Entity
+import kotlinx.android.parcel.Parcelize
 
-data class Icon(
-    val iconValue: MaterialDrawableBuilder.IconValue,
-    @ColorRes val iconColor: Int = R.color.default_icon_color,
-    @ColorRes val backgroundColor: Int = R.color.default_icon_background
-)
+@Parcelize
+data class DataHolder(val checkedSet: List<Entity>, val domainService: String) : Parcelable {
+    fun getSelected(): List<String> {
+        return checkedSet.map { it.entity_id }
+    }
+}

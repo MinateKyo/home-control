@@ -30,7 +30,8 @@
                 app:destination="@id/setUpController"/>
         <action
                 android:id="@+id/toAddActionController"
-                app:destination="@id/addActionController"/>
+                app:destination="@id/addActionController"
+                app:enterAnim="@anim/nav_default_enter_anim"/>
         <deepLink
                 android:id="@+id/shortcut"
                 app:uri="home-shortcut://action"/>
@@ -45,12 +46,42 @@
                 app:uri="https://andrewgiang.com/authorize?code={code}"/>
         <action
                 android:id="@+id/backToMain"
-                app:destination="@id/homeController"/>
+                app:destination="@id/homeController"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <fragment
             android:id="@+id/addActionController"
             android:name="com.andrewgiang.homecontrol.ui.controller.AddActionController"
             android:label="fragment_add_action"
-            tools:layout="@layout/fragment_add_action"/>
+            tools:layout="@layout/fragment_add_action">
+        <action
+                android:id="@+id/toIconEdit"
+                app:destination="@id/iconEditController"
+                app:enterAnim="@anim/slide_in_left"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/slide_out_right"
+                />
+    </fragment>
+    <fragment
+            android:id="@+id/iconEditController"
+            android:name="com.andrewgiang.homecontrol.ui.controller.IconEditController"
+            android:label="icon_edit_controller"
+            tools:layout="@layout/icon_edit_controller">
+        <action
+                android:id="@+id/to_home"
+                app:destination="@id/homeController"
+                app:enterAnim="@anim/nav_default_enter_anim"
+                app:exitAnim="@anim/nav_default_exit_anim"
+                app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+                app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+        <argument
+                android:name="selectedEntities"
+                app:argType="com.andrewgiang.homecontrol.data.model.DataHolder"/>
+
+    </fragment>
 
 </navigation>

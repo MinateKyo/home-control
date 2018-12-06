@@ -20,7 +20,7 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.andrewgiang.homecontrol.data.model.Icon
+import com.andrewgiang.homecontrol.data.model.HomeIcon
 
 @Entity
 open class Action(
@@ -31,7 +31,7 @@ open class Action(
     @ColumnInfo
     val data: Data,
     @ColumnInfo
-    val icon: Icon,
+    val icon: HomeIcon,
     @ColumnInfo
     val name: String,
     @ColumnInfo

@@ -58,4 +58,6 @@ object Libs {
     const val coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1"
     const val coroutines_retrofit_adapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
     const val material_icons = "net.steamcrafted:materialiconlib:1.1.5"
+    const val material_dialog = "com.afollestad.material-dialogs:core:2.0.0-rc3"
+    const val material_dialog_color_chooser = "com.afollestad.material-dialogs:color:2.0.0-rc3"
 }

@@ -19,7 +19,9 @@ allprojects {
     repositories {
         google()
         jcenter()
-
+        maven {
+            setUrl("https://dl.bintray.com/drummer-aidan/maven/")
+        }
     }
 }
 

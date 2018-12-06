@@ -16,11 +16,15 @@
 
 package com.andrewgiang.homecontrol.data.database.model
 
+import android.os.Parcelable
 import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.android.parcel.Parcelize
+import kotlinx.android.parcel.RawValue
 
+@Parcelize
 @Entity
 data class Entity(
     @PrimaryKey
@@ -32,9 +36,13 @@ data class Entity(
     val state: String,
 
     @ColumnInfo(name = "attributes")
-    val attributes: Map<String, Any>
+    val attributes: @RawValue Map<String, Any>
+) : Parcelable {
 
-) {
+    fun getDomain(): String {
+        return entity_id.split(".").first()
+    }
+
     fun getFriendlyName(): String {
         val name = attributes["friendly_name"]
         return when (name) {

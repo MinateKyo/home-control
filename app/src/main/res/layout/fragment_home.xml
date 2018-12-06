@@ -50,6 +50,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"
-            app:backgroundTint="?attr/colorAccent"/>
+            app:backgroundTint="?attr/colorPrimary"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

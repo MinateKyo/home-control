@@ -18,17 +18,18 @@ package com.andrewgiang.homecontrol.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.andrewgiang.homecontrol.data.database.model.Entity
+import com.andrewgiang.homecontrol.data.model.DataHolder
 import com.andrewgiang.homecontrol.data.repo.ActionRepo
 import com.andrewgiang.homecontrol.data.repo.EntityRepo
 import com.andrewgiang.homecontrol.testDispatchProvider
 import com.andrewgiang.homecontrol.testObserver
 import com.andrewgiang.homecontrol.ui.Nav
-import io.mockk.Runs
+import com.andrewgiang.homecontrol.ui.controller.AddActionControllerDirections
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.just
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -70,7 +71,7 @@ class AddActionViewModelTest {
     }
 
     @Test
-    fun `selecting domain service will update entity view state`() {
+    fun `selecting domainservice will update entity view state`() {
         val element = Entity("id", "on", mapOf())
         coEvery { mockEntityRepo.getEntity(eq("domain")) } returns listOf(element)
 
@@ -80,11 +81,31 @@ class AddActionViewModelTest {
     }
 
     @Test
-    fun `add action will insert action into repo and update view state to shouldFinish true `() {
-        coEvery { mockActionRepo.insertAction(any()) } just Runs
+    fun `on next click will navigate to icon edit`() {
 
-        subject.onAddButtonClicked("domain.service", "displayName", true)
+        subject.onNextButtonClicked("something")
+        assertEquals(
+            Nav.Direction(AddActionControllerDirections.toIconEdit(DataHolder(emptyList(), "something"))),
+            subject.getNavState().value!!
+        )
+    }
 
-        assertEquals(Nav.PopStack, subject.getNavState().value!!)
+    @Test
+    fun `on chip checked updates list of selected`() {
+        val entity = Entity("0", "on", mapOf())
+        subject.onChipChecked(entity, true)
+        assertTrue(subject.checkedSet.size == 1)
+        assertEquals(entity, subject.checkedSet.first())
+        subject.onChipChecked(entity, false)
+        assertTrue(subject.checkedSet.size == 0)
+    }
+
+    @Test
+    fun `on chip checked cleared will empty selected`() {
+        val entity = Entity("0", "on", mapOf())
+        subject.onChipChecked(entity, true)
+        assertTrue(subject.checkedSet.size == 1)
+        subject.clearChips()
+        assertTrue(subject.checkedSet.size == 0)
     }
 }

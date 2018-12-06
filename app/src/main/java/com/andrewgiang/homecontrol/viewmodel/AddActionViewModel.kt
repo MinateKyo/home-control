@@ -19,17 +19,15 @@ package com.andrewgiang.homecontrol.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.andrewgiang.homecontrol.DispatchProvider
-import com.andrewgiang.homecontrol.data.database.model.Action
-import com.andrewgiang.homecontrol.data.database.model.Data
 import com.andrewgiang.homecontrol.data.database.model.Entity
-import com.andrewgiang.homecontrol.data.model.Icon
+import com.andrewgiang.homecontrol.data.model.DataHolder
 import com.andrewgiang.homecontrol.data.repo.ActionRepo
 import com.andrewgiang.homecontrol.data.repo.EntityRepo
 import com.andrewgiang.homecontrol.firstOrEmpty
 import com.andrewgiang.homecontrol.ui.Nav
+import com.andrewgiang.homecontrol.ui.controller.AddActionControllerDirections
 import com.andrewgiang.homecontrol.util.AppError
 import kotlinx.coroutines.launch
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import javax.inject.Inject
 
 sealed class AddActionUiModel {
@@ -47,7 +45,7 @@ class AddActionViewModel @Inject constructor(
 ) : ScopeViewModel(dispatchProvider) {
 
     private val ui = MutableLiveData<AddActionUiModel>()
-    private val checkedSet = mutableSetOf<Entity>()
+    val checkedSet = mutableSetOf<Entity>()
 
     fun getUiState(): LiveData<AddActionUiModel> {
         return ui
@@ -65,20 +63,18 @@ class AddActionViewModel @Inject constructor(
         }
     }
 
-    fun onAddButtonClicked(domainService: String, displayName: String, isShortcut: Boolean) = launch {
-        val split = domainService.split(".")
-        val domain = split[0]
-        val service = split[1]
-        actionRepo.insertAction(
-            Action(
-                0,
-                Data.ServiceData(checkedSet.map { it.entity_id }.toList(), domain, service),
-                Icon(MaterialDrawableBuilder.IconValue.LIGHTBULB),
-                displayName,
-                isShortcut
+    fun onNextButtonClicked(domainService: String) {
+        val selectedEntities = checkedSet.toList()
+        navigationState.postValue(
+            Nav.Direction(
+                AddActionControllerDirections.toIconEdit(
+                    DataHolder(
+                        selectedEntities,
+                        domainService
+                    )
+                )
             )
         )
-        navigationState.postValue(Nav.PopStack)
     }
 
     fun onItemSelected(domainService: String) = launch {

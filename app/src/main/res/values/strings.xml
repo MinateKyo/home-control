@@ -20,12 +20,14 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_settings">Settings</string>
     <string name="hint_url">Home Assistant URL</string>
-    <string name="display_name">Display Name</string>
+    <string name="icon_name">Icon Name</string>
     <string name="icon_preview">Icon Preview</string>
     <string name="service_label">Services</string>
     <string name="choose_entity_label">Choose Entity</string>
     <string name="set_as_shortcut_label">Set as shortcut</string>
     <string name="add_action_button_label">Add Action</string>
-
-
+    <string name="next_button_label">Next</string>
+    <string name="choose_color">Choose Icon Color</string>
+    <string name="choose_background">Choose Background Color</string>
+    <string name="choose_action_icon">Choose Action Icon</string>
 </resources>

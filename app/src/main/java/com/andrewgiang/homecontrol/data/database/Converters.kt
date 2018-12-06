@@ -18,7 +18,7 @@ package com.andrewgiang.homecontrol.data.database
 
 import androidx.room.TypeConverter
 import com.andrewgiang.homecontrol.data.database.model.Data
-import com.andrewgiang.homecontrol.data.model.Icon
+import com.andrewgiang.homecontrol.data.model.HomeIcon
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
@@ -30,7 +30,7 @@ class Converters {
     private val mapAdapter: JsonAdapter<Map<String, Any>> = moshi.adapter(mapType)
     private val appDataAdapter: JsonAdapter<Data.AppData> = moshi.adapter(Data.AppData::class.java)
     private val serviceDataAdapter: JsonAdapter<Data.ServiceData> = moshi.adapter(Data.ServiceData::class.java)
-    private val iconAdapter: JsonAdapter<Icon> = moshi.adapter(Icon::class.java)
+    private val homeIconAdapter: JsonAdapter<HomeIcon> = moshi.adapter(HomeIcon::class.java)
 
     @TypeConverter
     fun mapFromJson(json: String): Map<String, Any>? {
@@ -76,12 +76,12 @@ class Converters {
     }
 
     @TypeConverter
-    fun iconToString(icon: Icon): String {
-        return iconAdapter.toJson(icon)
+    fun iconToString(icon: HomeIcon): String {
+        return homeIconAdapter.toJson(icon)
     }
 
     @TypeConverter
-    fun iconFromJson(json: String): Icon? {
-        return iconAdapter.fromJson(json)
+    fun iconFromJson(json: String): HomeIcon? {
+        return homeIconAdapter.fromJson(json)
     }
 }

@@ -36,10 +36,18 @@ class EntityRepo @Inject constructor(
 
     suspend fun getEntity(filterDomain: String): List<Entity> {
         return withContext(dispatchProvider.io) {
-            entityDao.getEntitiesSync().filter {
-                val domain = it.entity_id.split(".").first()
-                domain == filterDomain
-            }
+            entityDao.getEntitiesSync()
+                .filter {
+                    it.getDomain() == filterDomain || checkGroupForDomain(it, filterDomain)
+                }
+        }
+    }
+
+    private fun checkGroupForDomain(entity: Entity, filterDomain: String): Boolean {
+        if (entity.getDomain() != "group") return false
+        val groupEntityIds = entity.attributes["entity_id"] as ArrayList<String>
+        return groupEntityIds.all {
+            it.startsWith(filterDomain)
         }
     }
 

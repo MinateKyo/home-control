@@ -22,17 +22,17 @@ import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
 sealed class AppAction constructor(
     appData: Data.AppData = Data.AppData(),
-    icon: Icon,
+    icon: HomeIcon,
     name: String
 ) : Action(0, appData, icon, name, false) {
 
     class FullScreen : AppAction(
-        icon = Icon(MaterialDrawableBuilder.IconValue.FULLSCREEN),
+        icon = HomeIcon(MaterialDrawableBuilder.IconValue.FULLSCREEN),
         name = "Full Screen"
     )
 
     class AddAction : AppAction(
-        icon = Icon(MaterialDrawableBuilder.IconValue.PLUS),
+        icon = HomeIcon(MaterialDrawableBuilder.IconValue.PLUS),
         name = "Add"
     )
 }
