@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/andrewgiang/home-control.svg?branch=master)](https://travis-ci.com/andrewgiang/home-control)
 # home-control
 
 Android app to create shortcut actions for [home assistant](https://www.home-assistant.io/)
