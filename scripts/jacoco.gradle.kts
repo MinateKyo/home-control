@@ -8,7 +8,7 @@ configure<JacocoPluginExtension> {
 task<JacocoReport>("jacocoTestReport") {
     dependsOn("testDebugUnitTest")
     reports {
-        xml.isEnabled = false
+        xml.isEnabled = true
         html.isEnabled = true
     }
     sourceDirectories.setFrom(
