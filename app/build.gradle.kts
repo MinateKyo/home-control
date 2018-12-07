@@ -8,7 +8,6 @@ plugins {
     id("kotlin-kapt")
     id("androidx.navigation.safeargs")
     id("gnag")
-    id("com.github.kt3k.coveralls") version ("2.8.1")
 }
 apply(from = "../scripts/jacoco.gradle.kts")
 
@@ -121,12 +120,4 @@ gnag {
         setEnabled(true)
         reporterConfig(project.file("detekt.config.yml"))
     }
-}
-
-coveralls {
-    jacocoReportPath = "build/reports/jacoco/jacocoTestReport/jacocoTestReport.xml"
-}
-
-tasks.coveralls {
-    dependsOn("jacocoTestReport")
 }
