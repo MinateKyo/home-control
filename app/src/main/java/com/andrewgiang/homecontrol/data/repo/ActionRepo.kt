@@ -33,14 +33,11 @@ class ActionRepo @Inject constructor(
 
     suspend fun getDomainServiceList(): List<String> {
         val serviceList = apiHolder.api.getServices().await()
-        val serviceDomainList = ArrayList<String>()
-        serviceList.forEach { entry ->
-            entry.domain
-            entry.services.keys.forEach { key ->
-                serviceDomainList.add("${entry.domain}.$key")
+        return serviceList.flatMap { entry ->
+            entry.services.keys.map { key ->
+                "${entry.domain}.$key"
             }
         }
-        return serviceDomainList
     }
 
     fun actionData(): LiveData<List<Action>> {

@@ -26,11 +26,6 @@ sealed class AppAction constructor(
     name: String
 ) : Action(0, appData, icon, name, false) {
 
-    class FullScreen : AppAction(
-        icon = HomeIcon(MaterialDrawableBuilder.IconValue.FULLSCREEN),
-        name = "Full Screen"
-    )
-
     class AddAction : AppAction(
         icon = HomeIcon(MaterialDrawableBuilder.IconValue.PLUS),
         name = "Add"

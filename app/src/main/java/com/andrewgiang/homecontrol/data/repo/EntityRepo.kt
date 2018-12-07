@@ -16,7 +16,6 @@
 
 package com.andrewgiang.homecontrol.data.repo
 
-import androidx.lifecycle.LiveData
 import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.data.database.dao.EntityDao
@@ -29,10 +28,6 @@ class EntityRepo @Inject constructor(
     private val apiHolder: ApiHolder,
     private val dispatchProvider: DispatchProvider
 ) {
-
-    fun observeEntities(): LiveData<List<Entity>> {
-        return entityDao.getEntities()
-    }
 
     suspend fun getEntity(filterDomain: String): List<Entity> {
         return withContext(dispatchProvider.io) {
