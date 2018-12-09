@@ -86,10 +86,13 @@ dependencies {
 
     //Conceal
     implementation(Libs.facebook_conceal)
+    //Material Dialogs
     implementation(Libs.material_dialog)
     implementation(Libs.material_dialog_color_chooser)
     //Material Icons
     implementation(Libs.material_icons)
+
+    implementation(Libs.klaster)
 
     //Testing
     testImplementation(TestLibs.junit)

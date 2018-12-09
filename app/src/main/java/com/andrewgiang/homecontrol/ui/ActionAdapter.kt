@@ -32,8 +32,7 @@ interface ActionClickListener {
 class ActionAdapter constructor(
     private val items: List<Action>,
     private val onActionClickListener: ActionClickListener
-) :
-    RecyclerView.Adapter<ViewHolder>() {
+) : RecyclerView.Adapter<ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.home_actions_layout, parent, false)

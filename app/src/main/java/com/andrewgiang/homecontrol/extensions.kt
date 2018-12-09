@@ -18,10 +18,13 @@ package com.andrewgiang.homecontrol
 
 import android.content.Context
 import android.net.Uri
+import android.view.LayoutInflater
 import android.widget.Toast
+import androidx.annotation.LayoutRes
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import com.andrewgiang.homecontrol.ui.Nav
+import com.github.rongi.klaster.KlasterBuilder
 import okhttp3.HttpUrl
 import okhttp3.Request
 
@@ -56,4 +59,11 @@ fun List<String>.firstOrEmpty(): String {
 
 fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
+}
+
+fun KlasterBuilder.byViewId(@LayoutRes layoutResId: Int): KlasterBuilder {
+    view { parent ->
+        LayoutInflater.from(parent.context).inflate(layoutResId, parent, false)
+    }
+    return this
 }

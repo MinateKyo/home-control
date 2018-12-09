@@ -97,4 +97,10 @@ class IconEditViewModel @Inject constructor(
             ui.postValue(function.invoke(it))
         }
     }
+
+    fun onIconSelected(iconValue: MaterialDrawableBuilder.IconValue) {
+        postUi {
+            it.copy(homeIcon = it.homeIcon.copy(iconValue = iconValue))
+        }
+    }
 }

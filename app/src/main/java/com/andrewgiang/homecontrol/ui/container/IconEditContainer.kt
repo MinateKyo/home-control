@@ -27,11 +27,13 @@ import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.color.colorChooser
+import com.andrewgiang.homecontrol.APP_ACTION_ICONS
 import com.andrewgiang.homecontrol.R
 import com.andrewgiang.homecontrol.data.model.DataHolder
 import com.andrewgiang.homecontrol.data.model.applyFrom
 import com.andrewgiang.homecontrol.observer
 import com.andrewgiang.homecontrol.ui.ShapeBuilder
+import com.andrewgiang.homecontrol.ui.iconChooser
 import com.andrewgiang.homecontrol.viewmodel.IconEditViewModel
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.home_actions_layout.*
@@ -55,7 +57,6 @@ class IconEditContainer(
             backgroundColor.background = ShapeBuilder(color = ui.homeIcon.backgroundColorInt).build()
             iconColorDisplay.background = ShapeBuilder(color = ui.homeIcon.iconColorInt).build()
         })
-
         setupDialogs()
 
         addAction.setOnClickListener {
@@ -82,6 +83,10 @@ class IconEditContainer(
         iconLabel.setOnClickListener {
             MaterialDialog(containerView.context).show {
                 title(R.string.choose_action_icon)
+                iconChooser(APP_ACTION_ICONS) { dialog, iconValue ->
+                    viewModel.onIconSelected(iconValue)
+                    dialog.dismiss()
+                }
             }
         }
 

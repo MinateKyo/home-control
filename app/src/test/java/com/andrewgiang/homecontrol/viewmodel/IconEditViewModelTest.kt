@@ -25,6 +25,7 @@ import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.just
 import io.mockk.mockk
+import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Before
@@ -99,5 +100,17 @@ class IconEditViewModelTest {
         assertNotEquals(original, newColor)
 
         assertEquals(newColor, subject.getUiModel().value!!.homeIcon.backgroundColorInt)
+    }
+
+    @Test
+    fun `on icon select change updated ui model`() {
+        val original = subject.getUiModel().value!!.homeIcon.iconValue
+
+        val iconValue = MaterialDrawableBuilder.IconValue.PACKAGE_ICON
+        subject.onIconSelected(iconValue)
+
+        assertNotEquals(original, iconValue)
+
+        assertEquals(iconValue, subject.getUiModel().value!!.homeIcon.iconValue)
     }
 }

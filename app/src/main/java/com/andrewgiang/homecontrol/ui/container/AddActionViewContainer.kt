@@ -22,6 +22,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
@@ -106,11 +107,9 @@ class AddActionViewContainer(
         viewModel.clearChips()
     }
 
-    fun getResources() = containerView.resources
-
     private fun addChip(entity: Entity) {
         val chip = Chip(containerView.context)
-        chip.setTextColor(getResources().getColor(R.color.md_white_1000))
+        chip.setTextColor(ContextCompat.getColor(containerView.context, R.color.md_white_1000))
         chip.setOnCheckedChangeListener { _, isChecked ->
             viewModel.onChipChecked(entity, isChecked)
         }

@@ -20,6 +20,9 @@ allprojects {
         google()
         jcenter()
         maven {
+            setUrl("https://jitpack.io")
+        }
+        maven {
             setUrl("https://dl.bintray.com/drummer-aidan/maven/")
         }
     }

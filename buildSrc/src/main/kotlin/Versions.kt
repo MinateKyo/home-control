@@ -60,4 +60,5 @@ object Libs {
     const val material_icons = "net.steamcrafted:materialiconlib:1.1.5"
     const val material_dialog = "com.afollestad.material-dialogs:core:2.0.0-rc3"
     const val material_dialog_color_chooser = "com.afollestad.material-dialogs:color:2.0.0-rc3"
+    const val klaster = "com.github.rongi:klaster:0.3.3"
 }
