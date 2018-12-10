@@ -94,7 +94,7 @@ class AddActionViewContainer(
         entityGroup.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
-    private fun showServices(listDomainService: List<String>) {
+    fun showServices(listDomainService: List<String>) {
         domainServiceSpinner.adapter = ArrayAdapter(
             containerView.context,
             android.R.layout.simple_list_item_1,

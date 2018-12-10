@@ -107,6 +107,6 @@ class AuthManagerTest {
     }
 
     fun subject(): AuthManager {
-        return AuthManager(mockPrefs)
+        return AuthManagerImpl(mockPrefs)
     }
 }

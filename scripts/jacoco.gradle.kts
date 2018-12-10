@@ -24,8 +24,6 @@ task<JacocoReport>("jacocoTestReport") {
                     "**/Manifest*.*",
                     "**/*Test*.*",
                     "android/**/*.*",
-                    "**/*Activity*.*",
-                    "**/*Fragment*.*",
                     "com/andrewgiang/homecontrol/dagger/**"
                 )
             )

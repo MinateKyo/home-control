@@ -24,6 +24,19 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         resValue("string", "default_url", defaultUrl ?: "")
     }
+    testOptions {
+        unitTests.apply {
+            isReturnDefaultValues = true
+            isIncludeAndroidResources = true
+            all(KotlinClosure1<Any, Test>({
+                (this as Test).also { testTask ->
+                    testTask.extensions
+                        .getByType(JacocoTaskExtension::class.java)
+                        .isIncludeNoLocationClasses = true
+                }
+            }, this))
+        }
+    }
 
     buildTypes {
         getByName("debug") {
@@ -100,8 +113,17 @@ dependencies {
     testImplementation(TestLibs.mockk)
     testImplementation(TestLibs.android_core_testing)
     testImplementation(TestLibs.kotlin_coroutines_core)
-    androidTestImplementation(TestLibs.android_test_runner)
-    androidTestImplementation(TestLibs.espresso_core)
+
+    testImplementation(TestLibs.robolectric)
+    testImplementation(TestLibs.androidx.runner)
+    testImplementation(TestLibs.androidx.rules)
+    testImplementation(TestLibs.androidx.espresso_core)
+    testImplementation(TestLibs.androidx.truth)
+    testImplementation(TestLibs.androidx.ext_truth)
+    testImplementation(TestLibs.androidx.core)
+    testImplementation(TestLibs.androidx.lifecycle)
+    testImplementation(TestLibs.androidx.ext_junit)
+
 }
 androidExtensions {
     // Workaround for this issue https://youtrack.jetbrains.com/issue/KT-22213

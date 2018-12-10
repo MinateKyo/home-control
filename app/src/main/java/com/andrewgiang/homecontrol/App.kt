@@ -25,11 +25,11 @@ import com.facebook.soloader.SoLoader
 import timber.log.Timber
 import javax.inject.Inject
 
-class App : Application() {
+open class App : Application() {
     @Inject
     lateinit var periodicWorkManager: PeriodicWorkManager
 
-    val applicationComponent: ApplicationComponent by lazy {
+    open val applicationComponent: ApplicationComponent by lazy {
         DaggerApplicationComponent.builder()
             .applicationModule(
                 ApplicationModule(this@App)

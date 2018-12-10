@@ -25,7 +25,7 @@ import com.andrewgiang.homecontrol.ui.container.AddActionViewContainer
 
 class AddActionController : BaseController() {
 
-    private lateinit var actionViewContainer: AddActionViewContainer
+    lateinit var actionViewContainer: AddActionViewContainer
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         actionViewContainer = AddActionViewContainer(

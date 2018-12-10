@@ -20,15 +20,22 @@ import com.andrewgiang.assistantsdk.response.AuthToken
 import com.andrewgiang.homecontrol.data.AuthPrefs
 import javax.inject.Inject
 
-class AuthManager @Inject constructor(val authPrefs: AuthPrefs) {
+interface AuthManager {
+    var authToken: AuthToken?
+    fun updateAuthToken(newToken: AuthToken)
+    fun isAuthenticated(): Boolean
+    fun setHost(hostUrl: String)
+}
 
-    var authToken: AuthToken? = authPrefs.getAuthToken()
+class AuthManagerImpl @Inject constructor(val authPrefs: AuthPrefs) : AuthManager {
 
-    fun isAuthenticated(): Boolean {
+    override var authToken: AuthToken? = authPrefs.getAuthToken()
+
+    override fun isAuthenticated(): Boolean {
         return authToken != null && authPrefs.getHostUrl() != null
     }
 
-    fun updateAuthToken(newToken: AuthToken) {
+    override fun updateAuthToken(newToken: AuthToken) {
         val currentToken = authToken
         authToken = if (isAuthenticated() && currentToken != null) {
             createUpdatedToken(newToken, currentToken)
@@ -50,7 +57,7 @@ class AuthManager @Inject constructor(val authPrefs: AuthPrefs) {
         )
     }
 
-    fun setHost(hostUrl: String) {
+    override fun setHost(hostUrl: String) {
         authPrefs.setHostUrl(hostUrl)
     }
 }

@@ -13,7 +13,18 @@ object TestLibs {
     const val kotlin_coroutines_core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1"
     const val espresso_core = "androidx.test.espresso:espresso-core:3.1.0"
     const val android_core_testing = "android.arch.core:core-testing:1.1.1"
-    const val android_test_runner = "androidx.test:runner:1.1.0"
+    const val robolectric = "org.robolectric:robolectric:4.0.2"
+
+    object androidx {
+        const val core = "androidx.test:core:1.1.0-beta01"
+        const val runner = "androidx.test:runner:1.1.1-beta01"
+        const val rules = "androidx.test:rules:1.1.1-beta01"
+        const val lifecycle = "androidx.lifecycle:lifecycle-common:2.0.0"
+        const val espresso_core = "androidx.test.espresso:espresso-core:3.1.1-beta01"
+        const val truth = "com.google.truth:truth:0.42"
+        const val ext_truth = "androidx.test.ext:truth:1.1.0-beta01"
+        const val ext_junit = "androidx.test.ext:junit:1.1.0-beta01"
+    }
 }
 
 object Libs {

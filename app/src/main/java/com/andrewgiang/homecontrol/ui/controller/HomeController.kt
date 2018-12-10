@@ -25,7 +25,7 @@ import com.andrewgiang.homecontrol.ui.container.HomeViewContainer
 
 class HomeController : BaseController() {
 
-    private lateinit var homeViewContainer: HomeViewContainer
+    lateinit var homeViewContainer: HomeViewContainer
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         homeViewContainer = HomeViewContainer(

@@ -23,6 +23,7 @@ import android.content.pm.ShortcutManager
 import androidx.work.WorkManager
 import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.api.AuthManager
+import com.andrewgiang.homecontrol.api.AuthManagerImpl
 import com.andrewgiang.homecontrol.data.AuthPrefs
 import com.squareup.moshi.Moshi
 import dagger.Module
@@ -30,7 +31,7 @@ import dagger.Provides
 import kotlinx.coroutines.Dispatchers
 
 @Module
-class ApplicationModule(val app: Application) {
+open class ApplicationModule(val app: Application) {
 
     @ApplicationScope
     @Provides
@@ -40,8 +41,8 @@ class ApplicationModule(val app: Application) {
 
     @ApplicationScope
     @Provides
-    fun authManager(authPrefs: AuthPrefs): AuthManager {
-        return AuthManager(authPrefs)
+    open fun authManager(authPrefs: AuthPrefs): AuthManager {
+        return AuthManagerImpl(authPrefs)
     }
 
     @ApplicationScope
