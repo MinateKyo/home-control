@@ -17,30 +17,20 @@
 package com.andrewgiang.homecontrol.ui.controller
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import com.andrewgiang.homecontrol.ui.container.ContainerFactory
 import com.andrewgiang.homecontrol.ui.container.HomeViewContainer
+import com.andrewgiang.homecontrol.viewmodel.HomeViewModel
 
-class HomeController : BaseController() {
+class HomeController : BaseControllerFragment<HomeViewContainer>() {
+    private val homeViewModel: HomeViewModel by viewModel()
 
-    lateinit var homeViewContainer: HomeViewContainer
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        homeViewContainer = HomeViewContainer(
-            inflater,
-            container,
-            viewLifecycleOwner,
-            findNavController(),
-            getViewModel()
-        )
-        return homeViewContainer.containerView
+    override fun createContainer(containerFactory: ContainerFactory): HomeViewContainer {
+        return containerFactory.create(homeViewModel)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        homeViewContainer.bindView()
-        homeViewContainer.onShortcutClicked(activity?.intent?.extras?.getString("action_bundle_key"))
+        container.onShortcutClicked(activity?.intent?.extras?.getString("action_bundle_key"))
     }
 }

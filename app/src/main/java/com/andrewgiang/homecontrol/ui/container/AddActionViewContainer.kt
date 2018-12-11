@@ -33,20 +33,16 @@ import com.andrewgiang.homecontrol.toast
 import com.andrewgiang.homecontrol.viewmodel.AddActionUiModel
 import com.andrewgiang.homecontrol.viewmodel.AddActionViewModel
 import com.google.android.material.chip.Chip
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_add_action.*
 
 class AddActionViewContainer(
     inflater: LayoutInflater,
-    container: ViewGroup,
+    container: ViewGroup?,
     private val lifecycleOwner: LifecycleOwner,
     private val navController: NavController,
     private val viewModel: AddActionViewModel
-) : LayoutContainer {
-
-    override val containerView: View = inflater.inflate(R.layout.fragment_add_action, container, false)
-
-    fun bindView() {
+) : Container {
+    override fun onBindView() {
         viewModel.onBind()
         viewModel.getUiState().observe(lifecycleOwner, Observer { action ->
             when (action) {
@@ -71,6 +67,8 @@ class AddActionViewContainer(
         viewModel.getNavState().observe(lifecycleOwner, navController.observer())
         setupClickListeners()
     }
+
+    override val containerView: View = inflater.inflate(R.layout.fragment_add_action, container, false)
 
     private fun setupClickListeners() {
         domainServiceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

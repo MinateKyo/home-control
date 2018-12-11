@@ -35,7 +35,6 @@ import com.andrewgiang.homecontrol.observer
 import com.andrewgiang.homecontrol.ui.ShapeBuilder
 import com.andrewgiang.homecontrol.ui.iconChooser
 import com.andrewgiang.homecontrol.viewmodel.IconEditViewModel
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.home_actions_layout.*
 import kotlinx.android.synthetic.main.icon_edit_controller.*
 
@@ -45,11 +44,11 @@ class IconEditContainer(
     private val lifecycleOwner: LifecycleOwner,
     private val navController: NavController,
     private val viewModel: IconEditViewModel
-) : LayoutContainer {
+) : Container {
 
     override val containerView: View = inflater.inflate(R.layout.icon_edit_controller, container, false)
 
-    fun bindView(data: DataHolder) {
+    override fun onBindView() {
         viewModel.getNavState().observe(lifecycleOwner, navController.observer())
         viewModel.getUiModel().observe(lifecycleOwner, Observer { ui ->
             icon.applyFrom(ui.homeIcon)
@@ -58,16 +57,6 @@ class IconEditContainer(
             iconColorDisplay.background = ShapeBuilder(color = ui.homeIcon.iconColorInt).build()
         })
         setupDialogs()
-
-        addAction.setOnClickListener {
-            viewModel.onAddButtonClicked(
-                data.getSelected(),
-                data.domainService,
-                displayNameText.text.toString(),
-                false
-            )
-        }
-
         displayNameText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 viewModel.onTextChanged(s.toString())
@@ -77,6 +66,17 @@ class IconEditContainer(
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+    }
+
+    fun handleBundleArgs(data: DataHolder) {
+        addAction.setOnClickListener {
+            viewModel.onAddButtonClicked(
+                data.getSelected(),
+                data.domainService,
+                displayNameText.text.toString(),
+                false
+            )
+        }
     }
 
     private fun setupDialogs() {

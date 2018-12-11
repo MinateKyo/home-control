@@ -14,17 +14,10 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.ui.controller
+package com.andrewgiang.homecontrol.ui.container
 
-import com.andrewgiang.homecontrol.ui.container.AddActionViewContainer
-import com.andrewgiang.homecontrol.ui.container.ContainerFactory
-import com.andrewgiang.homecontrol.viewmodel.AddActionViewModel
+import kotlinx.android.extensions.LayoutContainer
 
-class AddActionController : BaseControllerFragment<AddActionViewContainer>() {
-
-    private val actionViewModel: AddActionViewModel by viewModel()
-
-    override fun createContainer(containerFactory: ContainerFactory): AddActionViewContainer {
-        return containerFactory.create(actionViewModel)
-    }
+interface Container : LayoutContainer {
+    fun onBindView()
 }

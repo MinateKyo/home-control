@@ -28,7 +28,6 @@ import com.andrewgiang.homecontrol.toast
 import com.andrewgiang.homecontrol.ui.controller.SetupControllerDirections
 import com.andrewgiang.homecontrol.viewmodel.AuthState
 import com.andrewgiang.homecontrol.viewmodel.SetupViewModel
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_sign_in.*
 
 class SetupViewContainer(
@@ -38,10 +37,10 @@ class SetupViewContainer(
     private val navController: NavController,
     private val viewModel: SetupViewModel
 
-) : LayoutContainer {
+) : Container {
     override val containerView: View = inflater.inflate(R.layout.fragment_sign_in, container, false)
 
-    fun bindView(arguments: Bundle? = null) {
+    override fun onBindView() {
         viewModel.getData().observe(
             viewLifecycleOwner,
             Observer { data ->
@@ -61,10 +60,12 @@ class SetupViewContainer(
                 }
             })
 
-        viewModel.onAppLinkRedirect(arguments?.getString("code"))
-
         nextButton.setOnClickListener {
             viewModel.onNextClick(urlText.text.toString())
         }
+    }
+
+    fun codeArgument(arguments: Bundle? = null) {
+        viewModel.onAppLinkRedirect(arguments?.getString("code"))
     }
 }

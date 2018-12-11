@@ -17,26 +17,32 @@
 package com.andrewgiang.homecontrol.ui.controller
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.andrewgiang.homecontrol.ui.container.Container
 import com.andrewgiang.homecontrol.ui.container.ContainerFactory
-import com.andrewgiang.homecontrol.ui.container.SetupViewContainer
-import com.andrewgiang.homecontrol.viewmodel.SetupViewModel
 
-class SetupController : BaseControllerFragment<SetupViewContainer>() {
-    private val setupViewModel: SetupViewModel by viewModel()
+abstract class BaseControllerFragment<C : Container> : Fragment() {
+    lateinit var container: C
+    abstract fun createContainer(containerFactory: ContainerFactory): C
 
-    override fun createContainer(containerFactory: ContainerFactory): SetupViewContainer {
-        return containerFactory.create(setupViewModel)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    override fun onCreateView(inflater: LayoutInflater, parent: ViewGroup?, savedInstanceState: Bundle?): View? {
+        container = createContainer(
+            ContainerFactory(
+                inflater,
+                parent,
+                viewLifecycleOwner,
+                findNavController()
+            )
+        )
+        return container.containerView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        container.codeArgument(arguments)
+        container.onBindView()
     }
 }

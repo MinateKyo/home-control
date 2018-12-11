@@ -28,8 +28,8 @@ import com.andrewgiang.homecontrol.ui.controller.HomeController
 import com.andrewgiang.homecontrol.ui.controller.IconEditController
 import com.andrewgiang.homecontrol.ui.controller.SetupController
 import kotlinx.android.synthetic.main.fragment_add_action.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
-import kotlinx.android.synthetic.main.fragment_sign_in.view.*
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -57,9 +57,9 @@ class MainActivityTest {
                 assertTrue(activity.currentNavFragment is SetupController)
 
                 val container =
-                    (activity.currentNavFragment as SetupController).setupViewContainer
+                    (activity.currentNavFragment as SetupController).container
 
-                assertTrue(container.containerView.nextButton.isEnabled)
+                assertTrue(container.nextButton.isEnabled)
             }
     }
 
@@ -72,8 +72,8 @@ class MainActivityTest {
                 assertTrue(activity.currentNavFragment is HomeController)
 
                 val container =
-                    (activity.currentNavFragment as HomeController).homeViewContainer
-                assertTrue(container.containerView.fab.isVisible)
+                    (activity.currentNavFragment as HomeController).container
+                assertTrue(container.fab.isVisible)
             }
     }
 
@@ -103,8 +103,8 @@ class MainActivityTest {
 
                 val addActionController = activity.currentNavFragment as AddActionController
 
-                addActionController.actionViewContainer.showServices(listOf("item1", "item2"))
-                addActionController.actionViewContainer.nextButton.performClick()
+                addActionController.container.showServices(listOf("item1", "item2"))
+                addActionController.container.nextButton.performClick()
 
                 assertTrue(activity.currentNavFragment is IconEditController)
             }
@@ -112,7 +112,7 @@ class MainActivityTest {
 
     private fun navigateToAddActionController(activity: MainActivity) {
         val container =
-            (activity.currentNavFragment as HomeController).homeViewContainer
+            (activity.currentNavFragment as HomeController).container
         container.containerView.fab.performClick()
     }
 }

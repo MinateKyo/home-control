@@ -31,7 +31,6 @@ import com.andrewgiang.homecontrol.ui.ActionAdapter
 import com.andrewgiang.homecontrol.ui.ActionClickListener
 import com.andrewgiang.homecontrol.viewmodel.HomeUiModel
 import com.andrewgiang.homecontrol.viewmodel.HomeViewModel
-import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.fragment_home.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 
@@ -41,7 +40,14 @@ class HomeViewContainer(
     private val viewLifecycleOwner: LifecycleOwner,
     private val navController: NavController,
     private val viewModel: HomeViewModel
-) : LayoutContainer, ActionClickListener {
+) : Container, ActionClickListener {
+
+    override fun onBindView() {
+        setupFab()
+        actions.layoutManager = GridLayoutManager(containerView.context, GRID_SPAN_SIZE)
+        viewModel.getViewState().observe(viewLifecycleOwner, onActionChanged())
+        viewModel.getNavState().observe(viewLifecycleOwner, navController.observer())
+    }
 
     companion object {
         private const val GRID_SPAN_SIZE = 3
@@ -49,13 +55,6 @@ class HomeViewContainer(
 
     override val containerView: View =
         inflater.inflate(R.layout.fragment_home, container, false)
-
-    fun bindView() {
-        setupFab()
-        actions.layoutManager = GridLayoutManager(containerView.context, GRID_SPAN_SIZE)
-        viewModel.getViewState().observe(viewLifecycleOwner, onActionChanged())
-        viewModel.getNavState().observe(viewLifecycleOwner, navController.observer())
-    }
 
     fun onShortcutClicked(shortcutData: String?) {
         viewModel.onShortcutClick(shortcutData)

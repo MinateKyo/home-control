@@ -19,16 +19,11 @@ package com.andrewgiang.homecontrol.ui.controller
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
-import com.andrewgiang.homecontrol.dagger.component.ControllerComponent
 import com.andrewgiang.homecontrol.ui.MainActivity
 
-abstract class BaseController : Fragment() {
-
-    fun getControllerComponent(): ControllerComponent {
-        return (activity as MainActivity).controllerComponent
-    }
-
-    inline fun <reified T : ViewModel> getViewModel(): T {
-        return ViewModelProviders.of(this, getControllerComponent().getViewModelFactory()).get(T::class.java)
-    }
+inline fun <reified VM : ViewModel> Fragment.viewModel(
+    mode: LazyThreadSafetyMode = LazyThreadSafetyMode.NONE
+) = lazy(mode) {
+    val controllerComponent = (this.activity as MainActivity).controllerComponent
+    ViewModelProviders.of(this, controllerComponent.getViewModelFactory()).get(VM::class.java)
 }

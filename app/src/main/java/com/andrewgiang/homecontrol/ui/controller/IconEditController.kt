@@ -17,30 +17,21 @@
 package com.andrewgiang.homecontrol.ui.controller
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import com.andrewgiang.homecontrol.ui.container.ContainerFactory
 import com.andrewgiang.homecontrol.ui.container.IconEditContainer
+import com.andrewgiang.homecontrol.viewmodel.IconEditViewModel
 
-class IconEditController : BaseController() {
+class IconEditController : BaseControllerFragment<IconEditContainer>() {
+    private val iconEditViewModel: IconEditViewModel by viewModel()
 
-    private lateinit var iconEditContainer: IconEditContainer
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        iconEditContainer = IconEditContainer(
-            inflater,
-            container!!,
-            viewLifecycleOwner,
-            findNavController(),
-            getViewModel()
-        )
-        return iconEditContainer.containerView
+    override fun createContainer(containerFactory: ContainerFactory): IconEditContainer {
+        return containerFactory.create(iconEditViewModel)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        iconEditContainer.bindView(
+        container.handleBundleArgs(
             IconEditControllerArgs.fromBundle(arguments).selectedEntities
         )
     }
