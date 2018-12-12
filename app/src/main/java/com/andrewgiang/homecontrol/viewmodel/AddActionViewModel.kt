@@ -58,7 +58,7 @@ class AddActionViewModel @Inject constructor(
                 entityRepo.refreshStates()
                 postValue(AddActionUiModel.ServiceLoaded(actionRepo.getDomainServiceList()))
             } catch (e: Throwable) {
-                postValue(AddActionUiModel.Error(AppError.NetworkError))
+                postValue(AddActionUiModel.Error(AppError.from(e)))
             }
         }
     }

@@ -22,10 +22,11 @@ import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.data.database.model.Action
 import com.andrewgiang.homecontrol.data.database.model.Data
-import com.andrewgiang.homecontrol.data.model.AppAction
 import com.andrewgiang.homecontrol.data.repo.ActionRepo
 import com.andrewgiang.homecontrol.ui.Nav
 import com.andrewgiang.homecontrol.ui.controller.HomeControllerDirections
+import com.andrewgiang.homecontrol.ui.view.Loading
+import com.andrewgiang.homecontrol.util.AppError
 import com.andrewgiang.homecontrol.util.CombinedLiveData
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -33,15 +34,14 @@ import javax.inject.Inject
 
 data class HomeUiModel(
     val actionIds: List<Action> = emptyList(),
-    val isLoading: Boolean = false
+    val loading: Loading = Loading()
 )
 
 class HomeViewModel @Inject constructor(
     private val actionRepo: ActionRepo,
     authManager: AuthManager,
     dispatchProvider: DispatchProvider
-) :
-    ScopeViewModel(dispatchProvider) {
+) : ScopeViewModel(dispatchProvider) {
 
     private val viewState = MutableLiveData<HomeUiModel>()
 
@@ -58,40 +58,24 @@ class HomeViewModel @Inject constructor(
         ) { actionList, viewState ->
             return@CombinedLiveData HomeUiModel(
                 actionList ?: emptyList(),
-                viewState?.isLoading ?: false
+                viewState?.loading ?: Loading()
             )
         }
     }
 
     fun onClick(action: Action) {
-        when (action) {
-            is AppAction -> {
-                handleAppAction(action)
-            }
-            else -> {
-                invokeApiAction(action.data)
-            }
-        }
+        invokeAction(action)
     }
 
-    private fun handleAppAction(action: AppAction) {
-        when (action) {
-            is AppAction.AddAction -> {
-                navigationState.postValue(Nav.Direction(HomeControllerDirections.toAddActionController()))
-            }
-        }
-    }
-
-    private fun invokeApiAction(data: Data) = launch {
-        if (data is Data.ServiceData) {
-            try {
-                viewState.postValue(HomeUiModel(isLoading = true))
-                val updatedStatus = actionRepo.invokeService(data.entityId, data.domain, data.service)
-                Timber.d(updatedStatus.toString())
-                viewState.postValue(HomeUiModel(isLoading = false))
-            } catch (e: Exception) {
-                Timber.d(e)
-            }
+    private fun invokeAction(action: Action) = launch {
+        val data: Data = action.data
+        try {
+            viewState.postValue(HomeUiModel(loading = Loading(true, message = action.name)))
+            val updatedStatus = actionRepo.invokeService(data.entityId, data.domain, data.service)
+            Timber.d(updatedStatus.toString())
+            viewState.postValue(HomeUiModel(loading = Loading(false)))
+        } catch (e: Throwable) {
+            viewState.postValue(HomeUiModel(loading = Loading(isLoading = false, appError = AppError.from(e))))
         }
     }
 
@@ -99,11 +83,15 @@ class HomeViewModel @Inject constructor(
         actionId?.let { id ->
             actionRepo.getAction(id)
         }?.let { action ->
-            invokeApiAction(action.data)
+            invokeAction(action)
         }
     }
 
     fun onDelete(action: Action) = launch {
         actionRepo.removeAction(action)
+    }
+
+    fun onAddActionClick() {
+        navigationState.postValue(Nav.Direction(HomeControllerDirections.toAddActionController()))
     }
 }

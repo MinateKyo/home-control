@@ -87,9 +87,15 @@ class ActionRepoTest {
     }
 
     @Test
-    fun `getAction will delegate to actionDao`() = runBlocking {
+    fun `getActions will delegate to actionDao`() = runBlocking {
         subject.getActions()
         coVerify { mockActionDao.getActionsBlocking() }
+    }
+
+    @Test
+    fun `get single action will delegate to actionDao`() = runBlocking {
+        subject.getAction(12)
+        coVerify { mockActionDao.getAction(eq(12)) }
     }
 
     @Test

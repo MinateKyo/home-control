@@ -21,7 +21,6 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.andrewgiang.homecontrol.TestApplication
 import com.andrewgiang.homecontrol.data.database.model.Action
-import com.andrewgiang.homecontrol.data.database.model.Data
 import com.andrewgiang.homecontrol.data.model.HomeIcon
 import io.mockk.mockk
 import io.mockk.verify
@@ -81,7 +80,7 @@ class ActionAdapterTest {
     private fun createViewHolder(): Pair<Action, ViewHolder> {
         val parent = LinearLayout(ApplicationProvider.getApplicationContext())
         val subject = ActionAdapter(emptyList(), mockClickListener)
-        val action = Action(0, Data.AppData(), HomeIcon(MaterialDrawableBuilder.IconValue.SWITCH_ICON), "Name", true)
+        val action = Action(0, mockk(), HomeIcon(MaterialDrawableBuilder.IconValue.SWITCH_ICON), "Name", true)
         val viewHolder = subject.createViewHolder(parent, 0)
         return Pair(action, viewHolder)
     }

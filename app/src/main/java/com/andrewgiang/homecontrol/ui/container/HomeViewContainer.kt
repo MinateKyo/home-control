@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.afollestad.materialdialogs.MaterialDialog
 import com.andrewgiang.homecontrol.R
 import com.andrewgiang.homecontrol.data.database.model.Action
-import com.andrewgiang.homecontrol.data.model.AppAction
 import com.andrewgiang.homecontrol.observer
 import com.andrewgiang.homecontrol.ui.ActionAdapter
 import com.andrewgiang.homecontrol.ui.ActionClickListener
@@ -43,9 +42,13 @@ class HomeViewContainer(
     private val viewModel: HomeViewModel
 ) : Container, ActionClickListener {
 
+    private val adapter = ActionAdapter(emptyList(), this)
+
     override fun onBindView() {
         setupFab()
         actions.layoutManager = GridLayoutManager(containerView.context, GRID_SPAN_SIZE)
+        actions.adapter = adapter
+
         viewModel.getViewState().observe(viewLifecycleOwner, onActionChanged())
         viewModel.getNavState().observe(viewLifecycleOwner, navController.observer())
     }
@@ -69,17 +72,24 @@ class HomeViewContainer(
             .build()
         fab.setImageDrawable(iconDrawable)
         fab.setOnClickListener {
-            viewModel.onClick(
-                AppAction.AddAction()
-            )
+            viewModel.onAddActionClick()
         }
     }
 
     private fun onActionChanged(): Observer<HomeUiModel> {
         return Observer { state ->
-            val adapter = ActionAdapter(state.actionIds, this)
-            actions.adapter = adapter
-            adapter.notifyDataSetChanged()
+            val loading = state.loading
+            when (loading.isLoading) {
+                true -> {
+                    loadingDelegate.show(R.string.action_run_msg, loading.message)
+                }
+                false -> {
+                    state.loading.appError?.let { error ->
+                        loadingDelegate.error(error.msg)
+                    } ?: loadingDelegate.dismiss()
+                }
+            }
+            adapter.update(state.actionIds)
         }
     }
 

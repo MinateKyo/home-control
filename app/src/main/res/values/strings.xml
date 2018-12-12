@@ -32,4 +32,5 @@
     <string name="confirm">OK</string>
     <string name="cancel">Cancel</string>
     <string name="delete_confirmation_msg">Delete action from your dashboard?</string>
+    <string name="action_run_msg">Running %1$s action</string>
 </resources>

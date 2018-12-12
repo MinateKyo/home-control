@@ -65,7 +65,7 @@ class IconEditViewModel @Inject constructor(
         actionRepo.insertAction(
             Action(
                 0,
-                Data.ServiceData(selectedEntities, domain, service),
+                Data(selectedEntities, domain, service),
                 ui.value!!.homeIcon,
                 displayName,
                 isShortcut

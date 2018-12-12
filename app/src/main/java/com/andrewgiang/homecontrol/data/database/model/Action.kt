@@ -23,7 +23,7 @@ import androidx.room.PrimaryKey
 import com.andrewgiang.homecontrol.data.model.HomeIcon
 
 @Entity
-open class Action(
+data class Action(
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo
@@ -38,19 +38,14 @@ open class Action(
     val isShortcut: Boolean
 )
 
-sealed class Data {
-
-    class AppData : Data()
-
-    data class ServiceData(
-        val entityId: List<String>,
-        val domain: String,
-        val service: String
-    ) : Data() {
-        constructor(
-            entityId: String,
-            domain: String,
-            service: String
-        ) : this(listOf(entityId), domain, service)
-    }
+data class Data(
+    val entityId: List<String>,
+    val domain: String,
+    val service: String
+) {
+    constructor(
+        entityId: String,
+        domain: String,
+        service: String
+    ) : this(listOf(entityId), domain, service)
 }

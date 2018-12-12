@@ -14,20 +14,8 @@
  * under the License.
  */
 
-package com.andrewgiang.homecontrol.data.model
+package com.andrewgiang.homecontrol.ui.view
 
-import com.andrewgiang.homecontrol.data.database.model.Action
-import com.andrewgiang.homecontrol.data.database.model.Data
-import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
+import com.andrewgiang.homecontrol.util.AppError
 
-sealed class AppAction constructor(
-    appData: Data.AppData = Data.AppData(),
-    icon: HomeIcon,
-    name: String
-) : Action(0, appData, icon, name, false) {
-
-    class AddAction : AppAction(
-        icon = HomeIcon(MaterialDrawableBuilder.IconValue.PLUS),
-        name = "Add"
-    )
-}
+data class Loading(val isLoading: Boolean = false, val message: String = "", val appError: AppError? = null)

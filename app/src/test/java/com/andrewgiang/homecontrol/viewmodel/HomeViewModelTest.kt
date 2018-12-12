@@ -21,7 +21,6 @@ import androidx.lifecycle.MutableLiveData
 import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.data.database.model.Action
 import com.andrewgiang.homecontrol.data.database.model.Data
-import com.andrewgiang.homecontrol.data.model.AppAction
 import com.andrewgiang.homecontrol.data.model.HomeIcon
 import com.andrewgiang.homecontrol.data.repo.ActionRepo
 import com.andrewgiang.homecontrol.testDispatchProvider
@@ -61,8 +60,7 @@ class HomeViewModelTest {
 
     @Test
     fun `onClick addAction will post navigate to add action controller`() {
-        val action = AppAction.AddAction()
-        subject.onClick(action)
+        subject.onAddActionClick()
 
         assertEquals(
             Nav.Direction(HomeControllerDirections.toAddActionController()),
@@ -75,7 +73,7 @@ class HomeViewModelTest {
 
         val mutableLiveData = MutableLiveData<List<Action>>()
         every { mockActionRepo.actionData() } returns mutableLiveData
-        val expectedData = Data.ServiceData("entity", "domain", "service")
+        val expectedData = Data("entity", "domain", "service")
         val action = Action(
             data = expectedData,
             icon = HomeIcon(MaterialDrawableBuilder.IconValue.IMPORT_ICON),
@@ -92,8 +90,8 @@ class HomeViewModelTest {
         } returns mockk()
         val observer = subject.getViewState().testObserver()
         subject.onClick(action)
-        assertTrue(observer.observedValues[0]!!.isLoading) // loading from api
-        assertFalse(observer.observedValues[1]!!.isLoading) // finish loading
+        assertTrue(observer.observedValues[0]!!.loading.isLoading) // loading from api
+        assertFalse(observer.observedValues[1]!!.loading.isLoading) // finish loading
         coVerify {
             mockActionRepo.invokeService(
                 eq(expectedData.entityId),
@@ -120,14 +118,13 @@ class HomeViewModelTest {
 
     @Test
     fun `onShortcutClick with valid action will invoke service data`() {
-        val expectedData = Data.ServiceData("entity", "domain", "service")
-
-        val mockAction = mockk<Action>()
-        every { mockAction.data } returns expectedData
+        val expectedData = Data("entity", "domain", "service")
         val actionId: Long = 13
-        coEvery { mockActionRepo.getAction(eq(actionId)) } returns mockAction
+        val stubAction = Action(0, expectedData, mockk(), "name", false)
+        coEvery { mockActionRepo.getAction(eq(actionId)) } returns stubAction
 
         subject.onShortcutClick(actionId)
+
         coVerify {
             mockActionRepo.invokeService(
                 eq(expectedData.entityId),

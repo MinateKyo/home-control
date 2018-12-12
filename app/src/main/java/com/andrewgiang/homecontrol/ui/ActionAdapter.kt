@@ -20,6 +20,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.andrewgiang.homecontrol.R
 import com.andrewgiang.homecontrol.data.database.model.Action
@@ -32,7 +33,7 @@ interface ActionClickListener {
 }
 
 class ActionAdapter constructor(
-    private val items: List<Action>,
+    private var items: List<Action>,
     private val onActionClickListener: ActionClickListener
 ) : RecyclerView.Adapter<ViewHolder>() {
 
@@ -47,6 +48,12 @@ class ActionAdapter constructor(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
+    }
+
+    fun update(newActions: List<Action>) {
+        val diffResult = DiffUtil.calculateDiff(ActionDiffUtil(items, newActions))
+        diffResult.dispatchUpdatesTo(this)
+        this.items = newActions
     }
 }
 

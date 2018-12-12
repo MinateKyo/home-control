@@ -16,6 +16,28 @@
 
 package com.andrewgiang.homecontrol.util
 
+import java.net.SocketTimeoutException
+import java.net.UnknownHostException
+
 sealed class AppError(val msg: String) {
-    object NetworkError : AppError("Network Error")
+    data class NetworkError(val networkMsg: String = "Unknown") :
+        AppError(String.format("Network Error: %s", networkMsg))
+
+    object UnknownError : AppError("Unknown Error")
+
+    companion object {
+        fun from(e: Throwable): AppError {
+            return when (e) {
+                is SocketTimeoutException -> networkError(e)
+                is UnknownHostException -> networkError(e)
+                else -> UnknownError
+            }
+        }
+
+        private fun networkError(e: Throwable): AppError {
+            return e.message?.let { message ->
+                NetworkError(message)
+            } ?: NetworkError()
+        }
+    }
 }
