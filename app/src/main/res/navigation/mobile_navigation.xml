@@ -34,7 +34,12 @@
                 app:enterAnim="@anim/nav_default_enter_anim"/>
         <deepLink
                 android:id="@+id/shortcut"
-                app:uri="home-shortcut://action"/>
+                app:uri="home-shortcut://action/{actionId}"/>
+        <argument
+                android:name="actionId"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="-1"/>
     </fragment>
     <fragment
             android:id="@+id/setUpController"

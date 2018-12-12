@@ -19,6 +19,7 @@ package com.andrewgiang.homecontrol.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView
 import com.andrewgiang.homecontrol.R
 import com.andrewgiang.homecontrol.data.database.model.Action
@@ -27,6 +28,7 @@ import kotlinx.android.synthetic.main.home_actions_layout.view.*
 
 interface ActionClickListener {
     fun onClick(action: Action)
+    fun onDelete(action: Action)
 }
 
 class ActionAdapter constructor(
@@ -49,16 +51,33 @@ class ActionAdapter constructor(
 }
 
 class ViewHolder(
-    private val view: View,
-    private val onActionClickListener: ActionClickListener
+    view: View,
+    val onActionClickListener: ActionClickListener
 ) : RecyclerView.ViewHolder(view) {
 
     fun bind(item: Action) {
         val icon = item.icon
         itemView.icon.applyFrom(icon)
         itemView.name.text = item.name
-        view.icon.setOnClickListener {
+        itemView.icon.setOnClickListener {
             onActionClickListener.onClick(item)
+        }
+
+        itemView.icon.setOnLongClickListener { view ->
+            PopupMenu(view.context, view).apply {
+                setOnMenuItemClickListener {
+                    when (it.itemId) {
+                        R.id.delete_action -> {
+                            onActionClickListener.onDelete(item)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                inflate(R.menu.action)
+                show()
+            }
+            return@setOnLongClickListener true
         }
     }
 }

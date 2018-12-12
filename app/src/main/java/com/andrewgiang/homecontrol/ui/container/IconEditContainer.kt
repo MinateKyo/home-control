@@ -74,7 +74,7 @@ class IconEditContainer(
                 data.getSelected(),
                 data.domainService,
                 displayNameText.text.toString(),
-                false
+                isShortcutCheckbox.isChecked
             )
         }
     }

@@ -18,6 +18,7 @@ package com.andrewgiang.homecontrol.data.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.andrewgiang.homecontrol.data.database.model.Action
@@ -33,4 +34,10 @@ interface ActionDao {
 
     @Query("SELECT * FROM `Action` ")
     fun getActionsBlocking(): List<Action>
+
+    @Delete
+    fun remove(action: Action)
+
+    @Query("SELECT * FROM `Action` WHERE id = :actionId LIMIT 1")
+    fun getAction(actionId: Long): Action?
 }

@@ -25,31 +25,35 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.core.graphics.drawable.toBitmap
+import androidx.work.Worker
+import androidx.work.WorkerParameters
 import com.andrewgiang.homecontrol.data.database.model.Action
-import com.andrewgiang.homecontrol.data.database.model.Data
-import com.squareup.moshi.JsonAdapter
-import com.squareup.moshi.Moshi
+import com.andrewgiang.homecontrol.data.repo.ActionRepo
+import kotlinx.coroutines.runBlocking
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import javax.inject.Inject
 
-class ActionShortcutManager @Inject constructor(
-    private val shortcutManager: ShortcutManager,
-    private val context: Context,
-    moshi: Moshi
-) {
+class ShortcutUpdateWorker(val context: Context, params: WorkerParameters) : Worker(context, params) {
+    @Inject
+    lateinit var shortcutManager: ShortcutManager
+    @Inject
+    lateinit var actionRepo: ActionRepo
+
+    init {
+        (context as App).applicationComponent.inject(this@ShortcutUpdateWorker)
+    }
+
     companion object {
         const val SHORTCUT_LIMIT = 4
     }
-    private val shortcutUri = "home-shortcut://action/"
-    private val actionBundleKey = "action_bundle_key"
-    private val adapter: JsonAdapter<Data.ServiceData> = moshi.adapter(
-        Data.ServiceData::class.java
-    )
 
-    fun update(actionIds: List<Action>) {
+    private val shortcutBuilder = Uri.parse("home-shortcut://action").buildUpon()
+
+    override fun doWork(): Result = runBlocking {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            val actions = actionRepo.getActions()
             shortcutManager.removeAllDynamicShortcuts()
-            shortcutManager.dynamicShortcuts = actionIds
+            shortcutManager.dynamicShortcuts = actions
                 .take(SHORTCUT_LIMIT)
                 .filter { it.isShortcut }
                 .map {
@@ -57,6 +61,7 @@ class ActionShortcutManager @Inject constructor(
                     return@map toShortcutInfo(it, intent)
                 }
         }
+        return@runBlocking Result.SUCCESS
     }
 
     @RequiresApi(Build.VERSION_CODES.N_MR1)
@@ -64,8 +69,7 @@ class ActionShortcutManager @Inject constructor(
         it: Action,
         intent: Intent
     ): ShortcutInfo {
-        return ShortcutInfo
-            .Builder(context, it.name)
+        return ShortcutInfo.Builder(context, it.name)
             .setShortLabel(it.name)
             .setIcon(createIconBitmap(it))
             .setIntent(intent)
@@ -84,23 +88,12 @@ class ActionShortcutManager @Inject constructor(
     }
 
     private fun createIntent(it: Action): Intent {
-        val intent = Intent(
+        return Intent(
             Intent.ACTION_VIEW,
-            Uri.parse(shortcutUri)
+            buildUri(it)
         )
-        val dataJson = toJson(it)
-        intent.putExtra(actionBundleKey, dataJson)
-        return intent
     }
 
-    private fun toJson(action: Action): String? {
-        if (action.data is Data.ServiceData) {
-            return adapter.toJson(Data.ServiceData(action.data.entityId, action.data.domain, action.data.service))
-        }
-        return null
-    }
-
-    fun parseShortcutData(json: String?): Data.ServiceData? {
-        return if (json != null) adapter.fromJson(json) else null
-    }
+    private fun buildUri(it: Action) =
+        shortcutBuilder.path(it.id.toString()).build()
 }

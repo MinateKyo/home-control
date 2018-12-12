@@ -47,7 +47,7 @@ open class ApplicationModule(val app: Application) {
 
     @ApplicationScope
     @Provides
-    fun workManager(): WorkManager {
+    open fun workManager(): WorkManager {
         return WorkManager.getInstance()
     }
 

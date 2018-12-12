@@ -18,7 +18,6 @@ package com.andrewgiang.homecontrol.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import com.andrewgiang.homecontrol.ActionShortcutManager
 import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.data.database.model.Action
 import com.andrewgiang.homecontrol.data.database.model.Data
@@ -29,12 +28,10 @@ import com.andrewgiang.homecontrol.testDispatchProvider
 import com.andrewgiang.homecontrol.testObserver
 import com.andrewgiang.homecontrol.ui.Nav
 import com.andrewgiang.homecontrol.ui.controller.HomeControllerDirections
-import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -45,7 +42,6 @@ import org.junit.Test
 import org.junit.rules.TestRule
 
 class HomeViewModelTest {
-    val mockActionShortcutManager: ActionShortcutManager = mockk()
     val mockAuth: AuthManager = mockk(relaxed = true)
     val mockActionRepo: ActionRepo = mockk()
 
@@ -57,7 +53,6 @@ class HomeViewModelTest {
     @Before
     fun setUp() {
         subject = HomeViewModel(
-            mockActionShortcutManager,
             mockActionRepo,
             mockAuth,
             testDispatchProvider()
@@ -109,37 +104,46 @@ class HomeViewModelTest {
     }
 
     @Test
-    fun `onShortcutClick with null data will do nothing`() {
+    fun `onShortcutClick with repo returns null data will do nothing`() {
+        coEvery { mockActionRepo.getAction(eq(13)) } returns null
+        subject.onShortcutClick(13L)
+
+        coVerify(inverse = true) { mockActionRepo.invokeService(any(), any(), any()) }
+    }
+
+    @Test
+    fun `onShortcutClick with null id returns null data will do nothing`() {
         subject.onShortcutClick(null)
-        verify { mockActionShortcutManager wasNot Called }
-        verify { mockActionRepo wasNot Called }
+
+        coVerify(inverse = true) { mockActionRepo.invokeService(any(), any(), any()) }
     }
 
     @Test
-    fun `onShortcutClick with invalid data will do nothing`() {
-        every { mockActionShortcutManager.parseShortcutData(eq("valid_data")) } returns null
-
-        subject.onShortcutClick("valid_data")
-
-        verify { mockActionShortcutManager.parseShortcutData(eq("valid_data")) }
-        verify { mockActionRepo wasNot Called }
-    }
-
-    @Test
-    fun `onShortcutClick with valid data will invoke service data`() {
-
+    fun `onShortcutClick with valid action will invoke service data`() {
         val expectedData = Data.ServiceData("entity", "domain", "service")
-        every { mockActionShortcutManager.parseShortcutData(eq("valid_data")) } returns expectedData
 
-        subject.onShortcutClick("valid_data")
+        val mockAction = mockk<Action>()
+        every { mockAction.data } returns expectedData
+        val actionId: Long = 13
+        coEvery { mockActionRepo.getAction(eq(actionId)) } returns mockAction
 
-        verify { mockActionShortcutManager.parseShortcutData(eq("valid_data")) }
+        subject.onShortcutClick(actionId)
         coVerify {
             mockActionRepo.invokeService(
                 eq(expectedData.entityId),
                 eq(expectedData.domain),
                 eq(expectedData.service)
             )
+        }
+    }
+
+    @Test
+    fun `on delete action will remove action from repo`() {
+        val action = mockk<Action>()
+        subject.onDelete(action)
+
+        coVerify {
+            mockActionRepo.removeAction(eq(action))
         }
     }
 }

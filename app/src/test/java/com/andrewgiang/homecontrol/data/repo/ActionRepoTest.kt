@@ -20,6 +20,7 @@ import com.andrewgiang.assistantsdk.Api
 import com.andrewgiang.assistantsdk.response.Entity
 import com.andrewgiang.assistantsdk.response.Service
 import com.andrewgiang.assistantsdk.response.ServiceInfo
+import com.andrewgiang.homecontrol.ShortcutWorkManager
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.data.database.dao.ActionDao
 import com.andrewgiang.homecontrol.data.database.model.Action
@@ -37,8 +38,9 @@ class ActionRepoTest {
     private val mockActionDao: ActionDao = mockk(relaxed = true)
     private val mockApiHolder: ApiHolder = mockk()
     private val mockApi: Api = mockk()
+    private val mockShortcutWorkManager: ShortcutWorkManager = mockk()
 
-    val subject = ActionRepo(mockActionDao, mockApiHolder, testDispatchProvider())
+    val subject = ActionRepo(mockActionDao, mockApiHolder, mockShortcutWorkManager, testDispatchProvider())
 
     @Before
     fun setUp() {
@@ -61,17 +63,33 @@ class ActionRepoTest {
     }
 
     @Test
-    fun `insert action will delegate to actionDao`() = runBlocking {
+    fun `insert action will delegate to actionDao and update shortcuts`() = runBlocking {
         val action = mockk<Action>()
         subject.insertAction(action)
 
         coVerify { mockActionDao.insertAction(eq(action)) }
+        coVerify { mockShortcutWorkManager.update() }
+    }
+
+    @Test
+    fun `remove action will delegate to actionDao and update shortcuts`() = runBlocking {
+        val action = mockk<Action>()
+        subject.removeAction(action)
+
+        coVerify { mockActionDao.remove(eq(action)) }
+        coVerify { mockShortcutWorkManager.update() }
     }
 
     @Test
     fun `actionData will delegate to actionDao`() = runBlocking {
         subject.actionData()
         coVerify { mockActionDao.getActions() }
+    }
+
+    @Test
+    fun `getAction will delegate to actionDao`() = runBlocking {
+        subject.getActions()
+        coVerify { mockActionDao.getActionsBlocking() }
     }
 
     @Test

@@ -23,6 +23,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.afollestad.materialdialogs.MaterialDialog
 import com.andrewgiang.homecontrol.R
 import com.andrewgiang.homecontrol.data.database.model.Action
 import com.andrewgiang.homecontrol.data.model.AppAction
@@ -56,8 +57,8 @@ class HomeViewContainer(
     override val containerView: View =
         inflater.inflate(R.layout.fragment_home, container, false)
 
-    fun onShortcutClicked(shortcutData: String?) {
-        viewModel.onShortcutClick(shortcutData)
+    fun onShortcutClicked(actionId: Long?) {
+        viewModel.onShortcutClick(actionId)
     }
 
     private fun setupFab() {
@@ -84,5 +85,18 @@ class HomeViewContainer(
 
     override fun onClick(action: Action) {
         viewModel.onClick(action)
+    }
+
+    override fun onDelete(action: Action) {
+        MaterialDialog(containerView.context).show {
+            message(R.string.delete_confirmation_msg)
+            positiveButton(R.string.confirm) {
+                viewModel.onDelete(action)
+                dismiss()
+            }
+            negativeButton(R.string.cancel) {
+                dismiss()
+            }
+        }
     }
 }

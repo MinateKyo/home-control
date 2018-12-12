@@ -31,6 +31,6 @@ class HomeController : BaseControllerFragment<HomeViewContainer>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        container.onShortcutClicked(activity?.intent?.extras?.getString("action_bundle_key"))
+        container.onShortcutClicked(HomeControllerArgs.fromBundle(arguments).actionId?.toLong())
     }
 }

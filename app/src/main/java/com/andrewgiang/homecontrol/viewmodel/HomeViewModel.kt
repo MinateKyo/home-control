@@ -18,7 +18,6 @@ package com.andrewgiang.homecontrol.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.andrewgiang.homecontrol.ActionShortcutManager
 import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.data.database.model.Action
@@ -38,7 +37,6 @@ data class HomeUiModel(
 )
 
 class HomeViewModel @Inject constructor(
-    private val actionShortcutManager: ActionShortcutManager,
     private val actionRepo: ActionRepo,
     authManager: AuthManager,
     dispatchProvider: DispatchProvider
@@ -71,9 +69,7 @@ class HomeViewModel @Inject constructor(
                 handleAppAction(action)
             }
             else -> {
-                if (action.data is Data.ServiceData) {
-                    invokeApiAction(action.data)
-                }
+                invokeApiAction(action.data)
             }
         }
     }
@@ -86,23 +82,28 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun invokeApiAction(data: Data.ServiceData) = launch {
-        try {
-            viewState.postValue(HomeUiModel(isLoading = true))
-            val updatedStatus = actionRepo.invokeService(data.entityId, data.domain, data.service)
-            Timber.d(updatedStatus.toString())
-            viewState.postValue(HomeUiModel(isLoading = false))
-        } catch (e: Exception) {
-            Timber.d(e)
+    private fun invokeApiAction(data: Data) = launch {
+        if (data is Data.ServiceData) {
+            try {
+                viewState.postValue(HomeUiModel(isLoading = true))
+                val updatedStatus = actionRepo.invokeService(data.entityId, data.domain, data.service)
+                Timber.d(updatedStatus.toString())
+                viewState.postValue(HomeUiModel(isLoading = false))
+            } catch (e: Exception) {
+                Timber.d(e)
+            }
         }
     }
 
-    fun onShortcutClick(shortcutJsonData: String?) {
-        if (shortcutJsonData != null) {
-            val serviceAction = actionShortcutManager.parseShortcutData(shortcutJsonData)
-            serviceAction?.let {
-                invokeApiAction(it)
-            }
+    fun onShortcutClick(actionId: Long?) = launch {
+        actionId?.let { id ->
+            actionRepo.getAction(id)
+        }?.let { action ->
+            invokeApiAction(action.data)
         }
+    }
+
+    fun onDelete(action: Action) = launch {
+        actionRepo.removeAction(action)
     }
 }

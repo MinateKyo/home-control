@@ -17,6 +17,7 @@
 package com.andrewgiang.homecontrol.dagger.application
 
 import com.andrewgiang.homecontrol.App
+import com.andrewgiang.homecontrol.ShortcutUpdateWorker
 import com.andrewgiang.homecontrol.dagger.component.ApiModule
 import com.andrewgiang.homecontrol.dagger.component.ControllerComponent
 import com.andrewgiang.homecontrol.dagger.component.ControllerModule
@@ -39,4 +40,5 @@ interface ApplicationComponent {
     fun inject(tokenWorker: AuthTokenWorker)
     fun inject(entitySyncWorker: EntitySyncWorker)
     fun create(controllerModule: ControllerModule): ControllerComponent
+    fun inject(shortcutUpdateWorker: ShortcutUpdateWorker)
 }

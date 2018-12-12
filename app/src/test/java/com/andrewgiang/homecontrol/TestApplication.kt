@@ -16,6 +16,7 @@
 
 package com.andrewgiang.homecontrol
 
+import androidx.work.WorkManager
 import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.dagger.application.ApplicationModule
 import com.andrewgiang.homecontrol.dagger.application.DaggerApplicationComponent
@@ -34,9 +35,14 @@ class TestApplication : App() {
 }
 
 class TestAppModule(testApplication: TestApplication) : ApplicationModule(testApplication) {
-    var mockAuthManager: AuthManager = mock(AuthManager::class.java)
+    val mockAuthManager: AuthManager = mock(AuthManager::class.java)
+    val mockWorkManager: WorkManager = mock(WorkManager::class.java)
 
     override fun authManager(authPrefs: AuthPrefs): AuthManager {
         return mockAuthManager
+    }
+
+    override fun workManager(): WorkManager {
+        return mockWorkManager
     }
 }
