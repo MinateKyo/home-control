@@ -4,6 +4,7 @@ object Versions {
     const val retrofit = "2.4.0"
     const val room = "2.1.0-alpha02"
     const val lifecycle = "2.0.0"
+    const val material_dialog = "2.0.0-rc3"
 }
 
 object TestLibs {
@@ -69,7 +70,7 @@ object Libs {
     const val coroutines_android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.1"
     const val coroutines_retrofit_adapter = "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2"
     const val material_icons = "net.steamcrafted:materialiconlib:1.1.5"
-    const val material_dialog = "com.afollestad.material-dialogs:core:2.0.0-rc3"
-    const val material_dialog_color_chooser = "com.afollestad.material-dialogs:color:2.0.0-rc3"
+    const val material_dialog = "com.afollestad.material-dialogs:core:${Versions.material_dialog}"
+    const val material_dialog_color_chooser = "com.afollestad.material-dialogs:color:${Versions.material_dialog}"
     const val klaster = "com.github.rongi:klaster:0.3.3"
 }
