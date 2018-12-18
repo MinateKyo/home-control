@@ -46,10 +46,10 @@ class SetupViewContainer(
             Observer { data ->
                 if (data.isLoading) {
                     progressBar.show()
-                    nextButton.isEnabled = false
+                    finishButton.isEnabled = false
                 } else {
                     progressBar.hide()
-                    nextButton.isEnabled = true
+                    finishButton.isEnabled = true
                 }
                 if (data.authState == AuthState.AUTHENTICATED) {
                     navController.navigate(SetupControllerDirections.backToMain())
@@ -60,8 +60,8 @@ class SetupViewContainer(
                 }
             })
 
-        nextButton.setOnClickListener {
-            viewModel.onNextClick(urlText.text.toString())
+        finishButton.setOnClickListener {
+            viewModel.onFinishClicked(httpSwitch.isChecked, domain.text.toString(), port.text.toString())
         }
     }
 

@@ -30,6 +30,7 @@ import com.andrewgiang.homecontrol.ui.controller.SetupController
 import kotlinx.android.synthetic.main.fragment_add_action.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
+import kotlinx.android.synthetic.main.fragment_sign_in.*
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -59,7 +60,7 @@ class MainActivityTest {
                 val container =
                     (activity.currentNavFragment as SetupController).container
 
-                assertTrue(container.nextButton.isEnabled)
+                assertTrue(container.finishButton.isEnabled)
             }
     }
 

@@ -15,7 +15,6 @@
  */
 
 @file:Suppress("DeferredResultUnused")
-
 package com.andrewgiang.homecontrol.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -25,6 +24,7 @@ import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.testDispatchProvider
 import com.andrewgiang.homecontrol.util.IntentCreator
+import com.andrewgiang.homecontrol.viewmodel.SetupViewModel.Companion.DEFAULT_PORT
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -41,10 +41,10 @@ import org.junit.rules.TestRule
 
 class SetupViewModelTest {
 
-    val intentCreator: IntentCreator = mockk()
-    val mockHolder: ApiHolder = mockk()
-    val api: Api = mockk()
-    var authManager: AuthManager = mockk()
+    private val intentCreator: IntentCreator = mockk()
+    private val mockHolder: ApiHolder = mockk()
+    private val api: Api = mockk()
+    private var authManager: AuthManager = mockk()
 
     val subject: SetupViewModel =
         SetupViewModel(
@@ -63,28 +63,46 @@ class SetupViewModelTest {
     var rule: TestRule = InstantTaskExecutorRule()
 
     @Test
-    fun onNext_with_valid_url() {
-        val urlText = "https://validurl.com"
-        val hostUrl = HttpUrl.parse(urlText)
+    fun `onFinish with https false`() {
+        val host = "validurl.com"
+        val expectedUrl = HttpUrl.Builder()
+            .scheme("http")
+            .host(host)
+            .port(DEFAULT_PORT)
+            .build()
+        subject.onFinishClicked(false, host, "")
+        verifyValid(expectedUrl)
+    }
 
-        subject.onNextClick(urlText)
+    @Test
+    fun `onFinish with with custom set port`() {
+        val host = "validurl.com"
+        val expectedUrl = HttpUrl.Builder()
+            .scheme("https")
+            .host(host)
+            .port(1234)
+            .build()
+        subject.onFinishClicked(true, host, "1234")
+        verifyValid(expectedUrl)
+    }
 
-        val urlState = subject.getData().value
+    @Test
+    fun `onFinish with valid url`() {
+        val host = "validurl.com"
+        val expectedUrl = HttpUrl.Builder()
+            .scheme("https")
+            .host(host)
+            .port(DEFAULT_PORT)
+            .build()
 
-        verify {
-            authManager.setHost(eq(hostUrl.toString()))
-        }
-        verify {
-            intentCreator.sendAuthorizeIntent(eq(hostUrl!!))
-        }
-        assertNotNull(urlState)
-        assertEquals(SetupUiModel(isLoading = true), urlState)
+        subject.onFinishClicked(true, host, "")
+        verifyValid(expectedUrl)
     }
 
     @Test
     fun onNext_with_invalid_url() {
-        val urlText = "invalidUrl"
-        subject.onNextClick(urlText)
+        val urlText = "fiow@31#"
+        subject.onFinishClicked(true, urlText, "")
 
         val urlState = subject.getData().value
 
@@ -144,5 +162,14 @@ class SetupViewModelTest {
                 authState = AuthState.AUTHENTICATED
             ), subject.getData().value
         )
+    }
+
+    private fun verifyValid(expectedUrl: HttpUrl) {
+        verify {
+            authManager.setHost(eq(expectedUrl.toString()))
+        }
+        verify {
+            intentCreator.sendAuthorizeIntent(eq(expectedUrl))
+        }
     }
 }

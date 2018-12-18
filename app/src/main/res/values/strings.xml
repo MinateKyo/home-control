@@ -16,7 +16,9 @@
 
 <resources>
     <string name="app_name">HomeControl</string>
-    <string name="hint_url">Home Assistant URL</string>
+    <string name="use_ssl_https">Use SSL (https)</string>
+    <string name="hint_domain_or_ip">Home Assistant domain or IP address</string>
+    <string name="hint_port">Port (defaults to 8123 if empty)</string>
     <string name="icon_name">Icon Name</string>
     <string name="icon_preview">Icon Preview</string>
     <string name="service_label">Services</string>
@@ -24,6 +26,7 @@
     <string name="set_as_shortcut_label">Set as shortcut</string>
     <string name="add_action_button_label">Add Action</string>
     <string name="next_button_label">Next</string>
+    <string name="finish_button_label">Finish</string>
     <string name="choose_color">Choose Icon Color</string>
     <string name="choose_background">Choose Background Color</string>
     <string name="choose_action_icon">Choose Action Icon</string>

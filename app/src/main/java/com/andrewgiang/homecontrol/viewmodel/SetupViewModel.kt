@@ -45,24 +45,41 @@ class SetupViewModel @Inject constructor(
     dispatchProvider: DispatchProvider
 ) : ScopeViewModel(dispatchProvider) {
 
+    companion object {
+        const val DEFAULT_PORT = 8123
+    }
+
     private val data: MutableLiveData<SetupUiModel> = MutableLiveData()
 
     fun getData(): LiveData<SetupUiModel> {
         return data
     }
 
-    fun onNextClick(urlText: String) {
-        val httpUrl = HttpUrl.parse(urlText)
+    fun onFinishClicked(isHttps: Boolean, host: String, port: String) {
+        val httpUrl: HttpUrl? = try {
+            HttpUrl.Builder()
+                .host(host)
+                .scheme(getScheme(isHttps))
+                .port(getPort(port))
+                .build()
+        } catch (e: IllegalArgumentException) {
+            null
+        }
+
         if (httpUrl != null) {
             authManager.setHost(httpUrl.toString())
             intentCreator.sendAuthorizeIntent(httpUrl)
-            data.postValue(SetupUiModel(isLoading = true))
         } else {
-            data.postValue(SetupUiModel(errorMessage = "Invalid Url : $urlText"))
+            data.postValue(SetupUiModel(errorMessage = "Invalid Url : $host"))
         }
     }
 
+    private fun getScheme(isHttps: Boolean) = if (isHttps) "https" else "http"
+
+    private fun getPort(port: String) = if (port.isEmpty()) DEFAULT_PORT else port.toInt()
+
     private fun initialLaunch(code: String) = launch {
+        data.postValue(SetupUiModel(isLoading = true))
         try {
             val authToken = holder.api.initialAuth(code).await()
             authManager.updateAuthToken(authToken)
