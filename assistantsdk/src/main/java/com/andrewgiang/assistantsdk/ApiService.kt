@@ -21,9 +21,19 @@ import com.andrewgiang.assistantsdk.response.AuthToken
 import com.andrewgiang.assistantsdk.response.Entity
 import com.andrewgiang.assistantsdk.response.Service
 import kotlinx.coroutines.Deferred
-import retrofit2.http.*
+import okhttp3.ResponseBody
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
+
+    @GET("/api/discovery_info")
+    fun discoveryInfo(): Deferred<Response<ResponseBody>>
 
     @FormUrlEncoded
     @POST("/auth/token")
@@ -41,14 +51,12 @@ interface ApiService {
         @Field("client_id") clientId: String
     ): Deferred<AuthToken>
 
-
     @POST("/api/services/{domain}/{service}")
     fun invokeService(
         @Path("domain") domain: String,
         @Path("service") service: String,
         @Body entityBody: EntityBody
     ): Deferred<List<Entity>>
-
 
     @GET("/api/states")
     fun getStates(): Deferred<List<Entity>>

@@ -55,8 +55,35 @@ class SetupViewModel @Inject constructor(
         return data
     }
 
-    fun onFinishClicked(isHttps: Boolean, host: String, port: String) {
-        val httpUrl: HttpUrl? = try {
+    fun onFinishClicked(isHttps: Boolean, host: String, port: String) = launch {
+        val httpUrl: HttpUrl? = buildUrl(host, isHttps, port)
+
+        if (httpUrl != null) {
+            sendAuthorizeIntent(httpUrl)
+        } else {
+            data.postValue(SetupUiModel(errorMessage = "Invalid Url"))
+        }
+    }
+
+    private suspend fun sendAuthorizeIntent(httpUrl: HttpUrl) {
+        try {
+            if (holder.create(httpUrl.toString()).checkApi()) {
+                authManager.setHost(httpUrl.toString())
+                intentCreator.sendAuthorizeIntent(httpUrl)
+            } else {
+                postUnableToConnect(httpUrl)
+            }
+        } catch (e: Throwable) {
+            postUnableToConnect(httpUrl)
+        }
+    }
+
+    private fun postUnableToConnect(httpUrl: HttpUrl) {
+        data.postValue(SetupUiModel(errorMessage = "Unable to connect to $httpUrl"))
+    }
+
+    private fun buildUrl(host: String, isHttps: Boolean, port: String): HttpUrl? {
+        return try {
             HttpUrl.Builder()
                 .host(host)
                 .scheme(getScheme(isHttps))
@@ -64,13 +91,6 @@ class SetupViewModel @Inject constructor(
                 .build()
         } catch (e: IllegalArgumentException) {
             null
-        }
-
-        if (httpUrl != null) {
-            authManager.setHost(httpUrl.toString())
-            intentCreator.sendAuthorizeIntent(httpUrl)
-        } else {
-            data.postValue(SetupUiModel(errorMessage = "Invalid Url : $host"))
         }
     }
 

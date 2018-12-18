@@ -27,6 +27,11 @@ class Api(retrofit: Retrofit, private val clientId: String) {
 
     val service: ApiService = retrofit.create(ApiService::class.java)
 
+    suspend fun checkApi(): Boolean {
+        val response = service.discoveryInfo().await()
+        return response.isSuccessful
+    }
+
     fun initialAuth(code: String): Deferred<AuthToken> {
         return service.initialAuth(
             "authorization_code",

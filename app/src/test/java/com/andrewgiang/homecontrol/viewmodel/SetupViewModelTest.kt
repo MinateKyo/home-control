@@ -38,6 +38,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
+import java.io.IOException
 
 class SetupViewModelTest {
 
@@ -56,11 +57,41 @@ class SetupViewModelTest {
 
     @Before
     fun setUp() {
+        every { mockHolder.create(any()) } returns api
         every { mockHolder.api } returns api
+        coEvery { api.checkApi() } returns true
     }
 
     @get:Rule
     var rule: TestRule = InstantTaskExecutorRule()
+
+    @Test
+    fun `onFinish click with api check throws error`() {
+        val host = "validurl.com"
+        coEvery { api.checkApi() } throws IOException()
+        val expectedUrl = HttpUrl.Builder()
+            .scheme("http")
+            .host(host)
+            .port(DEFAULT_PORT)
+            .build()
+        subject.onFinishClicked(false, host, "")
+
+        verifyApiFailure(expectedUrl)
+    }
+
+    @Test
+    fun `onFinish click with api check false will throw unable to connect state`() {
+        val host = "validurl.com"
+        coEvery { api.checkApi() } returns false
+        val expectedUrl = HttpUrl.Builder()
+            .scheme("http")
+            .host(host)
+            .port(DEFAULT_PORT)
+            .build()
+        subject.onFinishClicked(false, host, "")
+
+        verifyApiFailure(expectedUrl)
+    }
 
     @Test
     fun `onFinish with https false`() {
@@ -110,7 +141,7 @@ class SetupViewModelTest {
         assertEquals(
             SetupUiModel(
                 isLoading = false,
-                errorMessage = "Invalid Url : $urlText"
+                errorMessage = "Invalid Url"
             ), urlState
         )
     }
@@ -171,5 +202,15 @@ class SetupViewModelTest {
         verify {
             intentCreator.sendAuthorizeIntent(eq(expectedUrl))
         }
+    }
+
+    private fun verifyApiFailure(expectedUrl: HttpUrl) {
+        verify(inverse = true) {
+            intentCreator.sendAuthorizeIntent(eq(expectedUrl))
+        }
+        assertEquals(
+            SetupUiModel(errorMessage = "Unable to connect to $expectedUrl"),
+            subject.getData().value
+        )
     }
 }

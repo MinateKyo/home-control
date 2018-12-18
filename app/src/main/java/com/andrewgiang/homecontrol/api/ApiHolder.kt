@@ -24,9 +24,9 @@ import retrofit2.Retrofit
 import javax.inject.Inject
 
 class ApiHolder @Inject constructor(
-    builder: Retrofit.Builder,
+    val builder: Retrofit.Builder,
     authPrefs: AuthPrefs,
-    apiFactory: ApiFactory
+    val apiFactory: ApiFactory
 ) {
 
     val api: Api by lazy {
@@ -38,5 +38,9 @@ class ApiHolder @Inject constructor(
         } else {
             throw IllegalStateException("Accessing API before url is set")
         }
+    }
+
+    fun create(hostUrl: String): Api {
+        return apiFactory.create(builder, hostUrl, CLIENT_ID)
     }
 }
