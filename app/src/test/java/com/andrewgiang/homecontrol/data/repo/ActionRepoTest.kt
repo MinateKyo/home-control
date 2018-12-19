@@ -104,6 +104,15 @@ class ActionRepoTest {
     }
 
     @Test
+    fun `update action will delegate to actionDao and update shortcuts`() = runBlocking {
+        val action = mockk<Action>()
+        subject.updateAction(action)
+
+        coVerify { mockActionDao.updateAction(eq(action)) }
+        coVerify { mockShortcutWorkManager.update() }
+    }
+
+    @Test
     fun `actionData will delegate to actionDao`() = runBlocking {
         subject.actionData()
         coVerify { mockActionDao.getActions() }

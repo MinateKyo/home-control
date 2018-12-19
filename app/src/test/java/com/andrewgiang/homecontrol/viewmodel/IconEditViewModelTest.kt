@@ -17,12 +17,15 @@
 package com.andrewgiang.homecontrol.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.andrewgiang.homecontrol.data.database.model.Action
+import com.andrewgiang.homecontrol.data.model.HomeIcon
 import com.andrewgiang.homecontrol.data.repo.ActionRepo
 import com.andrewgiang.homecontrol.testDispatchProvider
 import com.andrewgiang.homecontrol.ui.Nav
 import com.andrewgiang.homecontrol.ui.controller.IconEditControllerDirections
 import io.mockk.Runs
 import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
@@ -46,6 +49,24 @@ class IconEditViewModelTest {
         subject = IconEditViewModel(
             mockActionRepo,
             testDispatchProvider()
+        )
+    }
+
+    @Test
+    fun `load editable action that is in db will post ui model from action`() {
+        val mockAction = mockk<Action>()
+        val expectedIcon = HomeIcon(MaterialDrawableBuilder.IconValue.ALARM_LIGHT)
+        every { mockAction.icon } returns expectedIcon
+        val expectedName = "actionName"
+        every { mockAction.name } returns expectedName
+
+        coEvery { mockActionRepo.getAction(eq(1)) } returns mockAction
+
+        subject.loadEditableAction(1)
+
+        assertEquals(
+            IconUiModel(expectedIcon, expectedName, mockAction),
+            subject.getUiModel().value!!
         )
     }
 

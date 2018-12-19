@@ -20,7 +20,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
 import androidx.navigation.NavController
-import com.andrewgiang.homecontrol.viewmodel.AddActionViewModel
+import com.andrewgiang.homecontrol.viewmodel.ActionViewModel
 import com.andrewgiang.homecontrol.viewmodel.HomeViewModel
 import com.andrewgiang.homecontrol.viewmodel.IconEditViewModel
 import com.andrewgiang.homecontrol.viewmodel.SetupViewModel
@@ -31,8 +31,8 @@ class ContainerFactory(
     private val viewLifecycleOwner: LifecycleOwner,
     private val navController: NavController
 ) {
-    fun create(actionViewModel: AddActionViewModel): AddActionViewContainer {
-        return AddActionViewContainer(
+    fun create(actionViewModel: ActionViewModel): ActionViewContainer {
+        return ActionViewContainer(
             inflater,
             container,
             viewLifecycleOwner,

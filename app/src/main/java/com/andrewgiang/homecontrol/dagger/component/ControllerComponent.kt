@@ -17,7 +17,7 @@
 package com.andrewgiang.homecontrol.dagger.component
 
 import androidx.lifecycle.ViewModelProvider
-import com.andrewgiang.homecontrol.ui.controller.AddActionController
+import com.andrewgiang.homecontrol.ui.controller.ActionController
 import com.andrewgiang.homecontrol.ui.controller.HomeController
 import com.andrewgiang.homecontrol.ui.controller.SetupController
 import dagger.Subcomponent
@@ -29,6 +29,6 @@ import dagger.Subcomponent
 interface ControllerComponent {
     fun inject(fragment: SetupController)
     fun inject(controller: HomeController)
-    fun inject(addActionController: AddActionController)
+    fun inject(actionController: ActionController)
     fun getViewModelFactory(): ViewModelProvider.Factory
 }

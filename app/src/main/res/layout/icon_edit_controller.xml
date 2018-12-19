@@ -142,8 +142,8 @@
 
 
         <Button
-                android:text="@string/add_action_button_label"
-                android:id="@+id/addAction"
+                android:text="@string/save_action_button_label"
+                android:id="@+id/saveAction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"

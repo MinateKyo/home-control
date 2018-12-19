@@ -63,7 +63,7 @@ class HomeViewModelTest {
         subject.onAddActionClick()
 
         assertEquals(
-            Nav.Direction(HomeControllerDirections.toAddActionController()),
+            Nav.Direction(HomeControllerDirections.toActionController()),
             subject.getNavState().value
         )
     }

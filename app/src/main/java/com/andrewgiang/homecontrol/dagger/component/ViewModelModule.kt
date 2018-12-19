@@ -18,7 +18,7 @@ package com.andrewgiang.homecontrol.dagger.component
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.andrewgiang.homecontrol.viewmodel.AddActionViewModel
+import com.andrewgiang.homecontrol.viewmodel.ActionViewModel
 import com.andrewgiang.homecontrol.viewmodel.HomeViewModel
 import com.andrewgiang.homecontrol.viewmodel.IconEditViewModel
 import com.andrewgiang.homecontrol.viewmodel.SetupViewModel
@@ -44,11 +44,11 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(AddActionViewModel::class)
-    abstract fun modelAddAction(viewModel: AddActionViewModel): ViewModel
+    @ViewModelKey(ActionViewModel::class)
+    abstract fun modelAction(viewModel: ActionViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(IconEditViewModel::class)
-    abstract fun modeliconEdit(viewModel: IconEditViewModel): ViewModel
+    abstract fun modelIconEdit(viewModel: IconEditViewModel): ViewModel
 }

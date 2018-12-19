@@ -85,4 +85,11 @@ class ActionRepo @Inject constructor(
             actionDao.getAction(actionId)
         }
     }
+
+    suspend fun updateAction(action: Action) {
+        withContext(dispatchProvider.io) {
+            actionDao.updateAction(action)
+        }
+        shortcutWorkManager.update()
+    }
 }

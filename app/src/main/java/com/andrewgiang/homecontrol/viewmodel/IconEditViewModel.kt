@@ -35,7 +35,8 @@ data class IconUiModel(
         MaterialDrawableBuilder.IconValue.LIGHTBULB,
         colorType = ColorType.INT
     ),
-    val displayName: String = "Preview"
+    val displayName: String = "Preview",
+    val editAction: Action? = null
 )
 
 class IconEditViewModel @Inject constructor(
@@ -62,15 +63,27 @@ class IconEditViewModel @Inject constructor(
         val split = domainService.split(".")
         val domain = split[0]
         val service = split[1]
-        actionRepo.insertAction(
-            Action(
-                0,
-                Data(selectedEntities, domain, service),
-                ui.value!!.homeIcon,
-                displayName,
-                isShortcut
+        val editAction = ui.value!!.editAction
+        if (editAction != null) {
+            actionRepo.updateAction(
+                editAction.copy(
+                    data = Data(selectedEntities, domain, service),
+                    icon = ui.value!!.homeIcon,
+                    name = displayName,
+                    isShortcut = isShortcut
+                )
             )
-        )
+        } else {
+            actionRepo.insertAction(
+                Action(
+                    0,
+                    Data(selectedEntities, domain, service),
+                    ui.value!!.homeIcon,
+                    displayName,
+                    isShortcut
+                )
+            )
+        }
         navigationState.postValue(Nav.Direction(IconEditControllerDirections.toHome()))
     }
 
@@ -101,6 +114,15 @@ class IconEditViewModel @Inject constructor(
     fun onIconSelected(iconValue: MaterialDrawableBuilder.IconValue) {
         postUi {
             it.copy(homeIcon = it.homeIcon.copy(iconValue = iconValue))
+        }
+    }
+
+    fun loadEditableAction(editActionId: Long) = launch {
+        val action = actionRepo.getAction(editActionId)
+        if (action != null) {
+            postUi {
+                it.copy(homeIcon = action.icon, displayName = action.name, editAction = action)
+            }
         }
     }
 }

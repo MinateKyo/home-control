@@ -97,6 +97,10 @@ class HomeViewContainer(
         viewModel.onClick(action)
     }
 
+    override fun onEdit(action: Action) {
+        viewModel.onEdit(action)
+    }
+
     override fun onDelete(action: Action) {
         MaterialDialog(containerView.context).show {
             message(R.string.delete_confirmation_msg)

@@ -24,7 +24,7 @@
     <string name="service_label">Services</string>
     <string name="choose_entity_label">Choose Entity</string>
     <string name="set_as_shortcut_label">Set as shortcut</string>
-    <string name="add_action_button_label">Add Action</string>
+    <string name="save_action_button_label">Save Action</string>
     <string name="next_button_label">Next</string>
     <string name="finish_button_label">Finish</string>
     <string name="choose_color">Choose Icon Color</string>

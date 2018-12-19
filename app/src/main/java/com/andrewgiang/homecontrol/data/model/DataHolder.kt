@@ -21,7 +21,7 @@ import com.andrewgiang.homecontrol.data.database.model.Entity
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class DataHolder(val checkedSet: List<Entity>, val domainService: String) : Parcelable {
+data class DataHolder(val editActionId: Long, val checkedSet: List<Entity>, val domainService: String) : Parcelable {
     fun getSelected(): List<String> {
         return checkedSet.map { it.entity_id }
     }
