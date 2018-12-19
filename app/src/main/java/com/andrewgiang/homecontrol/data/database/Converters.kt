@@ -17,6 +17,7 @@
 package com.andrewgiang.homecontrol.data.database
 
 import androidx.room.TypeConverter
+import com.andrewgiang.assistantsdk.response.ServiceInfo
 import com.andrewgiang.homecontrol.data.database.model.Data
 import com.andrewgiang.homecontrol.data.model.HomeIcon
 import com.squareup.moshi.JsonAdapter
@@ -24,9 +25,14 @@ import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 
 class Converters {
-    private var mapType = Types.newParameterizedType(Map::class.java, String::class.java, Any::class.java)
     private val moshi: Moshi = Moshi.Builder().build()
+    private var mapType = Types.newParameterizedType(Map::class.java, String::class.java, Any::class.java)
     private val mapAdapter: JsonAdapter<Map<String, Any>> = moshi.adapter(mapType)
+
+    private val serviceMapType =
+        Types.newParameterizedType(Map::class.java, String::class.java, ServiceInfo::class.java)
+    private val serviceMapAdapter: JsonAdapter<Map<String, ServiceInfo>> = moshi.adapter(serviceMapType)
+
     private val serviceDataAdapter: JsonAdapter<Data> = moshi.adapter(Data::class.java)
     private val homeIconAdapter: JsonAdapter<HomeIcon> = moshi.adapter(HomeIcon::class.java)
 
@@ -38,6 +44,16 @@ class Converters {
     @TypeConverter
     fun mapToJson(map: Map<String, Any>?): String {
         return mapAdapter.toJson(map)
+    }
+
+    @TypeConverter
+    fun serviceMapFromJson(json: String): Map<String, ServiceInfo>? {
+        return serviceMapAdapter.fromJson(json)
+    }
+
+    @TypeConverter
+    fun serviceMapToJson(map: Map<String, ServiceInfo>?): String {
+        return serviceMapAdapter.toJson(map)
     }
 
     @TypeConverter

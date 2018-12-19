@@ -33,7 +33,6 @@ import javax.inject.Inject
 sealed class AddActionUiModel {
     object Loading : AddActionUiModel()
     data class Error(val appError: AppError) : AddActionUiModel()
-
     data class ServiceLoaded(val services: List<String>) : AddActionUiModel()
     data class EntitiesLoaded(val entities: List<Entity>, val shouldShowEntities: Boolean) : AddActionUiModel()
 }
@@ -55,7 +54,6 @@ class AddActionViewModel @Inject constructor(
         ui.apply {
             postValue(AddActionUiModel.Loading)
             try {
-                entityRepo.refreshStates()
                 postValue(AddActionUiModel.ServiceLoaded(actionRepo.getDomainServiceList()))
             } catch (e: Throwable) {
                 postValue(AddActionUiModel.Error(AppError.from(e)))

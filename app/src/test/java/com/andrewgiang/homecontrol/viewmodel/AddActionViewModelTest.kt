@@ -25,8 +25,9 @@ import com.andrewgiang.homecontrol.testDispatchProvider
 import com.andrewgiang.homecontrol.testObserver
 import com.andrewgiang.homecontrol.ui.Nav
 import com.andrewgiang.homecontrol.ui.controller.AddActionControllerDirections
+import io.mockk.Runs
 import io.mockk.coEvery
-import io.mockk.coVerify
+import io.mockk.just
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -58,7 +59,7 @@ class AddActionViewModelTest {
     fun `on bind post values loading then service list`() {
         val domainServiceList = listOf("one.o", "two.d")
         coEvery { mockActionRepo.getDomainServiceList() } returns domainServiceList
-        coEvery { mockEntityRepo.refreshStates() } returns emptyList()
+        coEvery { mockEntityRepo.refreshStates() } just Runs
 
         val testObserver = subject.getUiState().testObserver()
 
@@ -67,7 +68,6 @@ class AddActionViewModelTest {
         val observedValues = testObserver.observedValues
         assertEquals(AddActionUiModel.Loading, observedValues[0])
         assertEquals(AddActionUiModel.ServiceLoaded(domainServiceList), observedValues[1])
-        coVerify { mockEntityRepo.refreshStates() }
     }
 
     @Test

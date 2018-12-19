@@ -18,13 +18,13 @@ package com.andrewgiang.homecontrol.data.repo
 
 import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.api.ApiHolder
-import com.andrewgiang.homecontrol.data.database.dao.EntityDao
+import com.andrewgiang.homecontrol.data.database.dao.HomeDao
 import com.andrewgiang.homecontrol.data.database.model.Entity
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class EntityRepo @Inject constructor(
-    private val entityDao: EntityDao,
+    private val entityDao: HomeDao,
     private val apiHolder: ApiHolder,
     private val dispatchProvider: DispatchProvider
 ) {
@@ -46,9 +46,9 @@ class EntityRepo @Inject constructor(
         }
     }
 
-    suspend fun refreshStates(): List<Long> {
+    suspend fun refreshStates() {
         val entityResponse = apiHolder.api.getStates().await()
-        return withContext(dispatchProvider.io) {
+        withContext(dispatchProvider.io) {
             entityDao.insert(entityResponse
                 .map { it ->
                     Entity(it.entity_id, it.state, it.attributes)

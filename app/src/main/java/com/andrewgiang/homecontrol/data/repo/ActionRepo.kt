@@ -22,22 +22,32 @@ import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.ShortcutWorkManager
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.data.database.dao.ActionDao
+import com.andrewgiang.homecontrol.data.database.dao.HomeDao
 import com.andrewgiang.homecontrol.data.database.model.Action
+import com.andrewgiang.homecontrol.data.database.model.ServiceDb
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class ActionRepo @Inject constructor(
     private val actionDao: ActionDao,
+    private val homeDao: HomeDao,
     private val apiHolder: ApiHolder,
     private val shortcutWorkManager: ShortcutWorkManager,
     private val dispatchProvider: DispatchProvider
 ) {
 
     suspend fun getDomainServiceList(): List<String> {
-        val serviceList = apiHolder.api.getServices().await()
-        return serviceList.flatMap { entry ->
-            entry.services.keys.map { key ->
-                "${entry.domain}.$key"
+        return withContext(dispatchProvider.io) {
+            var serviceList = homeDao.getServicesSync()
+
+            if (serviceList.isEmpty()) {
+                serviceList = apiHolder.api.getServices().await().map { ServiceDb.create(it) }
+                homeDao.insertService(serviceList)
+            }
+            serviceList.flatMap { entry ->
+                entry.services.keys.map { key ->
+                    "${entry.domain}.$key"
+                }
             }
         }
     }

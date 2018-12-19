@@ -18,7 +18,7 @@ package com.andrewgiang.homecontrol.data.repo
 
 import com.andrewgiang.assistantsdk.Api
 import com.andrewgiang.homecontrol.api.ApiHolder
-import com.andrewgiang.homecontrol.data.database.dao.EntityDao
+import com.andrewgiang.homecontrol.data.database.dao.HomeDao
 import com.andrewgiang.homecontrol.data.database.model.Entity
 import com.andrewgiang.homecontrol.testDispatchProvider
 import io.mockk.coEvery
@@ -33,7 +33,7 @@ import org.junit.Test
 typealias ReposeEntity = com.andrewgiang.assistantsdk.response.Entity
 
 class EntityRepoTest {
-    private val mockEntityDao: EntityDao = mockk(relaxed = true)
+    private val mockEntityDao: HomeDao = mockk(relaxed = true)
     private val mockApiHolder: ApiHolder = mockk()
     private val mockApi: Api = mockk()
 

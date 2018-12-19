@@ -20,14 +20,22 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.andrewgiang.homecontrol.data.database.dao.ActionDao
-import com.andrewgiang.homecontrol.data.database.dao.EntityDao
+import com.andrewgiang.homecontrol.data.database.dao.HomeDao
 import com.andrewgiang.homecontrol.data.database.model.Action
 import com.andrewgiang.homecontrol.data.database.model.Entity
+import com.andrewgiang.homecontrol.data.database.model.ServiceDb
 
-@Database(entities = [Entity::class, Action::class], version = 2)
+@Suppress("MagicNumber")
+@Database(
+    entities = [
+        Entity::class,
+        Action::class,
+        ServiceDb::class
+    ], version = 3
+)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 
-    abstract fun entityDao(): EntityDao
+    abstract fun entityDao(): HomeDao
     abstract fun actionDao(): ActionDao
 }

@@ -21,6 +21,7 @@ import androidx.lifecycle.MutableLiveData
 import com.andrewgiang.homecontrol.DispatchProvider
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.api.AuthManager
+import com.andrewgiang.homecontrol.data.repo.EntityRepo
 import com.andrewgiang.homecontrol.util.IntentCreator
 import kotlinx.coroutines.launch
 import okhttp3.HttpUrl
@@ -42,6 +43,7 @@ class SetupViewModel @Inject constructor(
     private val intentCreator: IntentCreator,
     private val holder: ApiHolder,
     private val authManager: AuthManager,
+    private val entityRepo: EntityRepo,
     dispatchProvider: DispatchProvider
 ) : ScopeViewModel(dispatchProvider) {
 
@@ -103,6 +105,7 @@ class SetupViewModel @Inject constructor(
         try {
             val authToken = holder.api.initialAuth(code).await()
             authManager.updateAuthToken(authToken)
+            entityRepo.refreshStates()
             data.postValue(
                 SetupUiModel(authState = AuthState.AUTHENTICATED)
             )

@@ -22,9 +22,10 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.andrewgiang.homecontrol.data.database.model.Entity
+import com.andrewgiang.homecontrol.data.database.model.ServiceDb
 
 @Dao
-interface EntityDao {
+interface HomeDao {
 
     @Query("SELECT * FROM Entity ORDER BY entity_id")
     fun getEntities(): LiveData<List<Entity>>
@@ -34,4 +35,13 @@ interface EntityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(entities: List<Entity>): List<Long>
+
+    @Query("SELECT * FROM ServiceDb")
+    fun getServices(): LiveData<List<ServiceDb>>
+
+    @Query("SELECT * FROM ServiceDb")
+    fun getServicesSync(): List<ServiceDb>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertService(services: List<ServiceDb>)
 }

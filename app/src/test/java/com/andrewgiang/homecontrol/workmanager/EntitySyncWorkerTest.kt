@@ -21,9 +21,11 @@ import androidx.work.WorkerParameters
 import com.andrewgiang.homecontrol.App
 import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.data.repo.EntityRepo
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -70,7 +72,7 @@ class EntitySyncWorkerTest {
     @Test
     fun `when authenticated doWork will refresh entity states`() {
         every { mockAuthManager.isAuthenticated() } returns true
-        coEvery { mockEntityRepo.refreshStates() } returns listOf()
+        coEvery { mockEntityRepo.refreshStates() } just Runs
 
         assertEquals(
             ListenableWorker.Result.SUCCESS, subject.doWork()

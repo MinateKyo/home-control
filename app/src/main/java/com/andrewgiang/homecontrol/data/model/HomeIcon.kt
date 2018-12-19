@@ -25,7 +25,8 @@ import kotlinx.android.synthetic.main.home_actions_layout.view.*
 import net.steamcrafted.materialiconlib.MaterialDrawableBuilder
 import net.steamcrafted.materialiconlib.MaterialIconView
 
-data class HomeIcon(
+data class
+HomeIcon(
     val iconValue: MaterialDrawableBuilder.IconValue,
     val colorType: ColorType = ColorType.RES,
     val iconColorInt: Int = Color.BLACK,

@@ -23,7 +23,9 @@ import com.andrewgiang.assistantsdk.response.ServiceInfo
 import com.andrewgiang.homecontrol.ShortcutWorkManager
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.data.database.dao.ActionDao
+import com.andrewgiang.homecontrol.data.database.dao.HomeDao
 import com.andrewgiang.homecontrol.data.database.model.Action
+import com.andrewgiang.homecontrol.data.database.model.ServiceDb
 import com.andrewgiang.homecontrol.testDispatchProvider
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -36,11 +38,12 @@ import org.junit.Test
 
 class ActionRepoTest {
     private val mockActionDao: ActionDao = mockk(relaxed = true)
+    private val mockHomeDao: HomeDao = mockk(relaxed = true)
     private val mockApiHolder: ApiHolder = mockk()
     private val mockApi: Api = mockk()
     private val mockShortcutWorkManager: ShortcutWorkManager = mockk()
 
-    val subject = ActionRepo(mockActionDao, mockApiHolder, mockShortcutWorkManager, testDispatchProvider())
+    val subject = ActionRepo(mockActionDao, mockHomeDao, mockApiHolder, mockShortcutWorkManager, testDispatchProvider())
 
     @Before
     fun setUp() {
@@ -48,8 +51,8 @@ class ActionRepoTest {
     }
 
     @Test
-    fun `response service will flat map to domain{dot}service list`() = runBlocking {
-        val listOf = listOf(
+    fun `response service will get data from api service if dao is empty`() = runBlocking {
+        val apiServices = listOf(
             Service(
                 "light", services = mapOf(
                     "turn_off" to ServiceInfo("desc", mapOf()),
@@ -57,9 +60,29 @@ class ActionRepoTest {
                 )
             )
         )
-        coEvery { mockApi.getServices().await() } returns listOf
+        coEvery { mockHomeDao.getServicesSync() } returns emptyList()
+        coEvery { mockApi.getServices().await() } returns apiServices
 
         assertEquals(listOf("light.turn_off", "light.toggle"), subject.getDomainServiceList())
+    }
+
+    @Test
+    fun `getDomainServiceList  will get data from database and not hit server if available`() = runBlocking {
+        val dbServices = listOf(
+            ServiceDb(
+                "light", services = mapOf(
+                    "turn_off" to ServiceInfo("desc", mapOf()),
+                    "toggle" to ServiceInfo("desc", mapOf())
+                )
+            )
+        )
+        coEvery { mockHomeDao.getServicesSync() } returns dbServices
+
+        assertEquals(listOf("light.turn_off", "light.toggle"), subject.getDomainServiceList())
+
+        coVerify(inverse = true) {
+            mockApi.getServices().await()
+        }
     }
 
     @Test

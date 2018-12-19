@@ -22,12 +22,15 @@ import com.andrewgiang.assistantsdk.Api
 import com.andrewgiang.assistantsdk.response.AuthToken
 import com.andrewgiang.homecontrol.api.ApiHolder
 import com.andrewgiang.homecontrol.api.AuthManager
+import com.andrewgiang.homecontrol.data.repo.EntityRepo
 import com.andrewgiang.homecontrol.testDispatchProvider
 import com.andrewgiang.homecontrol.util.IntentCreator
 import com.andrewgiang.homecontrol.viewmodel.SetupViewModel.Companion.DEFAULT_PORT
+import io.mockk.Runs
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
+import io.mockk.just
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Deferred
@@ -45,6 +48,7 @@ class SetupViewModelTest {
     private val intentCreator: IntentCreator = mockk()
     private val mockHolder: ApiHolder = mockk()
     private val api: Api = mockk()
+    val mockEntityRepo: EntityRepo = mockk()
     private var authManager: AuthManager = mockk()
 
     val subject: SetupViewModel =
@@ -52,6 +56,7 @@ class SetupViewModelTest {
             intentCreator,
             mockHolder,
             authManager,
+            mockEntityRepo,
             testDispatchProvider()
         )
 
@@ -183,6 +188,7 @@ class SetupViewModelTest {
         every { api.initialAuth(eq(code)) } returns mockCall
         coEvery { mockCall.await() } returns token
 
+        coEvery { mockEntityRepo.refreshStates() } just Runs
         subject.onAppLinkRedirect(code)
 
         coVerify { api.initialAuth(code) }

@@ -76,7 +76,6 @@
                 app:constraint_referenced_ids="entityLabel,entityChipGroup"
                 android:visibility="gone"/>
 
-
         <Button
                 android:text="@string/next_button_label"
                 android:layout_width="match_parent"
@@ -85,11 +84,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
-
-        <androidx.constraintlayout.widget.Group
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/group2"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

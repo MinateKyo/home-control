@@ -21,7 +21,7 @@ import androidx.room.Room
 import com.andrewgiang.homecontrol.BuildConfig
 import com.andrewgiang.homecontrol.data.database.AppDatabase
 import com.andrewgiang.homecontrol.data.database.dao.ActionDao
-import com.andrewgiang.homecontrol.data.database.dao.EntityDao
+import com.andrewgiang.homecontrol.data.database.dao.HomeDao
 import dagger.Module
 import dagger.Provides
 
@@ -44,7 +44,7 @@ class DatabaseModule {
 
     @ApplicationScope
     @Provides
-    fun entityDao(appDatabase: AppDatabase): EntityDao {
+    fun entityDao(appDatabase: AppDatabase): HomeDao {
         return appDatabase.entityDao()
     }
 
