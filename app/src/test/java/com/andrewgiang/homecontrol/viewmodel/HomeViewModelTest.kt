@@ -42,7 +42,7 @@ import org.junit.rules.TestRule
 
 class HomeViewModelTest {
     val mockAuth: AuthManager = mockk(relaxed = true)
-    val mockActionRepo: ActionRepo = mockk()
+    val mockActionRepo: ActionRepo = mockk(relaxed = true)
 
     lateinit var subject: HomeViewModel
 
@@ -63,7 +63,7 @@ class HomeViewModelTest {
         subject.onAddActionClick()
 
         assertEquals(
-            Nav.Direction(HomeControllerDirections.toAddActionController()),
+            Nav.Direction(HomeControllerDirections.toActionController()),
             subject.getNavState().value
         )
     }
@@ -142,5 +142,22 @@ class HomeViewModelTest {
         coVerify {
             mockActionRepo.removeAction(eq(action))
         }
+    }
+
+    @Test
+    fun `on edit send user to action controller with expected action id`() {
+        val action = mockk<Action>()
+        val expectedId: Long = 99
+        every { action.id } returns expectedId
+
+        subject.onEdit(action)
+
+        val navDirections = HomeControllerDirections.toActionController()
+        navDirections.setActionId(expectedId)
+
+        assertEquals(
+            Nav.Direction(navDirections),
+            subject.getNavState().value
+        )
     }
 }

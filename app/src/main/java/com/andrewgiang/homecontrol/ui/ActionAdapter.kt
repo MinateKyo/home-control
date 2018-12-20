@@ -30,6 +30,7 @@ import kotlinx.android.synthetic.main.home_actions_layout.view.*
 interface ActionClickListener {
     fun onClick(action: Action)
     fun onDelete(action: Action)
+    fun onEdit(action: Action)
 }
 
 class ActionAdapter constructor(
@@ -74,6 +75,10 @@ class ViewHolder(
             PopupMenu(view.context, view).apply {
                 setOnMenuItemClickListener {
                     when (it.itemId) {
+                        R.id.edit_action -> {
+                            onActionClickListener.onEdit(item)
+                            true
+                        }
                         R.id.delete_action -> {
                             onActionClickListener.onDelete(item)
                             true

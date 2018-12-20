@@ -69,8 +69,9 @@ class IconEditContainer(
     }
 
     fun handleBundleArgs(data: DataHolder) {
-        addAction.setOnClickListener {
-            viewModel.onAddButtonClicked(
+        viewModel.loadEditableAction(data.editActionId)
+        saveAction.setOnClickListener {
+            viewModel.onSaveClicked(
                 data.getSelected(),
                 data.domainService,
                 displayNameText.text.toString(),

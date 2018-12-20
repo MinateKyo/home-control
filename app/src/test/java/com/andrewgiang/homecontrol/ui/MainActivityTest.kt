@@ -23,11 +23,11 @@ import com.andrewgiang.homecontrol.TestApplication
 import com.andrewgiang.homecontrol.api.AuthManager
 import com.andrewgiang.homecontrol.currentNavFragment
 import com.andrewgiang.homecontrol.getTestApp
-import com.andrewgiang.homecontrol.ui.controller.AddActionController
+import com.andrewgiang.homecontrol.ui.controller.ActionController
 import com.andrewgiang.homecontrol.ui.controller.HomeController
 import com.andrewgiang.homecontrol.ui.controller.IconEditController
 import com.andrewgiang.homecontrol.ui.controller.SetupController
-import kotlinx.android.synthetic.main.fragment_add_action.*
+import kotlinx.android.synthetic.main.add_action_controller.*
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 import kotlinx.android.synthetic.main.fragment_sign_in.*
@@ -88,7 +88,7 @@ class MainActivityTest {
 
                 navigateToAddActionController(activity)
 
-                assertTrue(activity.currentNavFragment is AddActionController)
+                assertTrue(activity.currentNavFragment is ActionController)
             }
     }
 
@@ -102,9 +102,9 @@ class MainActivityTest {
 
                 navigateToAddActionController(activity)
 
-                val addActionController = activity.currentNavFragment as AddActionController
+                val addActionController = activity.currentNavFragment as ActionController
 
-                addActionController.container.showServices(listOf("item1", "item2"))
+                addActionController.container.showServices(listOf("item1", "item2"), 0)
                 addActionController.container.nextButton.performClick()
 
                 assertTrue(activity.currentNavFragment is IconEditController)

@@ -48,4 +48,8 @@ data class Data(
         domain: String,
         service: String
     ) : this(listOf(entityId), domain, service)
+
+    fun getDomainService(): String {
+        return "$domain.$service"
+    }
 }

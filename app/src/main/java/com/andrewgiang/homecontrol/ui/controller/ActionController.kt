@@ -16,15 +16,23 @@
 
 package com.andrewgiang.homecontrol.ui.controller
 
-import com.andrewgiang.homecontrol.ui.container.AddActionViewContainer
+import android.os.Bundle
+import android.view.View
+import com.andrewgiang.homecontrol.ui.container.ActionViewContainer
 import com.andrewgiang.homecontrol.ui.container.ContainerFactory
-import com.andrewgiang.homecontrol.viewmodel.AddActionViewModel
+import com.andrewgiang.homecontrol.viewmodel.ActionViewModel
 
-class AddActionController : BaseControllerFragment<AddActionViewContainer>() {
+class ActionController : BaseControllerFragment<ActionViewContainer>() {
 
-    private val actionViewModel: AddActionViewModel by viewModel()
+    private val actionViewModel: ActionViewModel by viewModel()
 
-    override fun createContainer(containerFactory: ContainerFactory): AddActionViewContainer {
+    override fun createContainer(containerFactory: ContainerFactory): ActionViewContainer {
         return containerFactory.create(actionViewModel)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val controllerArgs = ActionControllerArgs.fromBundle(arguments)
+        container.bindAction(controllerArgs.actionId)
     }
 }

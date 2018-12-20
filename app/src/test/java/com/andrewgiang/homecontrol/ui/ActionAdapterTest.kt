@@ -75,6 +75,8 @@ class ActionAdapterTest {
         val iconValue = ReflectionHelpers.getField<MaterialDrawableBuilder.IconValue>(viewHolder.itemView.icon, "mIcon")
         assertEquals(action.icon.iconValue, iconValue)
         assertEquals(action.name, viewHolder.itemView.name.text.toString())
+        viewHolder.itemView.icon.performClick()
+        verify { mockClickListener.onClick(eq(action)) }
     }
 
     private fun createViewHolder(): Pair<Action, ViewHolder> {

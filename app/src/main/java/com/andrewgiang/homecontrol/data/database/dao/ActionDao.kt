@@ -21,6 +21,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.andrewgiang.homecontrol.data.database.model.Action
 
 @Dao
@@ -28,6 +29,9 @@ interface ActionDao {
 
     @Insert
     fun insertAction(action: Action)
+
+    @Update
+    fun updateAction(action: Action)
 
     @Query("SELECT * FROM `Action` ")
     fun getActions(): LiveData<List<Action>>

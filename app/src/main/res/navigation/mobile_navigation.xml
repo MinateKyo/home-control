@@ -29,8 +29,8 @@
                 android:id="@+id/toSetupFragment"
                 app:destination="@id/setUpController"/>
         <action
-                android:id="@+id/toAddActionController"
-                app:destination="@id/addActionController"
+                android:id="@+id/toActionController"
+                app:destination="@id/actionController"
                 app:enterAnim="@anim/nav_default_enter_anim"/>
         <deepLink
                 android:id="@+id/shortcut"
@@ -58,10 +58,10 @@
                 app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <fragment
-            android:id="@+id/addActionController"
-            android:name="com.andrewgiang.homecontrol.ui.controller.AddActionController"
+            android:id="@+id/actionController"
+            android:name="com.andrewgiang.homecontrol.ui.controller.ActionController"
             android:label="fragment_add_action"
-            tools:layout="@layout/fragment_add_action">
+            tools:layout="@layout/add_action_controller">
         <action
                 android:id="@+id/toIconEdit"
                 app:destination="@id/iconEditController"
@@ -70,6 +70,10 @@
                 app:popEnterAnim="@anim/nav_default_pop_enter_anim"
                 app:popExitAnim="@anim/slide_out_right"
                 />
+        <argument
+                android:name="actionId"
+                app:argType="long"
+                android:defaultValue="-1L"/>
     </fragment>
     <fragment
             android:id="@+id/iconEditController"

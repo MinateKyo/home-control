@@ -91,7 +91,13 @@ class HomeViewModel @Inject constructor(
         actionRepo.removeAction(action)
     }
 
+    fun onEdit(action: Action) {
+        val navDirections = HomeControllerDirections.toActionController()
+        navDirections.setActionId(action.id)
+        navigationState.postValue(Nav.Direction(navDirections))
+    }
+
     fun onAddActionClick() {
-        navigationState.postValue(Nav.Direction(HomeControllerDirections.toAddActionController()))
+        navigationState.postValue(Nav.Direction(HomeControllerDirections.toActionController()))
     }
 }
