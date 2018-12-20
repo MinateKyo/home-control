@@ -54,7 +54,7 @@ class IconEditViewModel @Inject constructor(
         return ui
     }
 
-    fun onAddButtonClicked(
+    fun onSaveClicked(
         selectedEntities: List<String>,
         domainService: String,
         displayName: String,
