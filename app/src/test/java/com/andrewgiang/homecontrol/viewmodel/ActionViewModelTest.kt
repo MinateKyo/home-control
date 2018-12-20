@@ -74,7 +74,7 @@ class ActionViewModelTest {
 
     @Test
     fun `on load with editable action will post edit mode`() {
-        //selected domain index should be 1 which matches "domain.service"
+        // selected domain index should be 1 which matches "domain.service"
         val domainServiceList = listOf("one.o", "domain.service")
         coEvery { mockActionRepo.getDomainServiceList() } returns domainServiceList
 
