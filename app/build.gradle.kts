@@ -142,7 +142,7 @@ gnag {
     }
 
     detekt {
-        setEnabled(true)
+        isEnabled = true
         reporterConfig(project.file("detekt.config.yml"))
     }
 }
