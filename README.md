@@ -1,5 +1,9 @@
 # home-control [![Build Status](https://travis-ci.com/andrewgiang/home-control.svg?branch=master)](https://travis-ci.com/andrewgiang/home-control) [![codecov](https://codecov.io/gh/andrewgiang/home-control/branch/master/graph/badge.svg)](https://codecov.io/gh/andrewgiang/home-control) <a href="http://www.detroitlabs.com/"><img src="https://img.shields.io/badge/Sponsor-Detroit%20Labs-000000.svg" /></a>
 
+<h1 align=center>
+<img src="logo/horizontal.png" width=60%>
+</h1>
+
 Android app to create shortcut actions for [home assistant](https://www.home-assistant.io/)
 
 
